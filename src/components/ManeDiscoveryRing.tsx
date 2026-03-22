@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { RingSelection, SomaticEntry } from '@/store/useAppStore';
+import { dailyLessons } from '@/data/lessons';
 
 const polarToCartesian = (cx: number, cy: number, radius: number, angleInDegrees: number) => {
   const angleInRadians = ((angleInDegrees - 90) * Math.PI) / 180.0;
@@ -35,7 +36,7 @@ const segments = [
   { id: 'safe', label: 'Safe & Connected', color: '#22C55E', start: 270, end: 330, prompt: 'How does safety show up in your body right now? (Warm, open, grounded?)' },
 ];
 
-export default function ManeDiscoveryRing({ onSave }: { onSave: (data: RingSelection) => void }) {
+export default function ManeDiscoveryRing({ onSave, day }: { onSave: (data: RingSelection) => void, day?: number }) {
   const [tension, setTension] = useState(5);
   const [ease, setEase] = useState(5);
   const [selectedSegment, setSelectedSegment] = useState<typeof segments[0] | null>(null);
@@ -58,14 +59,30 @@ export default function ManeDiscoveryRing({ onSave }: { onSave: (data: RingSelec
   };
 
   const getHorseWisdom = () => {
-    const pattern = getAttachmentPattern();
-    if (pattern === 'Anxious-Preoccupied') {
-      return 'Like a foal seeking its mother, your system is calling for connection. Practice the "Wall Push" to find your own edges and strength.';
+    if (!selectedSegment) return '';
+    
+    let baseWisdom = '';
+    switch(selectedSegment.id) {
+      case 'stillness':
+        baseWisdom = "Like a resting horse, you've found a quiet, steady rhythm. Enjoy this peaceful awareness."; break;
+      case 'play':
+        baseWisdom = "Like horses galloping in an open pasture, your system is full of joyful, creative energy."; break;
+      case 'hopeless':
+        baseWisdom = "Like a horse conserving energy in a harsh winter, your biology has pulled back to protect you. It's okay to rest here."; break;
+      case 'tension':
+        baseWisdom = "Like a sentinel horse with ears pinned forward, your system is highly vigilant and running hot to keep you safe."; break;
+      case 'shame':
+        baseWisdom = "Your system has tucked itself away to process heavy emotion, taking shelter from the herd. Treat yourself with deep compassion."; break;
+      case 'safe':
+        baseWisdom = "Like a lead mare resting with her herd, you feel securely anchored, open, and connected."; break;
     }
-    if (pattern === 'Dismissive-Avoidant') {
-      return 'Like a lone stallion protecting its space, you have learned to find safety in solitude. Practice "Orienting" to gently notice that safety can also exist in the environment around you.';
+
+    if (day && dailyLessons[day]) {
+      const lesson = dailyLessons[day];
+      return `${baseWisdom} Today's lesson, "${lesson.title}", and the "${lesson.practice.title}" practice will help you honor and integrate this state.`;
     }
-    return 'Like a mare at rest in the herd, you are a safe harbor. Enjoy this grounded connection.';
+
+    return baseWisdom;
   };
 
   const handleSaveClick = () => {

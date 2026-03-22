@@ -152,7 +152,7 @@ export default function ContentPage({ params }: { params: Promise<{ id: string }
                 <h3 className="text-2xl font-serif text-sage-900">Post-Practice Check-in</h3>
                 <p className="text-sage-700">Notice how your body feels after completing the practice.</p>
               </div>
-              <ManeDiscoveryRing onSave={(data) => {
+              <ManeDiscoveryRing day={day} onSave={(data) => {
                 // We overwrite the day's check-in with the final state, or we could save it separately.
                 // For simplicity, we just save the final regulated state.
                 saveCheckin(day, data);

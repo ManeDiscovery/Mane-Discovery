@@ -31,7 +31,7 @@ export default function CheckinPage({ params }: { params: Promise<{ id: string }
         <p className="text-sage-700 text-lg">Take a moment to map your nervous system before we begin today's lesson. This helps build somatic awareness over the 21 days.</p>
       </div>
 
-      <ManeDiscoveryRing onSave={handleSave} />
+      <ManeDiscoveryRing onSave={handleSave} day={day} />
     </div>
   );
 }
