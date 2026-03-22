@@ -4,22 +4,25 @@ import { use, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAppStore } from '@/store/useAppStore';
 import PracticeTimer from '@/components/PracticeTimer';
-import DynamicExerciseSelector from '@/components/DynamicExerciseSelector';
+import ManeDiscoveryRing from '@/components/ManeDiscoveryRing';
 import Link from 'next/link';
-import { ArrowLeft, CheckCircle } from 'lucide-react';
+import { ArrowLeft, CheckCircle, ChevronRight, Wind } from 'lucide-react';
 import { dailyLessons } from '@/data/lessons';
 
 export default function ContentPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
   const { id } = use(params);
   const day = parseInt(id, 10);
-  const { journals, checkins, saveJournal, saveExercise, unlockNextDay, currentDay } = useAppStore();
+  const { journals, checkins, saveJournal, saveCheckin, unlockNextDay, currentDay } = useAppStore();
   
   const [journalEntry, setJournalEntry] = useState('');
+  const [step, setStep] = useState(0);
   const [practiceCompleted, setPracticeCompleted] = useState(false);
-  const isCompleted = currentDay > day;
+  const [postCheckinCompleted, setPostCheckinCompleted] = useState(false);
   
+  const isCompleted = currentDay > day;
   const lessonData = dailyLessons[day] || dailyLessons[21];
+  const preCheckin = checkins[day];
 
   useEffect(() => {
     if (journals[day]) {
@@ -39,7 +42,7 @@ export default function ContentPage({ params }: { params: Promise<{ id: string }
     <div className="w-full max-w-3xl px-6 py-12 mx-auto space-y-16 pb-24 animate-in fade-in duration-700">
       <Link href={`/day/${day}/checkin`} className="inline-flex items-center text-sage-500 hover:text-sage-900 transition-colors mb-4">
         <ArrowLeft className="w-4 h-4 mr-2" />
-        Back to Check-in
+        Back to Pre-Check-in
       </Link>
 
       <header className="space-y-6 border-b border-sage-300/30 pb-10">
@@ -50,63 +53,127 @@ export default function ContentPage({ params }: { params: Promise<{ id: string }
         <h1 className="text-4xl md:text-5xl font-serif text-sage-900 tracking-tight leading-tight">{lessonData.title}</h1>
       </header>
 
-      <section className="space-y-6 prose-sage max-w-none text-sage-900">
-        <h3 className="text-2xl font-serif text-sage-900">The Lesson</h3>
-        {lessonData.lessonText.map((paragraph, index) => (
-          <p key={index} className={`leading-relaxed ${index === 0 ? 'text-xl text-sage-700' : 'text-lg text-sage-700/80'}`}>
-            {paragraph}
-          </p>
-        ))}
-      </section>
-
-      <section className="space-y-6 pt-6">
-        <h3 className="text-2xl font-serif text-sage-900">Journal Reflection</h3>
-        <p className="text-lg text-sage-700">{lessonData.journalPrompt}</p>
-        <textarea
-          value={journalEntry}
-          onChange={(e) => setJournalEntry(e.target.value)}
-          placeholder="Write your thoughts here... (autosaved locally)"
-          className="w-full min-h-[160px] p-6 rounded-3xl border border-sage-300/50 bg-cream-500/30 text-sage-900 focus:outline-none focus:ring-2 focus:ring-rose-300 resize-y transition-shadow shadow-inner"
-        />
-      </section>
-
-      <section className="space-y-10 pt-10 pb-14 border-b border-sage-300/30">
-        {checkins[day]?.somaticEntry ? (
-          <DynamicExerciseSelector 
-            sectionId={checkins[day].somaticEntry.sectionId} 
-            stateLabel={checkins[day].somaticEntry.section} 
-            onTimerComplete={(title, isHorseReflection) => {
-              saveExercise(day, { title, isHorseReflection });
-              setPracticeCompleted(true);
-            }} 
-          />
-        ) : (
-          <div className="text-center space-y-4 shadow-sm bg-white p-10 rounded-[3rem] border border-sage-100">
-            <h3 className="text-2xl font-serif text-sage-900">Integration Practice</h3>
-            <p className="text-lg text-sage-700 max-w-lg mx-auto mb-10">
-              Spend the next 3 minutes sitting with the sensations in your body. Notice what arises without judgment or story.
-            </p>
-            <PracticeTimer onComplete={() => setPracticeCompleted(true)} />
+      {/* STEP 0: PRE-CHECK-IN REVIEW */}
+      {step === 0 && (
+        <div className="animate-in slide-in-from-bottom-8 duration-700 space-y-8">
+          <div className="bg-sage-900 text-cream-50 rounded-3xl p-8 shadow-lg">
+            <h3 className="text-xs font-bold tracking-widest uppercase text-sage-400 mb-6">Pre-Lesson State</h3>
+            {preCheckin?.somaticEntry ? (
+              <div className="space-y-4">
+                <div className="flex items-baseline gap-4">
+                  <span className="text-4xl font-serif text-rose-200">{preCheckin.somaticEntry.section}</span>
+                </div>
+                {preCheckin.attachmentPattern && (
+                  <p className="text-sm text-sage-300">
+                    Relational Field: <span className="text-cream-50 font-medium">{preCheckin.attachmentPattern}</span>
+                  </p>
+                )}
+                <div className="grid grid-cols-2 gap-4 pt-4 border-t border-sage-700/50 mt-4">
+                  <div>
+                    <span className="text-xs text-sage-400 uppercase tracking-widest block mb-1">Tension</span>
+                    <span className="text-lg font-medium">{preCheckin.tension}/10</span>
+                  </div>
+                  <div>
+                    <span className="text-xs text-sage-400 uppercase tracking-widest block mb-1">Ease</span>
+                    <span className="text-lg font-medium">{preCheckin.ease}/10</span>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <p className="text-sage-300 italic">No check-in recorded for today yet.</p>
+            )}
           </div>
-        )}
-      </section>
+          <button 
+            onClick={() => setStep(1)}
+            className="w-full py-5 bg-cream-200 text-sage-900 rounded-2xl font-bold uppercase tracking-widest hover:bg-cream-300 transition-all flex items-center justify-center group"
+          >
+            Begin Lesson <ChevronRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+          </button>
+        </div>
+      )}
 
-      <div className="flex justify-center pt-4 pb-12">
-        <button
-          onClick={handleComplete}
-          disabled={!practiceCompleted && !isCompleted}
-          className={`
-            flex items-center gap-3 px-12 py-5 rounded-full font-bold uppercase tracking-widest transition-all duration-500 shadow-md
-            ${(practiceCompleted || isCompleted)
-              ? 'bg-sage-900 text-cream-300 hover:bg-sage-700 hover:shadow-xl hover:-translate-y-1 cursor-pointer'
-              : 'bg-sage-300/40 text-sage-700/60 cursor-not-allowed'
-            }
-          `}
-        >
-          {isCompleted ? 'Update Journal' : 'Complete Day'}
-          <CheckCircle className="w-5 h-5 flex-shrink-0" />
-        </button>
-      </div>
+      {/* STEP 1: THE LESSON & INSIGHT */}
+      {step === 1 && (
+        <div className="animate-in slide-in-from-bottom-8 duration-700 space-y-12">
+          
+          {/* Herd Insight Callout */}
+          <div className="bg-amber-50 border border-amber-200/60 rounded-3xl p-8 relative overflow-hidden">
+            <Wind className="absolute -top-4 -right-4 w-32 h-32 text-amber-900/5" />
+            <h3 className="text-xs font-bold tracking-widest uppercase text-amber-800 mb-4 relative z-10">Horse Wisdom Insight</h3>
+            <p className="text-amber-950/80 leading-relaxed font-medium relative z-10 italic">"{lessonData.herdInsight}"</p>
+          </div>
+
+          <section className="space-y-6 prose-sage max-w-none text-sage-900">
+            {lessonData.lessonText.map((paragraph, index) => (
+              <p key={index} className={`leading-relaxed ${index === 0 ? 'text-xl text-sage-800' : 'text-lg text-sage-700/80'}`}>
+                {paragraph}
+              </p>
+            ))}
+          </section>
+
+          <section className="space-y-6 pt-6 border-t border-sage-300/30">
+            <h3 className="text-2xl font-serif text-sage-900">Journal Reflection</h3>
+            <p className="text-lg text-sage-700">{lessonData.journalPrompt}</p>
+            <textarea
+              value={journalEntry}
+              onChange={(e) => setJournalEntry(e.target.value)}
+              placeholder="Write your thoughts here... (autosaved locally)"
+              className="w-full min-h-[160px] p-6 rounded-3xl border border-sage-300/50 bg-cream-500/30 text-sage-900 focus:outline-none focus:ring-2 focus:ring-rose-300 resize-y transition-shadow shadow-inner"
+            />
+          </section>
+
+          <button 
+            onClick={() => setStep(2)}
+            className="w-full py-5 bg-sage-900 text-cream-50 rounded-2xl font-bold uppercase tracking-widest hover:bg-sage-800 transition-all flex items-center justify-center group"
+          >
+            Continue to Somatic Practice <ChevronRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+          </button>
+        </div>
+      )}
+
+      {/* STEP 2: PRACTICE & POST CHECK-IN */}
+      {step === 2 && (
+        <div className="animate-in slide-in-from-bottom-8 duration-700 space-y-12">
+          
+          <div className="text-center space-y-4">
+            <h3 className="text-2xl font-serif text-sage-900">Daily Integration Practice</h3>
+            <p className="text-sage-700 max-w-md mx-auto mb-8">
+              Take {lessonData.practice.durationMinutes} minutes to anchor today's lesson into your nervous system.
+            </p>
+            <PracticeTimer 
+              practice={lessonData.practice} 
+              onComplete={() => setPracticeCompleted(true)} 
+            />
+          </div>
+
+          {practiceCompleted && !postCheckinCompleted && (
+            <div className="animate-in fade-in slide-in-from-top-8 duration-700 pt-12 border-t border-sage-300/30">
+              <div className="text-center mb-10">
+                <h3 className="text-2xl font-serif text-sage-900">Post-Practice Check-in</h3>
+                <p className="text-sage-700">Notice how your body feels after completing the practice.</p>
+              </div>
+              <ManeDiscoveryRing onSave={(data) => {
+                // We overwrite the day's check-in with the final state, or we could save it separately.
+                // For simplicity, we just save the final regulated state.
+                saveCheckin(day, data);
+                setPostCheckinCompleted(true);
+              }} />
+            </div>
+          )}
+
+          {(postCheckinCompleted || (isCompleted && practiceCompleted)) && (
+            <div className="flex justify-center pt-8 animate-in fade-in duration-500">
+              <button
+                onClick={handleComplete}
+                className="flex items-center gap-3 px-12 py-5 rounded-full font-bold uppercase tracking-widest bg-sage-900 text-cream-300 hover:bg-sage-700 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 shadow-md cursor-pointer"
+              >
+                {isCompleted ? 'Update Journal' : 'Complete Day'}
+                <CheckCircle className="w-5 h-5 flex-shrink-0" />
+              </button>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

@@ -58,23 +58,6 @@ export default function Dashboard() {
             Dev: Unlock All 21 Days
           </button>
           <button 
-            onClick={resetProgress}
-            className="text-xs px-4 py-2 bg-rose-100 text-rose-900 border border-rose-300 rounded-full hover:bg-rose-300 transition-colors shadow-sm"
-          >
-            Dev: Reset Progress
-          </button>
-          <button 
-            onClick={() => {
-              if (typeof window !== 'undefined') {
-                window.localStorage.clear();
-                window.location.reload();
-              }
-            }}
-            className="text-xs px-4 py-2 bg-amber-100 text-amber-900 border border-amber-300 rounded-full hover:bg-amber-300 transition-colors shadow-sm cursor-pointer"
-          >
-            Dev: Clear Cache
-          </button>
-          <button 
             onClick={handleLogout}
             className="text-xs px-4 py-2 bg-white text-sage-700 border border-sage-200 rounded-full hover:bg-sage-50 transition-colors shadow-sm flex items-center"
           >
