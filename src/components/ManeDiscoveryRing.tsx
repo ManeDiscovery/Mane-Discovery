@@ -160,6 +160,10 @@ export default function ManeDiscoveryRing({ onSave }: { onSave: (data: RingSelec
 
         {selectedSegment && (
           <div className="space-y-4 p-6 bg-cream-500/50 border border-sage-300/30 rounded-2xl animate-in slide-in-from-top-4 fade-in duration-500">
+            <div className="w-full aspect-video relative rounded-xl overflow-hidden shadow-sm mb-4">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={`/${selectedSegment.id}_horse.png`} alt={selectedSegment.label} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+            </div>
             <div className="flex items-center gap-3 border-b border-sage-300/30 pb-3">
               <div className="w-4 h-4 rounded-full shadow-sm" style={{ backgroundColor: selectedSegment.color }} />
               <h4 className="font-bold text-sage-900 uppercase tracking-widest">{selectedSegment.label}</h4>

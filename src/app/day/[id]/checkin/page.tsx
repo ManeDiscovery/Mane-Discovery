@@ -20,7 +20,7 @@ export default function CheckinPage({ params }: { params: Promise<{ id: string }
 
   return (
     <div className="w-full max-w-2xl px-6 py-12 mx-auto space-y-12 fade-in">
-      <Link href="/" className="inline-flex items-center text-sage-500 hover:text-sage-900 transition-colors">
+      <Link href="/dashboard" className="inline-flex items-center text-sage-500 hover:text-sage-900 transition-colors">
         <ArrowLeft className="w-4 h-4 mr-2" />
         Back to Dashboard
       </Link>

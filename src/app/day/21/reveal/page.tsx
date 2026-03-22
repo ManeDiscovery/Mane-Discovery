@@ -92,7 +92,7 @@ export default function RevealPage() {
 
   return (
     <div className="w-full max-w-4xl px-6 py-12 mx-auto space-y-16 pb-24 animate-in fade-in duration-700">
-      <Link href="/" className="inline-flex items-center text-sage-500 hover:text-sage-900 transition-colors mb-4 print:hidden">
+      <Link href="/dashboard" className="inline-flex items-center text-sage-500 hover:text-sage-900 transition-colors mb-4 print:hidden">
         <ArrowLeft className="w-4 h-4 mr-2" />
         Back to Dashboard
       </Link>
