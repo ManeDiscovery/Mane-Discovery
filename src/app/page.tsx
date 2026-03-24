@@ -60,6 +60,17 @@ export default function LandingPage() {
             Start The Journey <ArrowRight className="w-4 h-4 ml-2" />
           </a>
         </div>
+
+        {/* Hero Image */}
+        <div className="mt-16 max-w-6xl mx-auto relative h-[400px] md:h-[600px] rounded-3xl overflow-hidden shadow-2xl border border-sage-200/50">
+          <Image 
+            src="/hero-horse-landscape.png" 
+            alt="Calming horse grazing in a beautiful landscape"
+            fill
+            className="object-cover"
+            priority
+          />
+        </div>
       </header>
 
       {/* Phases Section */}
