@@ -36,40 +36,48 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-cream-50 font-sans selection:bg-rose-200">
       {/* Hero Section */}
-      <header className="relative pt-32 pb-24 px-6 overflow-hidden">
-        {/* Abstract background shapes */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-sage-100/50 rounded-full blur-[100px] -z-10" />
-        
-        <div className="max-w-4xl mx-auto flex flex-col items-center text-center space-y-8">
-          <div className="relative w-32 h-32 mb-4">
-            <Image 
-              src="/logo.png" 
-              alt="Mane Discovery Logo" 
-              fill
-              className="object-contain"
-              priority
-            />
-          </div>
-          <h1 className="text-5xl md:text-7xl font-serif text-sage-900 tracking-tight leading-tight">
-            Discover Your <span className="italic text-sage-700">Mane.</span>
-          </h1>
-          <p className="text-xl text-sage-600 max-w-2xl leading-relaxed">
-            A 21-day digital journey blending somatic mindfulness with equine-facilitated wisdom to deeply reset your nervous system.
-          </p>
-          <a href="#pricing" className="inline-flex items-center px-8 py-4 mt-8 bg-sage-900 text-cream-50 rounded-full font-bold uppercase tracking-widest hover:bg-sage-800 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-sage-900/20">
-            Start The Journey <ArrowRight className="w-4 h-4 ml-2" />
-          </a>
-        </div>
-
-        {/* Hero Image */}
-        <div className="mt-16 max-w-6xl mx-auto relative h-[400px] md:h-[600px] rounded-3xl overflow-hidden shadow-2xl border border-sage-200/50">
+      <header className="relative min-h-[90vh] flex items-center justify-center overflow-hidden pt-24 pb-32">
+        {/* Background Image */}
+        <div className="absolute inset-0 -z-20">
           <Image 
             src="/hero-horse-landscape.png" 
-            alt="Calming horse grazing in a beautiful landscape"
+            alt="Mane Discovery Landscape"
             fill
-            className="object-cover"
+            className="object-cover object-bottom"
             priority
           />
+        </div>
+        
+        {/* Gradient overlays to ensure text is easy to read */}
+        <div className="absolute inset-0 bg-cream-50/50 -z-10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-cream-50/10 via-cream-50/60 to-cream-50 -z-10" />
+        
+        <div className="relative z-10 max-w-6xl mx-auto px-6 flex flex-col items-center text-center space-y-8 pt-10">
+          {/* Subtitle */}
+          <p className="tracking-[0.25em] uppercase text-sm font-medium text-sage-800">
+            Somatic Equine Wellness
+          </p>
+
+          {/* Title */}
+          <h1 className="text-6xl md:text-8xl lg:text-[7rem] font-serif text-sage-900 tracking-tight leading-none drop-shadow-sm">
+            The 21-Day Nervous<br />System Reset
+          </h1>
+
+          {/* Description */}
+          <p className="text-xl md:text-2xl text-sage-800 max-w-3xl leading-relaxed mx-auto font-light drop-shadow-sm pb-8">
+            Find your grounding. Regulate your nervous system through the quiet wisdom of the herd and embodied somatic practices.
+          </p>
+
+          {/* Actions */}
+          <div className="flex flex-col items-center space-y-6">
+            <a href="#pricing" className="inline-flex items-center px-10 py-4 bg-rose-200/90 text-sage-900 rounded-full font-serif text-lg tracking-[0.15em] hover:bg-rose-300 transition-all hover:scale-105 active:scale-95 shadow-md backdrop-blur-sm">
+               START YOUR JOURNEY
+            </a>
+            <div className="h-8 w-[1px] bg-sage-800/40 mt-4"></div>
+            <span className="text-[10px] uppercase tracking-[0.3em] font-medium text-sage-800">
+              Discover
+            </span>
+          </div>
         </div>
       </header>
 
