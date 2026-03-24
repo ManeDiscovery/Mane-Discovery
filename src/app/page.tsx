@@ -49,8 +49,7 @@ export default function LandingPage() {
         </div>
         
         {/* Gradient overlays to ensure text is easy to read */}
-        <div className="absolute inset-0 bg-cream-50/10" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cream-50/20 to-cream-50/90" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-cream-50/90" />
         
         <div className="relative z-10 max-w-6xl mx-auto px-6 flex flex-col items-center text-center space-y-8 pt-10">
           {/* Subtitle */}
@@ -73,10 +72,6 @@ export default function LandingPage() {
             <a href="#pricing" className="inline-flex items-center px-10 py-4 bg-rose-200/90 text-sage-900 rounded-full font-serif text-lg tracking-[0.15em] hover:bg-rose-300 transition-all hover:scale-105 active:scale-95 shadow-md backdrop-blur-sm">
                START YOUR JOURNEY
             </a>
-            <div className="h-8 w-[1px] bg-sage-800/40 mt-4"></div>
-            <span className="text-[10px] uppercase tracking-[0.3em] font-medium text-sage-800">
-              Discover
-            </span>
           </div>
         </div>
       </header>
