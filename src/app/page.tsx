@@ -38,7 +38,7 @@ export default function LandingPage() {
       {/* Hero Section */}
       <header className="relative min-h-[90vh] flex items-center justify-center overflow-hidden pt-24 pb-32">
         {/* Background Image */}
-        <div className="absolute inset-0 -z-20">
+        <div className="absolute inset-0">
           <Image 
             src="/hero-horse-landscape.png" 
             alt="Mane Discovery Landscape"
@@ -49,8 +49,8 @@ export default function LandingPage() {
         </div>
         
         {/* Gradient overlays to ensure text is easy to read */}
-        <div className="absolute inset-0 bg-cream-50/50 -z-10" />
-        <div className="absolute inset-0 bg-gradient-to-b from-cream-50/10 via-cream-50/60 to-cream-50 -z-10" />
+        <div className="absolute inset-0 bg-cream-50/40" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cream-50/40 to-cream-50" />
         
         <div className="relative z-10 max-w-6xl mx-auto px-6 flex flex-col items-center text-center space-y-8 pt-10">
           {/* Subtitle */}
