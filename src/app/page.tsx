@@ -49,8 +49,8 @@ export default function LandingPage() {
         </div>
         
         {/* Gradient overlays to ensure text is easy to read */}
-        <div className="absolute inset-0 bg-cream-50/40" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cream-50/40 to-cream-50" />
+        <div className="absolute inset-0 bg-cream-50/10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cream-50/20 to-cream-50/90" />
         
         <div className="relative z-10 max-w-6xl mx-auto px-6 flex flex-col items-center text-center space-y-8 pt-10">
           {/* Subtitle */}
