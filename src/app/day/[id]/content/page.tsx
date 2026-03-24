@@ -24,6 +24,22 @@ export default function ContentPage({ params }: { params: Promise<{ id: string }
   const lessonData = dailyLessons[day] || dailyLessons[21];
   const preCheckin = checkins[day];
 
+  const getDynamicHerdInsight = () => {
+    if (!preCheckin?.somaticEntry?.sectionId) return lessonData.herdInsight;
+    
+    let baseWisdom = '';
+    switch(preCheckin.somaticEntry.sectionId) {
+      case 'stillness': baseWisdom = "Like a resting horse, you've found a quiet, steady rhythm. Enjoy this peaceful awareness."; break;
+      case 'play': baseWisdom = "Like horses galloping in an open pasture, your system is full of joyful, creative energy."; break;
+      case 'hopeless': baseWisdom = "Like a horse conserving energy in a harsh winter, your biology has pulled back to protect you. It's okay to rest here."; break;
+      case 'tension': baseWisdom = "Like a sentinel horse with ears pinned forward, your system is highly vigilant and running hot to keep you safe."; break;
+      case 'shame': baseWisdom = "Your system has tucked itself away to process heavy emotion, taking shelter from the herd. Treat yourself with deep compassion."; break;
+      case 'safe': baseWisdom = "Like a lead mare resting with her herd, you feel securely anchored, open, and connected."; break;
+      default: return lessonData.herdInsight;
+    }
+    return `${baseWisdom} Today's lesson, "${lessonData.title}", and the "${lessonData.practice.title}" practice will help you honor and integrate this state.`;
+  };
+
   useEffect(() => {
     if (journals[day]) {
       setJournalEntry(journals[day]);
@@ -100,7 +116,7 @@ export default function ContentPage({ params }: { params: Promise<{ id: string }
           <div className="bg-amber-50 border border-amber-200/60 rounded-3xl p-8 relative overflow-hidden">
             <Wind className="absolute -top-4 -right-4 w-32 h-32 text-amber-900/5" />
             <h3 className="text-xs font-bold tracking-widest uppercase text-amber-800 mb-4 relative z-10">Horse Wisdom Insight</h3>
-            <p className="text-amber-950/80 leading-relaxed font-medium relative z-10 italic">"{lessonData.herdInsight}"</p>
+            <p className="text-amber-950/80 leading-relaxed font-medium relative z-10 italic">"{getDynamicHerdInsight()}"</p>
           </div>
 
           <section className="space-y-6 prose-sage max-w-none text-sage-900">
