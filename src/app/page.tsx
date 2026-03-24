@@ -58,12 +58,12 @@ export default function LandingPage() {
           </p>
 
           {/* Title */}
-          <h1 className="text-6xl md:text-8xl lg:text-[7rem] font-serif text-sage-900 tracking-tight leading-none drop-shadow-sm">
-            The 21-Day Nervous<br />System Reset
+          <h1 className="text-6xl md:text-8xl lg:text-[7rem] font-serif text-sage-900 tracking-tight leading-none drop-shadow-md">
+            The 21-Day Nervous<br />System <span className="text-white">Reset</span>
           </h1>
 
           {/* Description */}
-          <p className="text-xl md:text-2xl text-sage-800 max-w-3xl leading-relaxed mx-auto font-light drop-shadow-sm pb-8">
+          <p className="text-xl md:text-2xl text-cream-50 max-w-3xl leading-relaxed mx-auto font-medium drop-shadow-md pb-8">
             Find your grounding. Regulate your nervous system through the quiet wisdom of the herd and embodied somatic practices.
           </p>
 
