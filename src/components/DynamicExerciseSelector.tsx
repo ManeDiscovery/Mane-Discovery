@@ -5,6 +5,12 @@ import PracticeTimer from '@/components/PracticeTimer';
 import { ArrowLeft } from 'lucide-react';
 import Image from 'next/image';
 
+interface PracticeData {
+  title: string;
+  durationMinutes: number;
+  description: string;
+}
+
 const exercises: Record<string, { a: { title: string, desc: string }, b: { title: string, desc: string }, c: { title: string, desc: string, image: string } }> = {
   'stillness': {
     a: { title: 'The Soft Gaze', desc: 'Observe your surroundings and find three things that bring you a sense of peace.' },
@@ -47,12 +53,18 @@ interface DynamicExerciseSelectorProps {
   sectionId: string;
   stateLabel: string;
   onTimerComplete: (exerciseTitle: string, isHorseReflection: boolean) => void;
+  dailyPractice?: PracticeData;
 }
 
-export default function DynamicExerciseSelector({ sectionId, stateLabel, onTimerComplete }: DynamicExerciseSelectorProps) {
+export default function DynamicExerciseSelector({ sectionId, stateLabel, onTimerComplete, dailyPractice }: DynamicExerciseSelectorProps) {
   const [selectedOption, setSelectedOption] = useState<'a' | 'b' | 'c' | null>(null);
 
-  const options = exercises[sectionId] || exercises['safe'];
+  const baseOptions = exercises[sectionId] || exercises['safe'];
+  const options = {
+    a: dailyPractice ? { title: `Today's Lesson: ${dailyPractice.title}`, desc: dailyPractice.description, durationMinutes: dailyPractice.durationMinutes } : baseOptions.a,
+    b: baseOptions.b,
+    c: baseOptions.c
+  };
 
   if (!selectedOption) {
     return (
@@ -112,6 +124,11 @@ export default function DynamicExerciseSelector({ sectionId, stateLabel, onTimer
   }
 
   const activeExercise = options[selectedOption];
+  const practiceObj = {
+    title: activeExercise.title,
+    description: activeExercise.desc,
+    durationMinutes: (activeExercise as any).durationMinutes || 3
+  };
 
   return (
     <div className="space-y-8 animate-in slide-in-from-right-8 fade-in duration-500">
@@ -123,15 +140,10 @@ export default function DynamicExerciseSelector({ sectionId, stateLabel, onTimer
         Choose a different exercise
       </button>
 
-      <div className="text-center space-y-4 shadow-sm bg-white p-10 rounded-[3rem] border border-rose-100 relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-sage-300 via-rose-300 to-sage-300 opacity-50" />
-        
-        <h3 className="text-3xl font-serif text-sage-900 pt-2">{activeExercise.title}</h3>
-        <p className="text-lg text-sage-700 max-w-md mx-auto mb-10 pb-8 border-b border-sage-100">
-          {activeExercise.desc}
-        </p>
-        <PracticeTimer onComplete={() => onTimerComplete(activeExercise.title, selectedOption === 'c')} />
-      </div>
+      <PracticeTimer 
+        practice={practiceObj} 
+        onComplete={() => onTimerComplete(activeExercise.title, selectedOption === 'c')} 
+      />
     </div>
   );
 }

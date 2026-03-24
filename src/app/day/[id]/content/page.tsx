@@ -6,6 +6,8 @@ import { useAppStore } from '@/store/useAppStore';
 import PracticeTimer from '@/components/PracticeTimer';
 import ManeDiscoveryRing from '@/components/ManeDiscoveryRing';
 import Link from 'next/link';
+import Image from 'next/image';
+import DynamicExerciseSelector from '@/components/DynamicExerciseSelector';
 import { ArrowLeft, CheckCircle, ChevronRight, Wind } from 'lucide-react';
 import { dailyLessons } from '@/data/lessons';
 
@@ -72,8 +74,19 @@ export default function ContentPage({ params }: { params: Promise<{ id: string }
       {/* STEP 0: PRE-CHECK-IN REVIEW */}
       {step === 0 && (
         <div className="animate-in slide-in-from-bottom-8 duration-700 space-y-8">
-          <div className="bg-sage-900 text-cream-50 rounded-3xl p-8 shadow-lg">
-            <h3 className="text-xs font-bold tracking-widest uppercase text-sage-400 mb-6">Pre-Lesson State</h3>
+          <div className="bg-sage-900 text-cream-50 rounded-3xl p-8 shadow-lg relative overflow-hidden">
+            {preCheckin?.somaticEntry && (
+              <div className="absolute right-0 top-0 w-1/2 h-full opacity-60 pointer-events-none fade-in">
+                <Image 
+                  src={`/${preCheckin.somaticEntry.sectionId}_horse.png`}
+                  alt="Horse State Reflection"
+                  fill
+                  className="object-cover object-center [mask-image:linear-gradient(to_right,transparent,black)]"
+                />
+              </div>
+            )}
+            <div className="relative z-10">
+              <h3 className="text-xs font-bold tracking-widest uppercase text-sage-400 mb-6">Pre-Lesson State</h3>
             {preCheckin?.somaticEntry ? (
               <div className="space-y-4">
                 <div className="flex items-baseline gap-4">
@@ -98,6 +111,7 @@ export default function ContentPage({ params }: { params: Promise<{ id: string }
             ) : (
               <p className="text-sage-300 italic">No check-in recorded for today yet.</p>
             )}
+            </div>
           </div>
           <button 
             onClick={() => setStep(1)}
@@ -154,12 +168,21 @@ export default function ContentPage({ params }: { params: Promise<{ id: string }
           <div className="text-center space-y-4">
             <h3 className="text-2xl font-serif text-sage-900">Daily Integration Practice</h3>
             <p className="text-sage-700 max-w-md mx-auto mb-8">
-              Take {lessonData.practice.durationMinutes} minutes to anchor today's lesson into your nervous system.
+              Anchor today's lesson into your nervous system through somatic expression.
             </p>
-            <PracticeTimer 
-              practice={lessonData.practice} 
-              onComplete={() => setPracticeCompleted(true)} 
-            />
+            {preCheckin?.somaticEntry ? (
+              <DynamicExerciseSelector
+                sectionId={preCheckin.somaticEntry.sectionId}
+                stateLabel={preCheckin.somaticEntry.section}
+                dailyPractice={lessonData.practice}
+                onTimerComplete={() => setPracticeCompleted(true)}
+              />
+            ) : (
+              <PracticeTimer 
+                practice={lessonData.practice} 
+                onComplete={() => setPracticeCompleted(true)} 
+              />
+            )}
           </div>
 
           {practiceCompleted && !postCheckinCompleted && (
