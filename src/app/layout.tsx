@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Outfit, Lora } from "next/font/google";
 import "./globals.css";
 import AuthProvider from "@/components/AuthProvider";
+import GlobalNav from "@/components/GlobalNav";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -31,6 +32,7 @@ export default function RootLayout({
         <div className="min-h-screen bg-background text-foreground flex flex-col items-center">
           <AuthProvider>
             {children}
+            <GlobalNav />
           </AuthProvider>
         </div>
       </body>

@@ -19,18 +19,27 @@ export interface RingSelection {
   attachmentPattern?: string;
 }
 
+export interface LedgerEntry {
+  promise: string;
+  completed?: boolean;
+  repairPlan?: string;
+  glimmers: string[];
+}
+
 interface AppState {
   currentDay: number;
   unlockedDays: number[];
   journals: Record<number, string>;
   checkins: Record<number, RingSelection>;
   completedExercises: Record<number, { title: string, isHorseReflection: boolean }>;
+  ledgerEntries: Record<string, LedgerEntry>;
   
   // Actions
   unlockNextDay: () => void;
   saveJournal: (day: number, text: string) => void;
   saveCheckin: (day: number, data: RingSelection) => void;
   saveExercise: (day: number, data: { title: string, isHorseReflection: boolean }) => void;
+  saveLedgerEntry: (id: string, data: Partial<LedgerEntry>) => void;
   resetProgress: () => void;
   debugUnlockAll: () => void;
   fetchUserProfile: (userId: string) => Promise<void>;
@@ -44,6 +53,7 @@ export const useAppStore = create<AppState>()(
       journals: {},
       checkins: {},
       completedExercises: {},
+      ledgerEntries: {},
 
       fetchUserProfile: async (userId: string) => {
         try {
@@ -161,13 +171,26 @@ export const useAppStore = create<AppState>()(
         }));
       },
 
+      saveLedgerEntry: (id, data) => {
+        set((state) => {
+          const existing = state.ledgerEntries[id] || { promise: '', glimmers: [] };
+          return {
+            ledgerEntries: {
+              ...state.ledgerEntries,
+              [id]: { ...existing, ...data }
+            }
+          }
+        });
+      },
+
       resetProgress: () => {
         set({
           currentDay: 1,
           unlockedDays: [1],
           journals: {},
           checkins: {},
-          completedExercises: {}
+          completedExercises: {},
+          ledgerEntries: {}
         });
       }
     }),
