@@ -84,7 +84,7 @@ export default function LoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 className="w-full p-4 rounded-xl border border-sage-200 bg-cream-50 focus:outline-none focus:ring-2 focus:ring-sage-300 text-sage-900"
-                placeholder="info@manediscovery.com"
+                placeholder="Enter your email address"
               />
             </div>
             <div>
