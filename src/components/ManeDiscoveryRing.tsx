@@ -119,26 +119,43 @@ export default function ManeDiscoveryRing({ onSave, day }: { onSave: (data: Ring
         <p className="text-sm text-sage-700">Tap a section of the ring that matches how your body feels.</p>
       </div>
 
-      <div className="relative w-72 h-72 md:w-80 md:h-80 select-none">
-        <svg viewBox="0 0 200 200" className="w-full h-full drop-shadow-md">
+      <div className="relative w-64 h-64 md:w-72 md:h-72 select-none mx-auto my-8">
+        <svg viewBox="-20 -20 240 240" className="w-full h-full drop-shadow-md overflow-visible">
           {segments.map((seg) => {
             const isSelected = selectedSegment?.id === seg.id;
+            const centerAngle = seg.start + (seg.end - seg.start) / 2;
+            const labelPos = polarToCartesian(cx, cy, rOut + 22, centerAngle);
+            
+            // Adjust text anchor based on angle to keep text readable and not overlap the ring
+            let anchor: "middle" | "start" | "end" = "middle";
+            if (centerAngle > 15 && centerAngle < 165) anchor = "start";
+            if (centerAngle > 195 && centerAngle < 345) anchor = "end";
+
             return (
-              <path
-                key={seg.id}
-                d={getPath(cx, cy, isSelected ? rOut : rOut - 5, rIn, seg.start, seg.end)}
-                fill={seg.color}
-                className="cursor-pointer transition-all duration-300 outline-none"
-                onClick={() => {
-                  setSelectedSegment(seg);
-                  if (selectedSegment?.id !== seg.id) setDiaryResponse('');
-                }}
-                style={{
-                  opacity: selectedSegment ? (isSelected ? 1 : 0.4) : 0.85,
-                  transformOrigin: '50% 50%',
-                  transform: isSelected ? 'scale(1.02)' : 'scale(1)',
-                }}
-              />
+              <g key={seg.id} className="cursor-pointer group" onClick={() => {
+                setSelectedSegment(seg);
+                if (selectedSegment?.id !== seg.id) setDiaryResponse('');
+              }}>
+                <path
+                  d={getPath(cx, cy, isSelected ? rOut : rOut - 5, rIn, seg.start, seg.end)}
+                  fill={seg.color}
+                  className="transition-all duration-300 outline-none group-hover:brightness-110"
+                  style={{
+                    opacity: selectedSegment ? (isSelected ? 1 : 0.4) : 0.85,
+                    transformOrigin: '50% 50%',
+                    transform: isSelected ? 'scale(1.02)' : 'scale(1)',
+                  }}
+                />
+                <text 
+                  x={labelPos.x} 
+                  y={labelPos.y} 
+                  textAnchor={anchor}
+                  dominantBaseline="middle"
+                  className={`text-[9px] md:text-[10px] uppercase tracking-widest font-bold transition-all duration-300 ${isSelected ? 'fill-sage-900 drop-shadow-sm' : 'fill-sage-500 opacity-80 group-hover:opacity-100 group-hover:fill-sage-700'}`}
+                >
+                  {seg.label}
+                </text>
+              </g>
             );
           })}
           <circle cx={cx} cy={cy} r={rIn - 2} fill="#FFF" className="shadow-inner" />
