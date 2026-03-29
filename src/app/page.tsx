@@ -323,9 +323,6 @@ export default function LandingPage() {
       {/* Footer */}
       <footer className="bg-sage-950 border-t border-sage-900 py-12 text-center text-sage-500 text-sm">
         <p>© {new Date().getFullYear()} Mane Discovery. All rights reserved.</p>
-        <p className="mt-4 text-xs font-bold uppercase tracking-widest">
-          <a href="/login" className="hover:text-cream-50 transition-colors">Member Login</a>
-        </p>
       </footer>
     </div>
   );
