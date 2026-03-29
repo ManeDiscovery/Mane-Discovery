@@ -219,13 +219,13 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 6. MEET YOUR GUIDE */}
+      {/* 6. MEET YOUR FACILITATOR */}
       <section className="bg-cream-50 py-32 px-6 border-b border-sage-200">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
           <div className="relative h-[600px] w-full rounded-[3rem] overflow-hidden shadow-2xl">
             {/* Needs an actual image of Maria, using placeholder style for now */}
             <div className="absolute inset-0 bg-sage-300">
-               <Image src="/maria-guide.jpg" alt="Maria - Guide" fill className="object-cover" />
+               <Image src="/maria-guide.jpg" alt="Maria - Facilitator" fill className="object-cover" />
                {/* fallback gradient if image missing */}
                <div className="absolute inset-0 bg-gradient-to-t from-sage-900/60 to-transparent" />
             </div>
@@ -236,7 +236,7 @@ export default function LandingPage() {
           </div>
           
           <div className="space-y-8">
-            <h2 className="text-4xl md:text-5xl font-serif text-sage-900 leading-tight">Your Guide</h2>
+            <h2 className="text-4xl md:text-5xl font-serif text-sage-900 leading-tight">Facilitator</h2>
             <div className="space-y-6 text-lg text-sage-700 leading-relaxed">
               <p>Hi, I'm Maria.</p>
               <p>
