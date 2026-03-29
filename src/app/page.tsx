@@ -54,7 +54,7 @@ export default function LandingPage() {
             Mane Discovery
           </p>
           <h1 className="text-6xl md:text-[6.5rem] font-serif text-sage-900 tracking-tight leading-[0.9] drop-shadow-md">
-            The 21-Day Nervous<br />System <span className="text-white">Reset</span>
+            The 21-Day Nervous<br /><span className="text-rose-300">System</span> <span className="text-white">Reset</span>
           </h1>
           <p className="text-xl md:text-2xl text-cream-50 max-w-2xl leading-relaxed mx-auto font-medium drop-shadow-md pb-8">
             Give yourself 21 days to slow down, reconnect, and shift permanently out of survival mode.
