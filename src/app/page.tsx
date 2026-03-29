@@ -225,7 +225,7 @@ export default function LandingPage() {
           <div className="relative h-[600px] w-full rounded-[3rem] overflow-hidden shadow-2xl">
             {/* Needs an actual image of Maria, using placeholder style for now */}
             <div className="absolute inset-0 bg-sage-300">
-               <Image src="/maria-guide.jpg" alt="Maria - Facilitator" fill className="object-cover" />
+               <Image src="/maria-guide.jpg" alt="Maria - Facilitator" fill className="object-cover object-[75%_center] scale-105" />
                {/* fallback gradient if image missing */}
                <div className="absolute inset-0 bg-gradient-to-t from-sage-900/60 to-transparent" />
             </div>
