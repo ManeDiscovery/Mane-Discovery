@@ -195,6 +195,17 @@ export default function RevealPage() {
               </div>
             </div>
           </div>
+
+          <div className="mt-16 pt-12 border-t border-sage-300 text-center print:hidden">
+            <h3 className="text-2xl font-serif text-sage-900 mb-6">You've reached the end of the curriculum.</h3>
+            <Link 
+              href="/certificate" 
+              className="inline-flex items-center px-10 py-5 bg-rose-200 text-rose-900 rounded-full font-bold uppercase tracking-widest hover:bg-rose-300 transition-colors shadow-md hover:-translate-y-1"
+            >
+              Claim Your Certificate of Completion
+              <ChevronRight className="w-5 h-5 ml-2" />
+            </Link>
+          </div>
         </div>
       )}
     </div>
