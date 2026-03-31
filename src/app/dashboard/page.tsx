@@ -52,12 +52,6 @@ export default function Dashboard() {
         {/* Developer Overrides */}
         <div className="flex gap-4 pt-4 flex-wrap justify-center">
           <button 
-            onClick={debugUnlockAll}
-            className="text-xs px-4 py-2 bg-sage-100 text-sage-900 border border-sage-300 rounded-full hover:bg-sage-300 transition-colors shadow-sm"
-          >
-            Dev: Unlock All 21 Days
-          </button>
-          <button 
             onClick={handleLogout}
             className="text-xs px-4 py-2 bg-white text-sage-700 border border-sage-200 rounded-full hover:bg-sage-50 transition-colors shadow-sm flex items-center"
           >
