@@ -61,6 +61,29 @@ export default function Dashboard() {
         </div>
       </header>
 
+      {unlockedDays.length < 3 && (
+        <section className="bg-sage-50 border border-sage-200 rounded-[2rem] p-8 md:p-10 shadow-sm animate-in fade-in slide-in-from-top-4 duration-700">
+          <h2 className="text-xl font-serif text-sage-900 mb-4 flex items-center">
+            <span className="w-8 h-8 rounded-full bg-sage-200 flex items-center justify-center text-xs font-bold mr-3">?</span>
+            How to Use This App
+          </h2>
+          <div className="grid md:grid-cols-3 gap-8 text-sage-800 text-sm leading-relaxed">
+            <div>
+              <p className="font-bold text-sage-900 mb-1">1. Daily Check-in</p>
+              <p>Start each day by tapping the interactive ring. Notice how your body feels before consuming content.</p>
+            </div>
+            <div>
+              <p className="font-bold text-sage-900 mb-1">2. The Lesson</p>
+              <p>Read the day's clinical insight and reflect using the secure, private journal built into the dashboard.</p>
+            </div>
+            <div>
+              <p className="font-bold text-sage-900 mb-1">3. Somatic Practice</p>
+              <p>Use the 3-minute timer to physically integrate the lesson into your biology. Then, the next day unlocks.</p>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Progress Phases */}
       <div className="space-y-16">
         {phases.map((phase) => (

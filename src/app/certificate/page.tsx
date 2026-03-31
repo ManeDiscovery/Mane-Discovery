@@ -107,7 +107,7 @@ export default function CertificatePage() {
                 <div className="text-center space-y-2">
                   <div className="px-8 pb-1 border-b border-sage-300">
                     <p className="text-2xl font-serif text-sage-900 italic transform -rotate-2">
-                      Maria
+                      Maria Roach
                     </p>
                   </div>
                   <p className="text-xs uppercase tracking-widest text-sage-500 font-bold">Creator of Mane Discovery</p>

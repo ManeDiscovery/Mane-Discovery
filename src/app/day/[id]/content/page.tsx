@@ -53,7 +53,11 @@ export default function ContentPage({ params }: { params: Promise<{ id: string }
     if (!isCompleted) {
       unlockNextDay();
     }
-    router.push('/');
+    if (day === 21) {
+      router.push('/day/21/reveal');
+    } else {
+      router.push('/');
+    }
   };
 
   return (
