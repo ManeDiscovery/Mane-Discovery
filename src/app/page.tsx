@@ -57,7 +57,7 @@ export default function LandingPage() {
             The 21-Day Nervous<br /><span className="text-rose-300">System</span> <span className="text-white">Reset</span>
           </h1>
           <p className="text-xl md:text-2xl text-cream-50 max-w-2xl leading-relaxed mx-auto font-medium drop-shadow-md pb-8">
-            Give yourself 21 days to slow down, reconnect, and shift permanently out of survival mode.
+            A horse-inspired 21-day journey to slow down, reconnect, and shift permanently out of survival mode.
           </p>
           <a href="#pricing" className="inline-flex items-center px-10 py-5 bg-sage-900 text-cream-50 rounded-full font-bold uppercase tracking-widest hover:bg-sage-800 transition-all hover:scale-105 active:scale-95 shadow-xl">
             Start Your Journey <ArrowRight className="w-5 h-5 ml-3" />
@@ -74,7 +74,7 @@ export default function LandingPage() {
           
           <div className="grid sm:grid-cols-2 gap-6">
             {[
-              "You wake up already tense.",
+              "You feel tired or exhausted throughout the day.",
               "You overthink the smallest things.",
               "You react in ways you wish you didn't.",
               "You feel disconnected — from yourself, others, and what you actually want."
