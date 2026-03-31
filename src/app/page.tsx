@@ -77,7 +77,8 @@ export default function LandingPage() {
               "You feel tired or exhausted throughout the day.",
               "You overthink the smallest things.",
               "You react in ways you wish you didn't.",
-              "You feel disconnected — from yourself, others, and what you actually want."
+              "You feel disconnected — from yourself, others, and what you actually want.",
+              "You want to feel more connected and present."
             ].map((text, i) => (
               <div key={i} className="bg-white p-8 rounded-3xl border border-rose-100 shadow-sm flex items-start gap-4 hover:-translate-y-1 transition-transform">
                 <div className="p-3 bg-rose-50 rounded-full shrink-0">
