@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowLeft, Printer } from 'lucide-react';
 
 export default function CertificatePage() {
@@ -98,9 +99,14 @@ export default function CertificatePage() {
                 </div>
                 
                 {/* Logo Space */}
-                <div className="hidden md:flex items-center justify-center opacity-20">
-                   <div className="w-24 h-24 border border-sage-400 rounded-full flex items-center justify-center">
-                     <div className="w-20 h-20 border border-sage-400 rounded-full" />
+                <div className="flex items-center justify-center opacity-70">
+                   <div className="relative w-32 h-32 md:w-40 md:h-40">
+                     <Image 
+                       src="/mane-discovery-logo-transparent.png" 
+                       alt="Mane Discovery Logo" 
+                       fill
+                       className="object-contain"
+                     />
                    </div>
                 </div>
 
