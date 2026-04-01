@@ -282,6 +282,7 @@ export default function LandingPage() {
                 <li className="flex items-start text-sage-700 font-medium"><HeartPulse className="w-5 h-5 text-rose-400 mr-4 shrink-0" /> Full access to the 21-Day App Journey</li>
                 <li className="flex items-start text-sage-700 font-medium"><HeartPulse className="w-5 h-5 text-rose-400 mr-4 shrink-0" /> Daily guided somatic practices</li>
                 <li className="flex items-start text-sage-700 font-medium"><HeartPulse className="w-5 h-5 text-rose-400 mr-4 shrink-0" /> End-of-journey Attachment Radar Report</li>
+                <li className="flex items-start text-sage-700 font-medium"><HeartPulse className="w-5 h-5 text-rose-400 mr-4 shrink-0" /> Official Certificate of Completion</li>
               </ul>
             </div>
             <button 
