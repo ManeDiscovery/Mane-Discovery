@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Outfit, Lora } from "next/font/google";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/react";
 import AuthProvider from "@/components/AuthProvider";
 import GlobalNav from "@/components/GlobalNav";
 
@@ -34,6 +35,7 @@ export default function RootLayout({
             {children}
             <GlobalNav />
           </AuthProvider>
+          <Analytics />
         </div>
       </body>
     </html>
