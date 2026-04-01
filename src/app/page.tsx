@@ -104,7 +104,7 @@ export default function LandingPage() {
         
         <div className="max-w-4xl mx-auto relative z-10 space-y-16">
           <div className="text-center space-y-8">
-            <Brain className="w-16 h-16 text-amber-300 mx-auto opacity-80" />
+            <Brain className="w-16 h-16 text-rose-300 mx-auto opacity-80" />
             <h2 className="text-4xl md:text-5xl font-serif text-cream-100 leading-tight">
               You know this isn't a mindset problem...<br/>
               <span className="text-sage-300">because you already did the mindset thing.</span>
@@ -116,7 +116,7 @@ export default function LandingPage() {
 
           <div className="grid md:grid-cols-2 gap-12 bg-sage-800/50 p-10 md:p-14 rounded-[3rem] border border-sage-700 backdrop-blur-sm">
             <div>
-              <h3 className="text-amber-300 font-bold uppercase tracking-widest text-sm mb-6 flex items-center gap-2">
+              <h3 className="text-rose-300 font-bold uppercase tracking-widest text-sm mb-6 flex items-center gap-2">
                 <ZapOff className="w-4 h-4" /> When stuck in survival mode:
               </h3>
               <ul className="space-y-6">
@@ -182,7 +182,7 @@ export default function LandingPage() {
             <div className="flex flex-col sm:flex-row justify-center gap-4 py-8">
               <span className="bg-sage-100 text-sage-900 px-6 py-3 rounded-full font-medium">You pause instead of react</span>
               <span className="bg-rose-100 text-rose-900 px-6 py-3 rounded-full font-medium">You notice instead of override</span>
-              <span className="bg-amber-100 text-amber-900 px-6 py-3 rounded-full font-medium">You feel grounded instead of overwhelmed</span>
+              <span className="bg-sage-200 text-sage-950 px-6 py-3 rounded-full font-medium">You feel grounded instead of overwhelmed</span>
             </div>
             <p className="text-xl font-bold text-sage-900 italic">👉 That's what this journey is designed to create.</p>
           </div>
