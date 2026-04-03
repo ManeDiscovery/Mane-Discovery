@@ -257,7 +257,45 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 7. PRICING / CHECKOUT */}
+      {/* 7. EXPERIENCES FROM THE HERD / TESTIMONIALS */}
+      <section className="bg-cream-100 py-32 px-6">
+        <div className="max-w-6xl mx-auto space-y-16">
+          <div className="text-center space-y-4 mb-20">
+            <h2 className="text-4xl md:text-5xl font-serif text-sage-900">Experiences from the Herd</h2>
+            <p className="text-sage-700 text-lg max-w-2xl mx-auto">What it's like to experience the Mane Discovery somatic method with Maria.</p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Review 1 */}
+            <div className="bg-white p-10 rounded-3xl shadow-sm border border-sage-200 flex flex-col justify-between hover:-translate-y-1 transition-transform">
+              <div>
+                <div className="flex text-amber-400 mb-6 text-xl">★★★★★</div>
+                <p className="text-sage-800 leading-relaxed italic mb-8">"One of the most profound and beneficial therapeutic experiences! I enjoyed learning how to align deep breathing and relaxing movements with my intentions. I attribute my success to the wonderful and professional Maria, who guided me gently and patiently."</p>
+              </div>
+              <p className="font-bold tracking-widest uppercase text-xs text-sage-500">— L. (8-Week Journey Client)</p>
+            </div>
+            
+            {/* Review 2 */}
+            <div className="bg-white p-10 rounded-3xl shadow-sm border border-sage-200 flex flex-col justify-between hover:-translate-y-1 transition-transform">
+              <div>
+                <div className="flex text-amber-400 mb-6 text-xl">★★★★★</div>
+                <p className="text-sage-800 leading-relaxed italic mb-8">"Participating in Mane Discovery was a transformative experience. I learned about my nervous system and how to find balance. The practical techniques empowered me to manage stress and enhance my well-being. The facilitators created such a safe space."</p>
+              </div>
+              <p className="font-bold tracking-widest uppercase text-xs text-sage-500">— Lorraine (In-Person Client)</p>
+            </div>
+            
+            {/* Review 3 */}
+            <div className="bg-white p-10 rounded-3xl shadow-sm border border-sage-200 flex flex-col justify-between hover:-translate-y-1 transition-transform">
+              <div>
+                <div className="flex text-amber-400 mb-6 text-xl">★★★★★</div>
+                <p className="text-sage-800 leading-relaxed italic mb-8">"I had a beautiful experience at my private session with Maria. The facilitator was knowledgeable, providing practical tools to manage stress and enhance well-being. I highly recommend Mane Discovery to anyone seeking personal growth."</p>
+              </div>
+              <p className="font-bold tracking-widest uppercase text-xs text-sage-500">— Tina (Private Session Client)</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 8. PRICING / CHECKOUT */}
       <section id="pricing" className="py-32 bg-sage-900 text-cream-50 px-6 relative overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-full bg-rose-900/20 blur-[100px] pointer-events-none" />
         
