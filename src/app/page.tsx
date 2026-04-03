@@ -371,9 +371,9 @@ export default function LandingPage() {
           <div className="mx-auto w-12 h-12 bg-sage-700 rounded-full flex items-center justify-center mb-4">
             <HeartPulse className="w-6 h-6 text-rose-300" />
           </div>
-          <h4 className="text-xl font-serif text-cream-100 mb-2">7-Day Compassionate Guarantee</h4>
+          <h4 className="text-xl font-serif text-cream-100 mb-2">7-Day Guarantee</h4>
           <p className="text-sage-300 text-sm leading-relaxed">
-            If you start the journey and your nervous system determines it's simply not the right time, email me within 7 days for a full refund. No questions, no pressure. Your biological safety always comes first.
+            If you start the journey and your nervous system determines it's simply not the right time, email me at <a href="mailto:info@manediscovery.com" className="text-rose-300 hover:text-rose-200 underline underline-offset-2 transition-colors">info@manediscovery.com</a> within 7 days for a full refund. No questions, no pressure. Your biological safety always comes first.
           </p>
         </div>
       </section>
