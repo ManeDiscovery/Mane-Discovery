@@ -349,14 +349,32 @@ export default function LandingPage() {
                 <li className="flex items-start text-sage-200 font-medium"><HeartHandshake className="w-5 h-5 text-rose-300 mr-4 shrink-0" /> Priority guidance from Maria</li>
               </ul>
             </div>
-            <button 
-              onClick={() => handleCheckout('premium')}
-              disabled={loadingTier !== null}
-              className="mt-6 w-full py-5 bg-rose-200 text-sage-900 rounded-2xl font-bold uppercase tracking-widest hover:bg-rose-300 transition-colors disabled:opacity-50 shadow-xl"
-            >
-              {loadingTier === 'premium' ? 'Opening...' : 'Join the Next Cohort'}
-            </button>
+            
+            <div className="mt-6">
+              <div className="bg-rose-900/40 border border-rose-300/30 text-rose-100 text-sm p-4 rounded-xl mb-4 text-center font-medium">
+                <span className="animate-pulse inline-block w-2 h-2 rounded-full bg-rose-400 mr-2"></span>
+                Spring Cohort Begins April 25th.<br/>Limited live support spots available.
+              </div>
+              <button 
+                onClick={() => handleCheckout('premium')}
+                disabled={loadingTier !== null}
+                className="w-full py-5 bg-rose-200 text-sage-900 rounded-2xl font-bold uppercase tracking-widest hover:bg-rose-300 transition-colors disabled:opacity-50 shadow-xl"
+              >
+                {loadingTier === 'premium' ? 'Opening...' : 'Join the Next Cohort'}
+              </button>
+            </div>
           </div>
+        </div>
+
+        {/* 7-Day Compassionate Guarantee */}
+        <div className="max-w-2xl mx-auto mt-16 bg-sage-800/40 p-8 rounded-3xl border border-sage-700/50 text-center relative z-10 hover:-translate-y-1 transition-transform">
+          <div className="mx-auto w-12 h-12 bg-sage-700 rounded-full flex items-center justify-center mb-4">
+            <HeartPulse className="w-6 h-6 text-rose-300" />
+          </div>
+          <h4 className="text-xl font-serif text-cream-100 mb-2">7-Day Compassionate Guarantee</h4>
+          <p className="text-sage-300 text-sm leading-relaxed">
+            If you start the journey and your nervous system determines it's simply not the right time, email me within 7 days for a full refund. No questions, no pressure. Your biological safety always comes first.
+          </p>
         </div>
       </section>
 
