@@ -57,7 +57,7 @@ export default function LandingPage() {
             The 21-Day Nervous<br /><span className="text-rose-300">System</span> <span className="text-white">Reset</span>
           </h1>
           <p className="text-xl md:text-2xl text-cream-50 max-w-2xl leading-relaxed mx-auto font-medium drop-shadow-md pb-8">
-            A horse-inspired 21-day journey to slow down, reconnect, and shift permanently out of survival mode.
+            This is the Year of the Fire Horse. Fire doesn't wait. It moves, intensifies, and brings everything to the surface. Give yourself 21 days to slow down, reconnect, and shift permanently out of survival mode.
           </p>
           <a href="#pricing" className="inline-flex items-center px-10 py-5 bg-sage-900 text-cream-50 rounded-full font-bold uppercase tracking-widest hover:bg-sage-800 transition-all hover:scale-105 active:scale-95 shadow-xl">
             Start Your Journey <ArrowRight className="w-5 h-5 ml-3" />
@@ -65,156 +65,104 @@ export default function LandingPage() {
         </div>
       </header>
 
-      {/* 2. THE PAIN / "IS FOR YOU IF" */}
-      <section className="bg-cream-50 pb-24 pt-10 px-6">
+      {/* 2. THE PAIN & POLARIZATION */}
+      <section className="bg-cream-50 pb-24 pt-20 px-6">
         <div className="max-w-4xl mx-auto space-y-16">
-          <div className="text-center space-y-4">
-            <h2 className="text-3xl md:text-5xl font-serif text-sage-900">This journey is for you if...</h2>
+          <div className="text-center space-y-8">
+            <h2 className="text-3xl md:text-5xl font-serif text-sage-900 leading-tight">You’ve tried to “think” your way out of it.</h2>
+            <p className="text-xl text-sage-700 max-w-3xl mx-auto leading-relaxed">
+              You’ve done the talk therapy, read the books, and tried other healing modalities. But your body is still stuck in survival mode. The tension lingers. You feel exhausted, yet you're always “on,” unable to fully land even when nothing is wrong.
+            </p>
           </div>
           
-          <div className="grid sm:grid-cols-2 gap-6">
-            {[
-              "You feel tired or exhausted throughout the day.",
-              "You overthink the smallest things.",
-              "You react in ways you wish you didn't.",
-              "You feel disconnected — from yourself, others, and what you actually want.",
-              "You want to feel more connected and present."
-            ].map((text, i) => (
-              <div key={i} className="bg-white p-8 rounded-3xl border border-rose-100 shadow-sm flex items-start gap-4 hover:-translate-y-1 transition-transform">
-                <div className="p-3 bg-rose-50 rounded-full shrink-0">
-                  <Activity className="w-6 h-6 text-rose-400" />
-                </div>
-                <p className="text-sage-800 font-medium text-lg pt-2 leading-snug">{text}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="bg-sage-100 p-10 rounded-3xl text-center border-2 border-sage-200 shadow-inner">
-            <p className="text-2xl font-serif text-sage-900 italic">
-              "And part of you knows... this isn't who you really are."
+          <div className="bg-rose-50 p-10 rounded-[3rem] text-center border border-rose-100 shadow-sm relative overflow-hidden">
+            <h3 className="text-2xl font-serif text-sage-900 mb-4 relative z-10">This journey isn’t for everyone.</h3>
+            <p className="text-lg text-sage-800 leading-relaxed max-w-2xl mx-auto relative z-10">
+              But for those who are ready to stop fighting their bodies—and finally work <em>with</em> their biology—this is the approach that truly shifts something.
             </p>
           </div>
         </div>
       </section>
 
-      {/* 3. MINDSET VS NERVOUS SYSTEM */}
+      {/* 3. THE SECRET OF THE HORSE */}
       <section className="bg-sage-900 text-cream-50 py-32 px-6 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-sage-800 rounded-full blur-3xl opacity-50 -mr-20 -mt-20" />
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-sage-800 rounded-full blur-3xl opacity-50 -ml-20 -mb-20" />
         
         <div className="max-w-4xl mx-auto relative z-10 space-y-16">
           <div className="text-center space-y-8">
-            <Brain className="w-16 h-16 text-rose-300 mx-auto opacity-80" />
             <h2 className="text-4xl md:text-5xl font-serif text-cream-100 leading-tight">
-              You know this isn't a mindset problem...<br/>
-              <span className="text-sage-300">because you already did the mindset thing.</span>
+              How does a 1,000-pound animal hold the secret to healing human chronic stress?
             </h2>
-            <p className="text-xl text-sage-200 max-w-2xl mx-auto leading-relaxed">
-              It's your nervous system. And what is called your stress response. You can't think your way out of it, because it isn't a top-down response. It's wildly physical.
-            </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-12 bg-sage-800/50 p-10 md:p-14 rounded-[3rem] border border-sage-700 backdrop-blur-sm">
-            <div>
-              <h3 className="text-rose-300 font-bold uppercase tracking-widest text-sm mb-6 flex items-center gap-2">
-                <ZapOff className="w-4 h-4" /> When stuck in survival mode:
-              </h3>
-              <ul className="space-y-6">
-                {[
-                  "Everything feels urgent or exhausting.",
-                  "Your body stays on edge — even when nothing is wrong.",
-                  "You struggle to slow down, focus, or feel present.",
-                  "You swing violently between overwhelm and shutdown."
-                ].map((item, i) => (
-                  <li key={i} className="flex gap-4 text-sage-100 items-start">
-                    <span className="text-rose-400 mt-1">•</span>
-                    <span className="text-lg">{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            
-            <div className="flex flex-col justify-center space-y-6 border-t md:border-t-0 md:border-l border-sage-700 pt-8 md:pt-0 md:pl-12">
-              <h3 className="text-2xl font-serif text-cream-100">That's where this 21-day journey begins.</h3>
-              <p className="text-sage-300 text-lg leading-relaxed">
-                Not with more information.<br/>
-                Not with pressure to "fix yourself."
-              </p>
-              <div className="p-4 bg-sage-900 border border-sage-600 rounded-xl">
-                <p className="text-cream-50 font-medium">
-                  👉 But with simple, guided somatic experiences that help your body finally shift.
-                </p>
-              </div>
-            </div>
+          <div className="bg-sage-800/50 p-10 md:p-14 rounded-[3rem] border border-sage-700 backdrop-blur-sm text-sage-100 text-lg leading-relaxed space-y-6">
+            <p>
+              Horses are prey animals. They experience fear, stress, and anxiety just like we do. But unlike us, they don't hold onto it. They naturally <strong className="text-rose-300">co-regulate</strong> and use embodiment techniques to process danger.
+            </p>
+            <p>
+              When a horse experiences a stress spike, they physically move the energy through their body. You’ll see them literally quiver, yawn, roll, and return to grazing—completely resetting their nervous system in minutes.
+            </p>
+            <h3 className="text-2xl font-serif text-cream-50 pt-4">As humans, we’ve unlearned how to do this.</h3>
+            <p>
+              Right now, life asks more of your nervous system than it was ever designed to hold. That’s your nervous system running an old survival pattern in a life that has already moved on.
+            </p>
           </div>
         </div>
       </section>
 
-      {/* 4. THE JOURNEY BENEFITS */}
+      {/* 4. THE YEAR OF THE FIRE HORSE & BENEFITS */}
       <section className="bg-cream-50 py-32 px-6">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-20 space-y-6">
-            <h2 className="text-4xl md:text-5xl font-serif text-sage-900">What this journey gives you</h2>
-            <p className="text-xl text-sage-700 max-w-2xl mx-auto">
-              Over 21 days, you'll be guided through a structured, gentle process to:
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-            {[
-              { icon: ShieldCheck, title: "Recognize", desc: "Start recognizing your nervous system patterns before they escalate." },
-              { icon: HeartPulse, title: "Regulate", desc: "Learn exactly how to regulate yourself in real-time." },
-              { icon: Footprints, title: "Ground", desc: "Build a profound sense of internal safety and physical grounding." },
-              { icon: Leaf, title: "Reconnect", desc: "Reconnect to your body and honor your natural biological responses." },
-              { icon: Sun, title: "Self-Trust", desc: "Begin showing up in relationships with more clarity, calm, and self-trust." },
-            ].map((item, i) => (
-              <div key={i} className="bg-white p-8 rounded-3xl border border-sage-200 shadow-sm hover:shadow-md transition-all">
-                <item.icon className="w-8 h-8 text-rose-400 mb-6" />
-                <h3 className="text-xl font-bold text-sage-900 mb-3">{item.title}</h3>
-                <p className="text-sage-600 leading-relaxed">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="max-w-3xl mx-auto text-center space-y-6">
-            <h3 className="text-3xl font-serif text-sage-900">Because real change doesn't happen all at once...</h3>
-            <p className="text-xl text-sage-700">It happens in small, consistent shifts. In moments where:</p>
-            <div className="flex flex-col sm:flex-row justify-center gap-4 py-8">
-              <span className="bg-sage-100 text-sage-900 px-6 py-3 rounded-full font-medium">You pause instead of react</span>
-              <span className="bg-rose-100 text-rose-900 px-6 py-3 rounded-full font-medium">You notice instead of override</span>
-              <span className="bg-sage-200 text-sage-950 px-6 py-3 rounded-full font-medium">You feel grounded instead of overwhelmed</span>
-            </div>
-            <p className="text-xl font-bold text-sage-900 italic">👉 That's what this journey is designed to create.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* 5. BEFORE & AFTER TRANSFORMATION */}
-      <section className="bg-sage-100 py-32 px-6">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-serif text-sage-900">The Transformation</h2>
-          </div>
+        <div className="max-w-5xl mx-auto space-y-24">
           
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            <div className="bg-white p-10 rounded-[2.5rem] border border-sage-200 shadow-sm">
-              <h3 className="text-xs font-bold uppercase tracking-widest text-sage-500 mb-8 border-b border-sage-100 pb-4">Before</h3>
-              <ul className="space-y-6">
-                <li className="flex items-start text-sage-700"><span className="text-rose-400 mr-3">✗</span> Overwhelmed, reactive, and disconnected.</li>
-                <li className="flex items-start text-sage-700"><span className="text-rose-400 mr-3">✗</span> Stuck in biological patterns you can't seem to break.</li>
-                <li className="flex items-start text-sage-700"><span className="text-rose-400 mr-3">✗</span> Exhausted from trying to "figure it out" mentally.</li>
-              </ul>
+          <div className="text-center space-y-6 max-w-3xl mx-auto">
+            <h2 className="text-4xl font-serif text-rose-800">And this year… you’ll feel that more than ever.</h2>
+            <p className="text-xl text-sage-800 italic font-medium leading-relaxed">
+              After all, this is the year of the <strong>Fire Horse</strong>.
+            </p>
+            <div className="bg-white p-8 rounded-3xl border border-rose-200 mt-8 shadow-sm">
+              <p className="text-lg text-sage-700 leading-relaxed font-serif">
+                Fire doesn’t wait. It moves. It intensifies. It brings everything to the surface. That’s what the 21-day horse-inspired reset is for now.
+              </p>
             </div>
-            
-            <div className="bg-sage-900 p-10 rounded-[2.5rem] shadow-xl relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-rose-400/20 rounded-full blur-3xl" />
-              <h3 className="text-xs font-bold uppercase tracking-widest text-sage-400 mb-8 border-b border-sage-700 pb-4 relative z-10">After 21 Days</h3>
-              <ul className="space-y-6 relative z-10">
-                <li className="flex items-start text-cream-50"><Check className="text-emerald-400 mr-3 shrink-0" /> More grounded and deeply present.</li>
-                <li className="flex items-start text-cream-50"><Check className="text-emerald-400 mr-3 shrink-0" /> Aware of your triggers safely (without judgment).</li>
-                <li className="flex items-start text-cream-50"><Check className="text-emerald-400 mr-3 shrink-0" /> Able to thoughtfully respond instead of blindly react.</li>
-                <li className="flex items-start text-cream-50 leading-relaxed font-bold"><Check className="text-emerald-400 mr-3 shrink-0" /> Starting to feel like your true self again.</li>
-              </ul>
+          </div>
+
+          <div className="space-y-12">
+            <div className="text-center">
+              <h2 className="text-3xl font-serif text-sage-900 mb-6">What you will learn</h2>
+              <p className="text-lg text-sage-700 max-w-2xl mx-auto leading-relaxed">
+                This reset is designed to expand your capacity—not by forcing change, but by creating new experiences in your body. Through simple, repeatable steps, you'll learn to:
+              </p>
+            </div>
+
+            <div className="grid sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
+              {[
+                { icon: ShieldCheck, title: "Pause and step out of autopilot." },
+                { icon: Activity, title: "Track what your body is doing in real-time." },
+                { icon: Wind, title: "Regulate and support your system." },
+                { icon: Footprints, title: "Repattern and choose a new, steady response." },
+              ].map((item, i) => (
+                <div key={i} className="bg-white p-8 rounded-3xl border border-sage-200 shadow-sm flex items-center gap-6 hover:shadow-md transition-all">
+                  <div className="p-4 bg-rose-50 rounded-2xl shrink-0">
+                    <item.icon className="w-8 h-8 text-rose-400" />
+                  </div>
+                  <p className="text-sage-900 font-bold text-lg leading-snug">{item.title}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="max-w-3xl mx-auto text-center space-y-6 bg-sage-100 p-12 rounded-[3rem] border border-sage-200 shadow-inner">
+            <h3 className="text-3xl font-serif text-sage-900 leading-tight">
+              Learn to move forward without abandoning yourself.
+            </h3>
+            <p className="text-xl text-sage-800 font-medium tracking-wide">
+              Be steady. Be responsive. Be connected.
+            </p>
+            <div className="pt-8 mt-8 border-t border-sage-300">
+              <p className="text-lg text-sage-900 italic font-serif">
+                Pause and check in with your body. <br/><strong className="text-rose-800 text-xl not-italic block mt-4 drop-shadow-sm">Ask yourself... are you ready for this?</strong>
+              </p>
             </div>
           </div>
         </div>
