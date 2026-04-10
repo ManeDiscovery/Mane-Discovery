@@ -280,6 +280,38 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* 6. MEET YOUR FACILITATOR */}
+      <section className="bg-white py-32 px-6 border-b border-sage-200">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+          <div className="relative h-[600px] w-full rounded-[3rem] overflow-hidden shadow-2xl">
+            <div className="absolute inset-0 bg-sage-300">
+               <Image src="/maria-nature-background.png" alt="Maria - Facilitator" fill className="object-cover object-top" />
+               <div className="absolute inset-0 bg-gradient-to-t from-sage-900/60 to-transparent" />
+            </div>
+            <div className="absolute bottom-8 left-8 right-8 text-center text-white relative z-10">
+              <p className="font-serif text-3xl">Maria</p>
+              <p className="text-sm tracking-widest uppercase font-bold text-sage-200">Creator of Mane Discovery</p>
+            </div>
+          </div>
+          
+          <div className="space-y-8">
+            <h2 className="text-4xl md:text-5xl font-serif text-sage-900 leading-tight">Your Facilitator</h2>
+            <div className="space-y-6 text-lg text-sage-700 leading-relaxed max-w-lg">
+              <p>Hi, I'm Maria.</p>
+              <p>
+                I know what it feels like to live disconnected from yourself... to carry stress, identity questions, and emotional patterns that don't just magically go away with time.
+              </p>
+              <p>
+                And I also know that real change doesn't come from thinking harder. <strong className="text-sage-900 font-bold">It comes from learning how to work with your body.</strong>
+              </p>
+              <p>
+                Through somatic work and equine-facilitated learning, I've helped people reconnect to their nervous systems in ways that feel fundamentally safe, grounded, and lasting. I can't wait to guide you through this journey.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* 8. PRICING / CHECKOUT */}
       <section id="pricing" className="py-32 bg-sage-900 text-cream-50 px-6 relative overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-full bg-rose-900/20 blur-[100px] pointer-events-none" />
