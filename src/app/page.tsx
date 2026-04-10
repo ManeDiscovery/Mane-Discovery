@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import Script from 'next/script';
 import { ArrowRight, Wind, Leaf, Sun, Check, HeartPulse, Brain, HeartHandshake, ZapOff, Activity, ShieldCheck, Footprints } from 'lucide-react';
 
 export default function LandingPage() {
@@ -202,6 +203,42 @@ export default function LandingPage() {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* 5. NERVOUS SYSTEM CAPACITY QUIZ */}
+      <section className="bg-sage-200 py-32 px-6 border-y border-sage-300">
+        <div className="max-w-4xl mx-auto flex flex-col items-center">
+          
+          <div className="text-center space-y-4 mb-10">
+            <h2 className="text-3xl md:text-4xl font-serif text-sage-900 drop-shadow-sm">Check Your Nervous System Capacity</h2>
+            <p className="text-lg text-sage-800 max-w-2xl mx-auto font-medium">
+              Take this quick free assessment to discover how much of your biological capacity is currently tied up in survival mode before proceeding.
+            </p>
+          </div>
+
+          <div className="w-full bg-white rounded-[2.5rem] shadow-2xl border-4 border-sage-100 p-2 overflow-hidden relative min-h-[500px]">
+            {/* Loading placeholder while quiz loads */}
+            <div className="absolute inset-0 flex items-center justify-center bg-white z-0">
+              <span className="text-sage-500 uppercase tracking-widest font-bold text-sm animate-pulse">Loading Assessment...</span>
+            </div>
+            
+            {/* ScoreApp div with Next.js specific styling formatting */}
+            <div  
+              className="relative z-10 bg-white"
+              data-sa-url="https://78c97874-7d7e-48fb-9556-8f07457d7ca1.scoreapp.com/?sa_target=_top" 
+              data-sa-view="inline" 
+              style={{ maxWidth: '100%', width: '100%' }} 
+              data-sa-auto-height="1"
+            ></div>
+
+            {/* Next.js specifically optimized Script loading */}
+            <Script 
+              src="https://static.scoreapp.com/js/integration/v1/embedding.js?v=FC6_jg" 
+              strategy="lazyOnload" 
+            />
+          </div>
+
         </div>
       </section>
 
