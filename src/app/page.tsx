@@ -169,42 +169,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 6. MEET YOUR FACILITATOR */}
-      <section className="bg-cream-50 py-32 px-6 border-b border-sage-200">
-        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
-          <div className="relative h-[600px] w-full rounded-[3rem] overflow-hidden shadow-2xl">
-            {/* Needs an actual image of Maria, using placeholder style for now */}
-            <div className="absolute inset-0 bg-sage-300">
-               <Image src="/maria-guide.jpg" alt="Maria - Facilitator" fill className="object-cover object-top" />
-               {/* fallback gradient if image missing */}
-               <div className="absolute inset-0 bg-gradient-to-t from-sage-900/60 to-transparent" />
-            </div>
-            <div className="absolute bottom-8 left-8 right-8 text-center text-white">
-              <p className="font-serif text-3xl">Maria</p>
-              <p className="text-sm tracking-widest uppercase font-bold text-sage-200">Creator of Mane Discovery</p>
-            </div>
-          </div>
-          
-          <div className="space-y-8">
-            <h2 className="text-4xl md:text-5xl font-serif text-sage-900 leading-tight">Facilitator</h2>
-            <div className="space-y-6 text-lg text-sage-700 leading-relaxed">
-              <p>Hi, I'm Maria.</p>
-              <p>
-                I know what it feels like to live disconnected from yourself... to carry stress, identity questions, and emotional patterns that don't just magically go away with time.
-              </p>
-              <p>
-                And I also know that real change doesn't come from thinking harder. <strong className="text-sage-900 font-bold">It comes from learning how to work with your body.</strong>
-              </p>
-              <p>
-                Through somatic work and equine-facilitated learning, I've helped people reconnect to themselves in ways that feel real, grounded, and incredibly sustainable.
-              </p>
-              <div className="p-6 bg-rose-50 rounded-2xl border border-rose-100">
-                <p className="font-serif text-xl pr-4 text-sage-900 italic">"This 21-day journey is a starting point. You don't need to have it all figured out. You just need a place to begin."</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* 5. NERVOUS SYSTEM CAPACITY QUIZ */}
       <section className="bg-sage-200 py-32 px-6 border-y border-sage-300">
