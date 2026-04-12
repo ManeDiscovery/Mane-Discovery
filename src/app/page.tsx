@@ -364,6 +364,18 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* 9. EFL PRACTITIONER CALLOUT */}
+      <section className="bg-sage-100 py-16 px-6 border-t border-sage-200 text-center">
+        <div className="max-w-3xl mx-auto space-y-4">
+          <h3 className="text-2xl font-serif text-sage-900 drop-shadow-sm">Interested in becoming a Somatic EFL Practitioner?</h3>
+          <p className="text-sage-700 text-lg">
+            Learn the Mane Discovery method and help guide others through their own somatic journey.
+            <br className="mb-2" />
+            <a href="mailto:info@manediscovery.com" className="font-bold text-rose-800 hover:text-rose-900 underline underline-offset-4 transition-colors">Email us at info@manediscovery.com</a> to learn more about our upcoming certification pathways.
+          </p>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="bg-sage-950 border-t border-sage-900 py-16 px-6 text-center text-sage-500 text-sm">
         <div className="max-w-4xl mx-auto space-y-6">
