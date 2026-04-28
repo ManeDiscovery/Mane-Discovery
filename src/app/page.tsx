@@ -339,7 +339,7 @@ export default function LandingPage() {
             <div className="mt-6">
               <div className="bg-rose-900/40 border border-rose-300/30 text-rose-100 text-sm p-4 rounded-xl mb-4 text-center font-medium">
                 <span className="animate-pulse inline-block w-2 h-2 rounded-full bg-rose-400 mr-2"></span>
-                Spring Cohort Begins April 25th.<br/>Limited live support spots available.
+                Next Cohort Starting Soon.<br/>Limited live support spots available.
               </div>
               <button 
                 onClick={() => handleCheckout('premium')}
