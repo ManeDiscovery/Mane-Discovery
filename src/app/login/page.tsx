@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -121,7 +122,12 @@ export default function LoginPage() {
           </button>
         </form>
 
-        <div className="text-center">
+        <div className="flex flex-col items-center space-y-4">
+          {!isSignUp && (
+            <Link href="/forgot-password" className="text-sage-600 text-sm hover:text-sage-900 transition-colors">
+              Forgot Password?
+            </Link>
+          )}
           <button
             onClick={() => setIsSignUp(!isSignUp)}
             className="text-sage-600 text-sm hover:text-sage-900 transition-colors"
