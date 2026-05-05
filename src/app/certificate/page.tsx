@@ -48,7 +48,7 @@ export default function CertificatePage() {
           <div className="max-w-md mx-auto space-y-6 bg-white p-8 rounded-[2rem] shadow-sm border border-sage-100 text-center animate-in zoom-in-95 duration-500 print:hidden">
             <h2 className="text-2xl font-serif text-sage-900">Claim Your Certificate</h2>
             <p className="text-sage-700 text-sm">
-              You've officially completed the 21-Day Nervous System Reset! Enter your name exactly as you'd like it to appear on your certificate.
+              You&apos;ve officially completed the 21-Day Nervous System Reset! Enter your name exactly as you&apos;d like it to appear on your certificate.
             </p>
             <input 
               type="text" 
