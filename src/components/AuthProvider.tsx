@@ -29,6 +29,12 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
     }, 3000);
 
     async function checkAuth() {
+      const isPublicRoute = 
+        pathname === '/' || 
+        pathname === '/login' || 
+        pathname === '/forgot-password' || 
+        pathname === '/update-password';
+
       try {
         console.log("[AuthProvider] Calling supabase.auth.getSession()...");
         const { data: { session }, error } = await supabase.auth.getSession();
@@ -39,11 +45,6 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
           throw error;
         }
 
-        const isPublicRoute = 
-          pathname === '/' || 
-          pathname === '/login' || 
-          pathname === '/forgot-password' || 
-          pathname === '/update-password';
         if (!session && !isPublicRoute) {
           router.push('/login');
         } else if (session) {
