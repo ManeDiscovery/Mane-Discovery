@@ -7,8 +7,13 @@ import { Home, Zap, BookHeart } from 'lucide-react';
 export default function GlobalNav() {
   const pathname = usePathname();
   
-  if (pathname === '/' || pathname === '/login') {
-    return null; // Do not show on landing or login pages
+  if (
+    pathname === '/' || 
+    pathname === '/login' || 
+    pathname === '/forgot-password' || 
+    pathname === '/update-password'
+  ) {
+    return null; // Do not show on landing or auth pages
   }
 
   return (
