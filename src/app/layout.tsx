@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Outfit, Lora } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import AuthProvider from "@/components/AuthProvider";
@@ -57,6 +58,19 @@ export default function RootLayout({
       <body
         className={`${outfit.variable} ${lora.variable} antialiased selection:bg-rose-300 selection:text-sage-900`}
       >
+        {/* Google Ads (gtag.js) */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-18141952131"
+          strategy="afterInteractive"
+        />
+        <Script id="google-ads-tag" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-18141952131');
+          `}
+        </Script>
         <div className="min-h-screen bg-background text-foreground flex flex-col items-center">
           <AuthProvider>
             {children}

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft, Printer } from 'lucide-react';
+import { supabase } from '@/lib/supabase';
 
 export default function CertificatePage() {
   const [name, setName] = useState('');
@@ -12,6 +13,24 @@ export default function CertificatePage() {
   // Format today's date elegantly
   const dateOptions: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
   const today = new Date().toLocaleDateString('en-US', dateOptions);
+
+  const handleGenerate = async () => {
+    if (!name.trim()) return;
+    setIsReady(true);
+
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user?.email) {
+        fetch('/api/completion', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email: session.user.email }),
+        }).catch(console.error);
+      }
+    } catch (e) {
+      console.error("Failed to trigger completion", e);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-cream-50 pt-12 pb-24 px-6 relative animate-in fade-in duration-700">
@@ -39,7 +58,7 @@ export default function CertificatePage() {
               className="w-full text-center text-xl font-serif p-4 border-b-2 border-sage-200 focus:outline-none focus:border-rose-400 bg-transparent transition-colors"
             />
             <button 
-              onClick={() => { if(name.trim()) setIsReady(true); }}
+              onClick={handleGenerate}
               disabled={!name.trim()}
               className="w-full py-4 bg-sage-900 text-cream-50 rounded-full font-bold uppercase tracking-widest hover:bg-sage-800 transition-colors disabled:opacity-50"
             >

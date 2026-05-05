@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { supabase } from '@/lib/supabase';
+import { triggerZapierWebhook } from '@/lib/zapier';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder', {
   apiVersion: '2026-02-25.clover',
@@ -32,6 +33,17 @@ export async function POST(req: Request) {
     
     // Example: Update Supabase (Needs a Service Role key for secure backend updates)
     // await supabase.from('users').update({ has_paid: true }).eq('email', session.customer_details?.email);
+
+    // Trigger Zapier Webhook
+    if (session.customer_details?.email) {
+      await triggerZapierWebhook(process.env.ZAPIER_WEBHOOK_CHECKOUT, {
+        event: 'checkout.session.completed',
+        email: session.customer_details.email,
+        name: session.customer_details.name || 'Customer',
+        amount_total: session.amount_total,
+        currency: session.currency,
+      });
+    }
   }
 
   return NextResponse.json({ received: true });

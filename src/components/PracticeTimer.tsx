@@ -1,8 +1,90 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Play, Pause, RotateCcw, Check } from 'lucide-react';
 import { DailyPractice } from '@/data/lessons';
+
+let audioCtx: AudioContext | null = null;
+
+const initAudio = () => {
+  try {
+    if (!audioCtx) {
+      const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+      if (AudioContextClass) {
+        audioCtx = new AudioContextClass();
+      }
+    }
+    if (audioCtx && audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+  } catch (e) {
+    console.log("Audio init failed", e);
+  }
+};
+
+let silentOsc: OscillatorNode | null = null;
+let silentGain: GainNode | null = null;
+
+const startBackgroundAudio = () => {
+  if (!audioCtx) return;
+  try {
+    if (!silentOsc) {
+      silentOsc = audioCtx.createOscillator();
+      silentGain = audioCtx.createGain();
+      silentOsc.type = 'sine';
+      silentOsc.frequency.value = 440;
+      silentGain.gain.value = 0.0001; // barely audible
+      silentOsc.connect(silentGain);
+      silentGain.connect(audioCtx.destination);
+      silentOsc.start();
+    }
+  } catch(e) {
+    console.log('Background audio failed', e);
+  }
+};
+
+const stopBackgroundAudio = () => {
+  if (silentOsc) {
+    try {
+      silentOsc.stop();
+      silentOsc.disconnect();
+      silentGain?.disconnect();
+    } catch(e) {}
+    silentOsc = null;
+    silentGain = null;
+  }
+};
+
+const playChime = () => {
+  try {
+    if (!audioCtx) return;
+    const ctx = audioCtx;
+    
+    const playTone = (freq: number, type: OscillatorType, duration: number, vol: number) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = type;
+      osc.frequency.value = freq;
+      
+      const now = ctx.currentTime;
+      gain.gain.setValueAtTime(0, now);
+      gain.gain.linearRampToValueAtTime(vol, now + 0.05);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+      
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + duration);
+    };
+
+    // A nice soothing bell-like chime (C major chord variations)
+    playTone(523.25, 'sine', 3, 0.4); // C5
+    playTone(659.25, 'sine', 2.5, 0.2); // E5
+    playTone(783.99, 'sine', 2, 0.1); // G5
+  } catch (e) {
+    console.log("Audio API not supported", e);
+  }
+};
 
 interface PracticeTimerProps {
   onComplete: () => void;
@@ -14,34 +96,96 @@ export default function PracticeTimer({ onComplete, practice }: PracticeTimerPro
   const [timeLeft, setTimeLeft] = useState(initialTime);
   const [isActive, setIsActive] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
+  const [endTime, setEndTime] = useState<number | null>(null);
+  const wakeLockRef = useRef<any>(null);
+
+  const requestWakeLock = async () => {
+    try {
+      if ('wakeLock' in navigator) {
+        wakeLockRef.current = await (navigator as any).wakeLock.request('screen');
+      }
+    } catch (err) {
+      console.log(`Wake Lock error: ${err}`);
+    }
+  };
+
+  const releaseWakeLock = () => {
+    if (wakeLockRef.current) {
+      wakeLockRef.current.release().catch(console.error);
+      wakeLockRef.current = null;
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      releaseWakeLock();
+      stopBackgroundAudio();
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (isActive && document.visibilityState === 'visible') {
+        requestWakeLock();
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
+  }, [isActive]);
 
   useEffect(() => {
     setTimeLeft(initialTime);
     setIsActive(false);
     setIsFinished(false);
+    setEndTime(null);
   }, [initialTime]);
 
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
-    if (isActive && timeLeft > 0) {
+    if (isActive && endTime) {
       interval = setInterval(() => {
-        setTimeLeft((time) => time - 1);
-      }, 1000);
-    } else if (timeLeft === 0 && !isFinished) {
-      setIsActive(false);
-      setIsFinished(true);
-      onComplete();
+        const now = Date.now();
+        const remaining = Math.max(0, Math.ceil((endTime - now) / 1000));
+        setTimeLeft(remaining);
+        
+        if (remaining === 0) {
+          setIsActive(false);
+          setIsFinished(true);
+          setEndTime(null);
+          releaseWakeLock();
+          stopBackgroundAudio();
+          playChime();
+          onComplete();
+        }
+      }, 200);
     }
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isActive, timeLeft, onComplete, isFinished]);
+  }, [isActive, endTime, onComplete]);
 
-  const toggle = () => setIsActive(!isActive);
+  const toggle = () => {
+    if (!isActive) {
+      initAudio();
+      startBackgroundAudio();
+      setEndTime(Date.now() + timeLeft * 1000);
+      setIsActive(true);
+      requestWakeLock();
+    } else {
+      setIsActive(false);
+      setEndTime(null);
+      stopBackgroundAudio();
+      releaseWakeLock();
+    }
+  };
+
   const reset = () => {
     setIsActive(false);
     setIsFinished(false);
     setTimeLeft(initialTime);
+    setEndTime(null);
+    stopBackgroundAudio();
+    releaseWakeLock();
   };
 
   const mins = Math.floor(timeLeft / 60);
