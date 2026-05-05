@@ -39,7 +39,11 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
           throw error;
         }
 
-        const isPublicRoute = pathname === '/' || pathname === '/login';
+        const isPublicRoute = 
+          pathname === '/' || 
+          pathname === '/login' || 
+          pathname === '/forgot-password' || 
+          pathname === '/update-password';
         if (!session && !isPublicRoute) {
           router.push('/login');
         } else if (session) {
@@ -58,7 +62,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
       } catch (err) {
         console.error("Fatal Auth Initialization Error:", err);
         // Fallback to login if we can't determine auth state
-        if (pathname !== '/' && pathname !== '/login') {
+        if (!isPublicRoute) {
            router.push('/login');
         }
       } finally {
