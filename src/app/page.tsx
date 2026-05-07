@@ -552,7 +552,7 @@ export default function LandingPage() {
         <div className="absolute inset-0 bg-[url('/hero-horse-landscape.png')] opacity-5 bg-cover bg-center"></div>
         <div className="max-w-3xl mx-auto space-y-8 relative z-10 bg-white/80 backdrop-blur-md p-10 rounded-[3rem] shadow-xl border border-white">
           <div>
-            <h3 className="text-3xl font-serif text-sage-900 drop-shadow-sm mb-2">Become a Somatic Practitioner</h3>
+            <h3 className="text-3xl font-serif text-sage-900 drop-shadow-sm mb-2">Become a Somatic EFL Practitioner</h3>
             <p className="text-sage-700 text-lg">
               Learn the Mane Discovery method and help guide others through their own somatic healing journey.
             </p>
