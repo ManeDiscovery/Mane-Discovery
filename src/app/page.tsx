@@ -54,13 +54,13 @@ export default function LandingPage() {
           <p className="tracking-[0.25em] uppercase text-sm font-bold text-sage-900 bg-white/60 backdrop-blur-md px-6 py-2 rounded-full shadow-sm">
             Mane Discovery
           </p>
-          <h1 className="text-6xl md:text-[6.5rem] font-serif text-sage-900 tracking-tight leading-[0.9] drop-shadow-md">
+          <h1 className="text-5xl sm:text-6xl md:text-[6.5rem] font-serif text-sage-900 tracking-tight leading-[0.95] md:leading-[0.9] drop-shadow-md w-full break-words">
             The 21-Day Nervous<br /><span className="text-rose-300">System</span> <span className="text-white">Reset</span>
           </h1>
-          <h2 className="text-xl md:text-2xl text-sage-900 font-serif max-w-3xl leading-relaxed mx-auto drop-shadow-sm mt-6 mb-2 bg-white/70 backdrop-blur-md px-8 py-4 rounded-3xl border border-white/50 shadow-sm">
+          <h2 className="text-lg sm:text-xl md:text-2xl text-sage-900 font-serif max-w-3xl leading-relaxed mx-auto drop-shadow-sm mt-6 mb-2 bg-white/70 backdrop-blur-md px-6 sm:px-8 py-4 rounded-3xl border border-white/50 shadow-sm w-full">
             A 21-day guided app with daily lessons, 3-minute somatic practices, self-trust tracking, and a personalized graduation report.
           </h2>
-          <p className="text-xl md:text-2xl text-cream-50 max-w-2xl leading-relaxed mx-auto font-medium drop-shadow-md pb-8 pt-4">
+          <p className="text-lg md:text-2xl text-cream-50 max-w-2xl leading-relaxed mx-auto font-medium drop-shadow-md pb-8 pt-4 w-full px-2">
             This is the Year of the Fire Horse. Fire doesn't wait. It moves, intensifies, and brings everything to the surface. Give yourself 21 days to slow down, reconnect, and shift permanently out of survival mode.
           </p>
           <a href="#pricing" className="inline-flex items-center px-10 py-5 bg-sage-900 text-cream-50 rounded-full font-bold uppercase tracking-widest hover:bg-sage-800 transition-all hover:scale-105 active:scale-95 shadow-xl">
