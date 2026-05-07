@@ -35,7 +35,7 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-cream-50 font-sans selection:bg-rose-200">
+    <div className="min-h-screen w-full overflow-x-hidden bg-cream-50 font-sans selection:bg-rose-200">
       
       {/* 1. HERO SECTION */}
       <header className="relative min-h-[90vh] flex items-center justify-center overflow-hidden pt-24 pb-32">
