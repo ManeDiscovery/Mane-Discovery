@@ -73,7 +73,7 @@ export default function LandingPage() {
       <section className="bg-cream-50 pb-24 pt-20 px-6">
         <div className="max-w-4xl mx-auto space-y-16">
           <div className="text-center space-y-8">
-            <h2 className="text-3xl md:text-5xl font-serif text-sage-900 leading-tight">The Somatic Reset you've been searching for.</h2>
+            <h2 className="text-3xl md:text-5xl font-serif text-sage-900 leading-tight">The Horse Inspired Somatic Reset you've been searching for.</h2>
             <p className="text-xl text-sage-700 max-w-3xl mx-auto leading-relaxed">
               You’ve done the talk therapy, read the books, and tried other healing modalities. But your body is still stuck in survival mode. The tension lingers. You feel exhausted, yet you're always “on,” unable to fully land even when nothing is wrong.
             </p>
