@@ -57,7 +57,7 @@ export default function LandingPage() {
           <h1 className="text-6xl md:text-[6.5rem] font-serif text-sage-900 tracking-tight leading-[0.9] drop-shadow-md">
             The 21-Day Nervous<br /><span className="text-rose-300">System</span> <span className="text-white">Reset</span>
           </h1>
-          <h2 className="text-2xl md:text-3xl text-sage-900 font-serif max-w-3xl leading-relaxed mx-auto drop-shadow-md pt-4">
+          <h2 className="text-xl md:text-2xl text-sage-900 font-serif max-w-3xl leading-relaxed mx-auto drop-shadow-sm mt-6 mb-2 bg-white/70 backdrop-blur-md px-8 py-4 rounded-3xl border border-white/50 shadow-sm">
             A 21-day guided app with daily lessons, 3-minute somatic practices, self-trust tracking, and a personalized graduation report.
           </h2>
           <p className="text-xl md:text-2xl text-cream-50 max-w-2xl leading-relaxed mx-auto font-medium drop-shadow-md pb-8 pt-4">
