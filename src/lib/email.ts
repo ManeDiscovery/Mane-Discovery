@@ -1,7 +1,7 @@
 import { Resend } from 'resend';
 
 const resendApiKey = process.env.RESEND_API_KEY || '';
-export const resend = new Resend(resendApiKey);
+export const resend = resendApiKey ? new Resend(resendApiKey) : null;
 
 // Default sender address. Once you verify your domain in Resend, switch to e.g. "Maria Roach <maria@manediscovery.com>"
 const DEFAULT_FROM = process.env.RESEND_FROM_EMAIL || 'Mane Discovery <onboarding@resend.dev>';
@@ -71,7 +71,7 @@ export async function sendWelcomeEmail({
   name: string;
   tier: 'basic' | 'premium';
 }) {
-  if (!resendApiKey) {
+  if (!resend) {
     console.warn('[Resend] RESEND_API_KEY is missing. Skipping email.');
     return false;
   }
@@ -141,7 +141,7 @@ export async function sendQuizReportEmail({
   herdWisdom?: string;
   recommendedDay?: string;
 }) {
-  if (!resendApiKey) {
+  if (!resend) {
     console.warn('[Resend] RESEND_API_KEY is missing. Skipping email.');
     return false;
   }
@@ -226,7 +226,7 @@ export async function sendDailyReminderEmail({
   practiceDuration: number;
   herdInsight: string;
 }) {
-  if (!resendApiKey) return false;
+  if (!resend) return false;
 
   const dayUrl = `${SITE_URL}/day/${day}/checkin`;
 
@@ -325,6 +325,11 @@ export async function sendPractitionerApplicationEmails({
       <p style="margin: 0; font-style: italic; color: #374151;">"${motivation}"</p>
     </div>
   `);
+
+  if (!resend) {
+    console.warn('[Resend] RESEND_API_KEY is missing. Skipping email.');
+    return false;
+  }
 
   try {
     // Send to applicant
