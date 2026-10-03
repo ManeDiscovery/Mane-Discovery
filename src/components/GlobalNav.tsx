@@ -11,9 +11,12 @@ export default function GlobalNav() {
     pathname === '/' || 
     pathname === '/login' || 
     pathname === '/forgot-password' || 
-    pathname === '/update-password'
+    pathname === '/update-password' ||
+    pathname === '/quiz' ||
+    pathname === '/practitioner' ||
+    pathname === '/admin'
   ) {
-    return null; // Do not show on landing or auth pages
+    return null; // Do not show on landing, public marketing, or admin pages
   }
 
   return (

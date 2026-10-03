@@ -56,7 +56,7 @@ export default function ContentPage({ params }: { params: Promise<{ id: string }
     if (day === 21) {
       router.push('/day/21/reveal');
     } else {
-      router.push('/');
+      router.push('/dashboard');
     }
   };
 

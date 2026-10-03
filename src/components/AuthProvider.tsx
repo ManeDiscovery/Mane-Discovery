@@ -33,7 +33,12 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
         pathname === '/' || 
         pathname === '/login' || 
         pathname === '/forgot-password' || 
-        pathname === '/update-password';
+        pathname === '/update-password' ||
+        pathname === '/quiz' ||
+        pathname === '/practitioner' ||
+        pathname === '/sos' ||
+        pathname === '/admin' ||
+        pathname.startsWith('/api/');
 
       try {
         console.log("[AuthProvider] Calling supabase.auth.getSession()...");

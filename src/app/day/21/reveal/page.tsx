@@ -3,7 +3,7 @@
 import { useState, useRef } from 'react';
 import { useAppStore } from '@/store/useAppStore';
 import Link from 'next/link';
-import { ArrowLeft, Download, ChevronRight } from 'lucide-react';
+import { ArrowLeft, Download, ChevronRight, Share2, Copy, Check, Sparkles, HeartHandshake } from 'lucide-react';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 import html2canvas from 'html2canvas';
 
@@ -12,6 +12,7 @@ export default function RevealPage() {
   const [step, setStep] = useState(0);
   const reportRef = useRef<HTMLDivElement>(null);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [copiedLink, setCopiedLink] = useState(false);
 
   const totalCheckins = Object.keys(checkins).length;
 
@@ -196,15 +197,82 @@ export default function RevealPage() {
             </div>
           </div>
 
-          <div className="mt-16 pt-12 border-t border-sage-300 text-center print:hidden">
-            <h3 className="text-2xl font-serif text-sage-900 mb-6">You've reached the end of the curriculum.</h3>
-            <Link 
-              href="/certificate" 
-              className="inline-flex items-center px-10 py-5 bg-rose-200 text-rose-900 rounded-full font-bold uppercase tracking-widest hover:bg-rose-300 transition-colors shadow-md hover:-translate-y-1"
-            >
-              Claim Your Certificate of Completion
-              <ChevronRight className="w-5 h-5 ml-2" />
-            </Link>
+          <div className="mt-16 pt-12 border-t border-sage-300 space-y-12 print:hidden">
+            
+            {/* Primary Action: Certificate */}
+            <div className="text-center space-y-4">
+              <h3 className="text-3xl font-serif text-sage-900">You've reached the end of the 21-day curriculum.</h3>
+              <p className="text-sage-600 max-w-md mx-auto text-sm">
+                Honor this milestone in your nervous system. Claim your formal Certificate of Completion.
+              </p>
+              <div className="pt-2">
+                <Link 
+                  href="/certificate" 
+                  className="inline-flex items-center px-10 py-5 bg-rose-200 text-rose-900 rounded-full font-bold uppercase tracking-widest hover:bg-rose-300 transition-colors shadow-md hover:-translate-y-1"
+                >
+                  Claim Your Certificate of Completion
+                  <ChevronRight className="w-5 h-5 ml-2" />
+                </Link>
+              </div>
+            </div>
+
+            {/* Growth Loop 1: Viral Referral Engine */}
+            <div className="bg-white rounded-3xl p-8 border border-sage-200 shadow-sm max-w-2xl mx-auto space-y-4 text-center">
+              <div className="inline-flex items-center gap-2 bg-sage-100 text-sage-800 text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full">
+                <Sparkles className="w-3.5 h-3.5 text-rose-400" />
+                Share Your Transformation
+              </div>
+              <h4 className="text-2xl font-serif text-sage-900">Gift $10 Off to a Friend</h4>
+              <p className="text-sage-600 text-sm max-w-md mx-auto leading-relaxed">
+                Nervous system regulation ripples outward into every relationship. Share your unique reset link with family, clients, or friends.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center items-center pt-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    navigator.clipboard.writeText(`${window.location.origin}/quiz?ref=graduate`);
+                    setCopiedLink(true);
+                    setTimeout(() => setCopiedLink(false), 3000);
+                  }}
+                  className="inline-flex items-center px-6 py-3.5 bg-sage-900 text-cream-50 rounded-xl font-bold uppercase tracking-widest text-xs hover:bg-sage-800 transition-colors shadow-sm"
+                >
+                  {copiedLink ? (
+                    <>
+                      <Check className="w-4 h-4 mr-2 text-rose-300" />
+                      Link Copied to Clipboard!
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-4 h-4 mr-2" />
+                      Copy Shareable Gift Link
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+
+            {/* Growth Loop 2: High-Ticket Practitioner Pathway */}
+            <div className="bg-sage-900 text-cream-50 rounded-3xl p-8 md:p-10 border border-sage-800 shadow-xl max-w-2xl mx-auto space-y-4 text-center relative overflow-hidden">
+              <div className="inline-flex items-center gap-2 bg-rose-500/20 text-rose-200 border border-rose-400/30 text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full">
+                <HeartHandshake className="w-3.5 h-3.5 text-rose-300" />
+                High-Impact Leadership
+              </div>
+              <h4 className="text-2xl md:text-3xl font-serif text-cream-100">
+                Become a Certified Somatic EFL Facilitator
+              </h4>
+              <p className="text-sage-300 text-sm max-w-md mx-auto leading-relaxed">
+                Now that you understand the somatic language of horses, step into the arena and guide your own clients through transformative equine immersions.
+              </p>
+              <div className="pt-2">
+                <Link
+                  href="/practitioner"
+                  className="inline-flex items-center px-8 py-4 bg-rose-200 text-sage-900 rounded-xl font-bold uppercase tracking-widest text-xs hover:bg-rose-300 transition-colors shadow-md"
+                >
+                  View Practitioner Certification &rarr;
+                </Link>
+              </div>
+            </div>
+
           </div>
         </div>
       )}

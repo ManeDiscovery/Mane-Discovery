@@ -3,10 +3,14 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Script from 'next/script';
-import { ArrowRight, Wind, Leaf, Sun, Check, HeartPulse, Brain, HeartHandshake, ZapOff, Activity, ShieldCheck, Footprints } from 'lucide-react';
+import Link from 'next/link';
+import { ArrowRight, Wind, Leaf, Sun, Check, HeartPulse, Brain, HeartHandshake, ZapOff, Activity, ShieldCheck, Footprints, Sparkles } from 'lucide-react';
 
 export default function LandingPage() {
   const [loadingTier, setLoadingTier] = useState<'basic' | 'premium' | null>(null);
+  const [waitlistEmail, setWaitlistEmail] = useState('');
+  const [waitlistLoading, setWaitlistLoading] = useState(false);
+  const [waitlistSuccess, setWaitlistSuccess] = useState(false);
 
   const handleCheckout = async (tier: 'basic' | 'premium') => {
     setLoadingTier(tier);
@@ -34,11 +38,72 @@ export default function LandingPage() {
     }
   };
 
+  const handleWaitlistSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!waitlistEmail) return;
+
+    setWaitlistLoading(true);
+    try {
+      const res = await fetch('/api/practitioner/apply', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: waitlistEmail,
+          fullName: 'Waitlist Applicant',
+          motivation: 'Joined waitlist via homepage callout',
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setWaitlistSuccess(true);
+      } else {
+        alert(data.error || 'Failed to submit waitlist.');
+      }
+    } catch (err: any) {
+      alert(err.message || 'Submission error');
+    } finally {
+      setWaitlistLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen w-full overflow-x-hidden bg-cream-50 font-sans selection:bg-rose-200">
       
+      {/* STICKY TOP NAVIGATION BAR */}
+      <nav className="sticky top-0 z-50 w-full bg-cream-50/90 backdrop-blur-md border-b border-sage-200/60 shadow-xs transition-all">
+        <div className="max-w-6xl mx-auto px-6 h-18 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="relative w-8 h-8">
+              <Image src="/logo.png" alt="Mane Discovery Logo" fill className="object-contain" priority />
+            </div>
+            <span className="font-serif text-xl font-bold tracking-tight text-sage-900 group-hover:text-rose-700 transition-colors">
+              Mane Discovery
+            </span>
+          </Link>
+
+          <div className="hidden md:flex items-center gap-8 text-xs font-bold uppercase tracking-widest text-sage-700">
+            <Link href="/quiz" className="hover:text-rose-600 transition-colors flex items-center gap-1.5 text-rose-600 font-extrabold">
+              <Sparkles className="w-3.5 h-3.5" /> Free 60s Quiz
+            </Link>
+            <a href="#curriculum" className="hover:text-sage-950 transition-colors">The 21 Days</a>
+            <a href="#pricing" className="hover:text-sage-950 transition-colors">Pricing</a>
+            <a href="#faq" className="hover:text-sage-950 transition-colors">FAQ</a>
+            <Link href="/practitioner" className="hover:text-sage-950 transition-colors">Practitioner</Link>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <Link href="/login" className="text-xs font-bold uppercase tracking-wider text-sage-700 hover:text-sage-950 px-3 py-2 transition-colors">
+              Sign In
+            </Link>
+            <a href="#pricing" className="px-5 py-2.5 bg-sage-900 text-cream-50 rounded-full font-bold uppercase tracking-wider text-xs hover:bg-sage-800 transition-all shadow-md hover:scale-105 active:scale-95">
+              Start Reset
+            </a>
+          </div>
+        </div>
+      </nav>
+
       {/* 1. HERO SECTION */}
-      <header className="relative min-h-[90vh] flex items-center justify-center overflow-hidden pt-24 pb-32">
+      <header className="relative min-h-[90vh] flex items-center justify-center overflow-hidden pt-16 pb-32">
         <div className="absolute inset-0">
           <Image 
             src="/hero-horse-landscape.png" 
@@ -63,9 +128,14 @@ export default function LandingPage() {
           <p className="text-lg md:text-2xl text-cream-50 max-w-2xl leading-relaxed mx-auto font-medium drop-shadow-md pb-8 pt-4 w-full px-2">
             This is the Year of the Fire Horse. Fire doesn't wait. It moves, intensifies, and brings everything to the surface. Give yourself 21 days to slow down, reconnect, and shift permanently out of survival mode.
           </p>
-          <a href="#pricing" className="inline-flex items-center px-10 py-5 bg-sage-900 text-cream-50 rounded-full font-bold uppercase tracking-widest hover:bg-sage-800 transition-all hover:scale-105 active:scale-95 shadow-xl">
-            Start Your Journey <ArrowRight className="w-5 h-5 ml-3" />
-          </a>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-2">
+            <a href="#pricing" className="inline-flex items-center px-10 py-5 bg-sage-900 text-cream-50 rounded-full font-bold uppercase tracking-widest hover:bg-sage-800 transition-all hover:scale-105 active:scale-95 shadow-xl">
+              Start Your Journey <ArrowRight className="w-5 h-5 ml-3" />
+            </a>
+            <Link href="/quiz" className="inline-flex items-center px-8 py-5 bg-white/80 backdrop-blur-md text-sage-900 border border-white rounded-full font-bold uppercase tracking-widest hover:bg-white transition-all hover:scale-105 active:scale-95 shadow-lg text-sm">
+              Take Free 60s Quiz <Sparkles className="w-4 h-4 ml-2 text-rose-500" />
+            </Link>
+          </div>
         </div>
       </header>
 
@@ -202,7 +272,7 @@ export default function LandingPage() {
       </section>
 
       {/* 4.5 APP FEATURES MOCKUPS */}
-      <section className="bg-sage-900 py-32 px-6 text-cream-50 border-t-8 border-rose-300">
+      <section id="curriculum" className="bg-sage-900 py-32 px-6 text-cream-50 border-t-8 border-rose-300">
         <div className="max-w-6xl mx-auto space-y-20">
           <div className="text-center space-y-6 max-w-3xl mx-auto">
             <p className="tracking-[0.25em] uppercase text-sm font-bold text-rose-300">Inside the App</p>
@@ -299,39 +369,50 @@ export default function LandingPage() {
       </section>
 
 
-      {/* 5. NERVOUS SYSTEM CAPACITY QUIZ */}
-      <section className="bg-sage-200 py-32 px-6 border-y border-sage-300">
-        <div className="max-w-4xl mx-auto flex flex-col items-center">
+      {/* 5. NATIVE NERVOUS SYSTEM CAPACITY QUIZ TEASER */}
+      <section className="bg-sage-900 text-cream-50 py-24 px-6 border-y border-sage-800 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-rose-900/20 rounded-full blur-3xl pointer-events-none" />
+        <div className="max-w-4xl mx-auto flex flex-col items-center text-center space-y-8 relative z-10">
           
-          <div className="text-center space-y-4 mb-10">
-            <h2 className="text-3xl md:text-4xl font-serif text-sage-900 drop-shadow-sm">Check Your Nervous System Capacity</h2>
-            <p className="text-lg text-sage-800 max-w-2xl mx-auto font-medium">
-              Take this quick free assessment to discover how much of your biological capacity is currently tied up in survival mode before proceeding.
-            </p>
+          <div className="inline-flex items-center gap-2 bg-rose-500/20 text-rose-200 border border-rose-400/30 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest">
+            <Sparkles className="w-3.5 h-3.5 text-rose-300" />
+            Free 60-Second Biological Diagnostic
           </div>
 
-          <div className="w-full bg-white rounded-[2.5rem] shadow-2xl border-4 border-sage-100 p-2 overflow-hidden relative min-h-[500px]">
-            {/* Loading placeholder while quiz loads */}
-            <div className="absolute inset-0 flex items-center justify-center bg-white z-0">
-              <span className="text-sage-500 uppercase tracking-widest font-bold text-sm animate-pulse">Loading Assessment...</span>
-            </div>
-            
-            {/* ScoreApp div with Next.js specific styling formatting */}
-            <div  
-              className="relative z-10 bg-white"
-              data-sa-url="https://78c97874-7d7e-48fb-9556-8f07457d7ca1.scoreapp.com/?sa_target=_top" 
-              data-sa-view="inline" 
-              style={{ maxWidth: '100%', width: '100%' }} 
-              data-sa-auto-height="1"
-            ></div>
+          <h2 className="text-3xl md:text-5xl font-serif text-cream-100 max-w-2xl leading-tight">
+            Discover Your Nervous System State Before You Begin
+          </h2>
+          
+          <p className="text-base md:text-xl text-sage-300 max-w-2xl leading-relaxed">
+            Are you currently running in <strong>Sympathetic Overdrive</strong> (the sentinel on watch), <strong>Dorsal Freeze</strong> (the guarded haven), or oscillating between both? Take our clinically grounded 6-question assessment.
+          </p>
 
-            {/* Next.js specifically optimized Script loading */}
-            <Script 
-              src="https://static.scoreapp.com/js/integration/v1/embedding.js?v=FC6_jg" 
-              strategy="lazyOnload" 
-            />
+          <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4 w-full pt-4">
+            {[
+              { title: "Overdrive Sentinel", badge: "Fight / Flight", desc: "Hyper-vigilant & tense" },
+              { title: "Guarded Haven", badge: "Dorsal Vagal", desc: "Numb, heavy, or foggy" },
+              { title: "Oscillating Pendulum", badge: "Burnout Cycle", desc: "Sprint then crash" },
+              { title: "Emerging Anchor", badge: "Ventral Safety", desc: "Grounded & steady" },
+            ].map((arch, i) => (
+              <div key={i} className="bg-sage-800/80 p-5 rounded-2xl border border-sage-700 text-left space-y-1 hover:border-rose-400/50 transition-colors">
+                <span className="text-[10px] uppercase font-bold tracking-widest text-rose-300 bg-rose-900/40 px-2 py-0.5 rounded-full">
+                  {arch.badge}
+                </span>
+                <p className="font-serif text-base text-cream-100 font-bold pt-1">{arch.title}</p>
+                <p className="text-xs text-sage-400">{arch.desc}</p>
+              </div>
+            ))}
           </div>
 
+          <div className="pt-6">
+            <Link
+              href="/quiz"
+              className="inline-flex items-center px-10 py-5 bg-rose-200 text-sage-900 rounded-full font-bold uppercase tracking-widest hover:bg-rose-300 transition-all hover:scale-105 active:scale-95 shadow-xl text-sm"
+            >
+              Start Your Free 60-Second Diagnostic <ArrowRight className="w-4 h-4 ml-2" />
+            </Link>
+            <p className="text-xs text-sage-400 mt-3">Instant results • No credit card required • 100% private</p>
+          </div>
         </div>
       </section>
 
@@ -535,8 +616,53 @@ export default function LandingPage() {
           </div>
         </div>
 
+        {/* FAQ SECTION */}
+        <div id="faq" className="max-w-4xl mx-auto mt-28 relative z-10 space-y-12">
+          <div className="text-center space-y-4">
+            <p className="text-xs uppercase font-bold tracking-widest text-rose-300">Got Questions?</p>
+            <h3 className="text-3xl md:text-5xl font-serif text-cream-100">Frequently Asked Questions</h3>
+            <p className="text-sage-300 text-sm max-w-xl mx-auto leading-relaxed">
+              Everything you need to know about the 21-day reset, daily practices, and how your nervous system recalibrates.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            {[
+              {
+                q: "Do I need to be around actual horses?",
+                a: "No! All practices are designed specifically for your home, bedroom, or office. Mane Discovery translates the evolutionary biology and co-regulation principles of wild horse herds into simple 3-minute physical exercises you can do anywhere."
+              },
+              {
+                q: "How much time does it take each day?",
+                a: "Just 3 to 5 minutes a day. It is intentionally micro-dosed for overwhelmed nervous systems that don't have hours to meditate or journal. Regular, small biological safety signals build permanent neural pathways."
+              },
+              {
+                q: "Is this a monthly subscription?",
+                a: "No. Both The Solo Reset ($39) and Guided Embodiment ($97) are one-time payments that include lifetime access to the 21-day curriculum, interactive discovery ring, attachment report, and graduation certificate."
+              },
+              {
+                q: "Do I need to download an app from the App Store?",
+                a: "No downloads required. Mane Discovery is a high-performance web app that runs directly in your browser on iPhone, Android, tablet, or desktop with instant auto-sync across all your devices."
+              },
+              {
+                q: "How does the 7-Day Guarantee work?",
+                a: "Your biological safety comes first. If you start the journey and feel it is simply not the right time for your nervous system, email info@manediscovery.com within 7 days for a prompt, full refund. No questions asked."
+              },
+              {
+                q: "What is the difference between Solo and Guided Cohort?",
+                a: "The Solo Reset ($39) is entirely self-paced via the guided web app. The Guided Cohort ($97) includes the complete app plus 4 weekly live group co-regulation calls and priority guidance with Maria Roach."
+              },
+            ].map((faq, i) => (
+              <div key={i} className="bg-sage-800/80 p-8 rounded-3xl border border-sage-700/80 space-y-3 hover:border-rose-400/30 transition-colors">
+                <h4 className="font-serif text-lg text-rose-200">{faq.q}</h4>
+                <p className="text-sm text-sage-300 leading-relaxed">{faq.a}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* 7-Day Compassionate Guarantee */}
-        <div className="max-w-2xl mx-auto mt-16 bg-sage-800/40 p-8 rounded-3xl border border-sage-700/50 text-center relative z-10 hover:-translate-y-1 transition-transform">
+        <div className="max-w-2xl mx-auto mt-20 bg-sage-800/40 p-8 rounded-3xl border border-sage-700/50 text-center relative z-10 hover:-translate-y-1 transition-transform">
           <div className="mx-auto w-12 h-12 bg-sage-700 rounded-full flex items-center justify-center mb-4">
             <HeartPulse className="w-6 h-6 text-rose-300" />
           </div>
@@ -560,21 +686,36 @@ export default function LandingPage() {
           
           <div className="bg-rose-50 border border-rose-100 rounded-2xl p-6">
              <p className="text-sage-900 font-bold text-lg mb-4">Join the Practitioner Pathway Interest List</p>
-             <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto" onSubmit={(e) => { e.preventDefault(); alert("You've been added to the waitlist!"); }}>
-               <input 
-                 type="email" 
-                 placeholder="Enter your email address" 
-                 className="flex-1 px-5 py-3 rounded-xl border border-sage-300 focus:outline-none focus:ring-2 focus:ring-rose-300 focus:border-transparent text-sage-900"
-                 required
-               />
-               <button 
-                 type="submit" 
-                 className="px-6 py-3 bg-sage-900 text-white font-bold tracking-widest uppercase text-sm rounded-xl hover:bg-sage-800 transition-colors shadow-md"
-               >
-                 Join Waitlist
-               </button>
-             </form>
-             <p className="text-xs text-sage-500 mt-4">Spots for the next cohort will be extremely limited.</p>
+             {!waitlistSuccess ? (
+               <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto" onSubmit={handleWaitlistSubmit}>
+                 <input 
+                   type="email" 
+                   value={waitlistEmail}
+                   onChange={(e) => setWaitlistEmail(e.target.value)}
+                   placeholder="Enter your email address" 
+                   className="flex-1 px-5 py-3 rounded-xl border border-sage-300 focus:outline-none focus:ring-2 focus:ring-rose-300 focus:border-transparent text-sage-900 bg-white"
+                   required
+                 />
+                 <button 
+                   type="submit" 
+                   disabled={waitlistLoading}
+                   className="px-6 py-3 bg-sage-900 text-white font-bold tracking-widest uppercase text-sm rounded-xl hover:bg-sage-800 transition-colors shadow-md disabled:opacity-50"
+                 >
+                   {waitlistLoading ? 'Adding...' : 'Join Waitlist'}
+                 </button>
+               </form>
+             ) : (
+               <div className="bg-white p-4 rounded-xl text-sage-900 font-medium max-w-md mx-auto border border-rose-200">
+                 ✨ You have been added to the priority waitlist! Maria's team will reach out with cohort details.
+               </div>
+             )}
+             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-4 text-xs text-sage-600">
+               <span>Spots for the next cohort will be extremely limited.</span>
+               <span className="hidden sm:inline">•</span>
+               <Link href="/practitioner" className="font-bold text-sage-900 underline underline-offset-2 hover:text-rose-600 transition-colors">
+                 View Full Certification Syllabus & Application &rarr;
+               </Link>
+             </div>
           </div>
         </div>
       </section>

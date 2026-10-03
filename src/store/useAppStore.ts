@@ -34,7 +34,12 @@ interface AppState {
   completedExercises: Record<number, { title: string, isHorseReflection: boolean }>;
   ledgerEntries: Record<string, LedgerEntry>;
   
+  hasPaid: boolean;
+  tier: 'basic' | 'premium';
+  userEmail?: string;
+  
   // Actions
+  setHasPaid: (hasPaid: boolean, tier?: 'basic' | 'premium') => void;
   unlockNextDay: () => void;
   saveJournal: (day: number, text: string) => void;
   saveCheckin: (day: number, data: RingSelection) => void;
@@ -54,14 +59,18 @@ export const useAppStore = create<AppState>()(
       checkins: {},
       completedExercises: {},
       ledgerEntries: {},
+      hasPaid: false,
+      tier: 'basic',
+      userEmail: undefined,
+
+      setHasPaid: (hasPaid: boolean, tier: 'basic' | 'premium' = 'basic') => set({ hasPaid, tier }),
 
       fetchUserProfile: async (userId: string) => {
         try {
-          
           // Fetch profile for unlocked days & current day (gracefully handling missing rows)
           const { data: profile } = await supabase
             .from('profiles')
-            .select('current_day, unlocked_days')
+            .select('current_day, unlocked_days, has_paid, tier')
             .eq('id', userId)
             .maybeSingle();
 
@@ -95,6 +104,8 @@ export const useAppStore = create<AppState>()(
           set((state) => ({
             currentDay: profile?.current_day || state.currentDay,
             unlockedDays: profile?.unlocked_days || state.unlockedDays,
+            hasPaid: profile?.has_paid ?? state.hasPaid,
+            tier: (profile?.tier as 'basic' | 'premium') || state.tier,
             checkins: { ...state.checkins, ...updatedCheckins }
           }));
 
@@ -190,7 +201,10 @@ export const useAppStore = create<AppState>()(
           journals: {},
           checkins: {},
           completedExercises: {},
-          ledgerEntries: {}
+          ledgerEntries: {},
+          hasPaid: false,
+          tier: 'basic',
+          userEmail: undefined,
         });
       }
     }),

@@ -14,7 +14,7 @@ const phases = [
 ];
 
 export default function Dashboard() {
-  const { currentDay, unlockedDays, checkins, debugUnlockAll, resetProgress } = useAppStore();
+  const { currentDay, unlockedDays, checkins, debugUnlockAll, resetProgress, hasPaid, tier } = useAppStore();
   const router = useRouter();
 
   const handleLogout = async () => {
@@ -24,6 +24,8 @@ export default function Dashboard() {
   };
 
   const getDayStatus = (day: number) => {
+    // Free preview users can access Day 1
+    if (!hasPaid && day > 1) return 'locked';
     if (day < currentDay) return 'completed';
     if (unlockedDays.includes(day)) return 'unlocked';
     return 'locked';
@@ -49,8 +51,33 @@ export default function Dashboard() {
           A 21-day journey to recalibrate your nervous system, build emotional resilience, and discover your true mane.
         </p>
 
-        {/* Developer Overrides */}
-        <div className="flex gap-4 pt-4 flex-wrap justify-center">
+        {/* Access Tier Badge & Upgrade Banner */}
+        {!hasPaid ? (
+          <div className="w-full bg-rose-50 border border-rose-200 rounded-3xl p-6 text-center shadow-sm space-y-3">
+            <span className="inline-block bg-rose-200 text-rose-900 text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full">
+              Free Sample Mode (Day 1 Unlocked)
+            </span>
+            <p className="text-sm text-sage-800 max-w-lg mx-auto leading-relaxed">
+              You are currently enjoying the Day 1 sample practice. Unlock the complete 21-day immersion, self-trust tracking, and graduation certificate anytime.
+            </p>
+            <div className="pt-1">
+              <Link
+                href="/#pricing"
+                className="inline-flex items-center px-6 py-2.5 bg-sage-900 text-cream-50 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-sage-800 transition-colors shadow-sm"
+              >
+                Unlock All 21 Days ($39)
+              </Link>
+            </div>
+          </div>
+        ) : (
+          <div className="inline-flex items-center gap-2 bg-sage-100 border border-sage-300 text-sage-800 text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            {tier === 'premium' ? 'Guided Cohort Member' : 'Full Reset Unlocked'}
+          </div>
+        )}
+
+        {/* Developer / Account Overrides */}
+        <div className="flex gap-4 pt-2 flex-wrap justify-center">
           <button 
             onClick={handleLogout}
             className="text-xs px-4 py-2 bg-white text-sage-700 border border-sage-200 rounded-full hover:bg-sage-50 transition-colors shadow-sm flex items-center"

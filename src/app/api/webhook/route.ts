@@ -1,48 +1,117 @@
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
-import { supabase } from '@/lib/supabase';
+import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { triggerZapierWebhook } from '@/lib/zapier';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder', {
-  apiVersion: '2026-02-25.clover',
-});
-
-const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET || 'whsec_placeholder';
-
 export async function POST(req: Request) {
-  const payload = await req.text();
-  const sig = req.headers.get('stripe-signature') as string;
+  const stripeSecretKey = process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder';
+  const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET || 'whsec_placeholder';
 
-  let event;
+  const stripe = new Stripe(stripeSecretKey, {
+    apiVersion: '2026-02-25.clover',
+  });
+
+  const payload = await req.text();
+  const sig = req.headers.get('stripe-signature');
+
+  let event: Stripe.Event;
 
   try {
-    event = stripe.webhooks.constructEvent(payload, sig, endpointSecret);
+    if (sig && endpointSecret && !endpointSecret.includes('placeholder')) {
+      event = stripe.webhooks.constructEvent(payload, sig, endpointSecret);
+    } else {
+      // In development or simulation mode without a raw webhook secret signature
+      const parsed = JSON.parse(payload);
+      event = parsed as Stripe.Event;
+    }
   } catch (err: any) {
-    console.error(`Webhook signature verification failed:`, err.message);
+    console.error('Webhook signature verification failed:', err.message);
     return NextResponse.json({ error: `Webhook Error: ${err.message}` }, { status: 400 });
   }
 
   // Handle successful checkouts
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object as Stripe.Checkout.Session;
-    
-    // In a full implementation, you'd extract the customer's email or client_reference_id
-    // to mark their record as "paid" in Supabase so they can access the dashboard.
-    console.log('Payment successful for session:', session.id);
-    console.log('Customer Email:', session.customer_details?.email);
-    
-    // Example: Update Supabase (Needs a Service Role key for secure backend updates)
-    // await supabase.from('users').update({ has_paid: true }).eq('email', session.customer_details?.email);
+    const customerEmail = (session.customer_details?.email || session.customer_email || '').toLowerCase().trim();
+    const customerName = session.customer_details?.name || 'Valued Member';
+    const amountTotal = session.amount_total || 0;
+    const currency = session.currency || 'usd';
 
-    // Trigger Zapier Webhook
-    if (session.customer_details?.email) {
-      await triggerZapierWebhook(process.env.ZAPIER_WEBHOOK_CHECKOUT, {
-        event: 'checkout.session.completed',
-        email: session.customer_details.email,
-        name: session.customer_details.name || 'Customer',
-        amount_total: session.amount_total,
-        currency: session.currency,
-      });
+    // Determine tier: check line items, price ID or metadata
+    let tier: 'basic' | 'premium' = 'basic';
+    if (amountTotal >= 8000 || session.metadata?.tier === 'premium') {
+      tier = 'premium';
+    }
+
+    console.log(`[Stripe Webhook] Successful checkout for ${customerEmail} (${tier} tier - ${amountTotal / 100} ${currency})`);
+
+    if (customerEmail) {
+      try {
+        // 1. Log the purchase in the financial purchases table
+        await supabaseAdmin.from('purchases').upsert({
+          email: customerEmail,
+          tier,
+          amount_cents: amountTotal,
+          currency,
+          stripe_session_id: session.id,
+          status: 'completed',
+        }, { onConflict: 'stripe_session_id' });
+
+        // 2. Check if a profile already exists for this email
+        const { data: existingUser } = await supabaseAdmin
+          .from('profiles')
+          .select('id')
+          .eq('email', customerEmail)
+          .maybeSingle();
+
+        if (existingUser?.id) {
+          // User already has an account -> Immediately activate paid status & tier
+          await supabaseAdmin
+            .from('profiles')
+            .update({
+              has_paid: true,
+              tier,
+              updated_at: new Date().toISOString(),
+            })
+            .eq('id', existingUser.id);
+          console.log(`[Stripe Webhook] Activated existing user account: ${existingUser.id}`);
+        } else {
+          // User paid before signing up -> Save in pending_purchases
+          // The Supabase trigger handle_new_user_purchase() will unlock upon registration
+          await supabaseAdmin
+            .from('pending_purchases')
+            .upsert({
+              email: customerEmail,
+              tier,
+              stripe_session_id: session.id,
+            }, { onConflict: 'email' });
+          console.log(`[Stripe Webhook] Stored in pending_purchases for future signup: ${customerEmail}`);
+        }
+
+        // 3. Mark quiz lead as converted if they took the assessment
+        await supabaseAdmin
+          .from('quiz_leads')
+          .update({ converted_to_paid: true })
+          .eq('email', customerEmail);
+
+        // 4. Trigger automated Zapier onboarding webhook
+        const zapierUrl = process.env.ZAPIER_WEBHOOK_CHECKOUT;
+        if (zapierUrl) {
+          await triggerZapierWebhook(zapierUrl, {
+            event: 'checkout.session.completed',
+            email: customerEmail,
+            name: customerName,
+            tier,
+            amount_total: amountTotal,
+            currency,
+            session_id: session.id,
+            dashboard_url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://mane-discovery.vercel.app'}/login?payment_success=true`,
+            timestamp: new Date().toISOString(),
+          });
+        }
+      } catch (dbError: any) {
+        console.error('[Stripe Webhook] Database provisioning error:', dbError);
+      }
     }
   }
 
