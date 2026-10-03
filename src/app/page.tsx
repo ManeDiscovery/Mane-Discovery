@@ -7,20 +7,17 @@ import Link from 'next/link';
 import { ArrowRight, Wind, Leaf, Sun, Check, HeartPulse, Brain, HeartHandshake, ZapOff, Activity, ShieldCheck, Footprints, Sparkles } from 'lucide-react';
 
 export default function LandingPage() {
-  const [loadingTier, setLoadingTier] = useState<'basic' | 'premium' | null>(null);
-  const [waitlistEmail, setWaitlistEmail] = useState('');
-  const [waitlistLoading, setWaitlistLoading] = useState(false);
-  const [waitlistSuccess, setWaitlistSuccess] = useState(false);
+  const [loadingCheckout, setLoadingCheckout] = useState(false);
 
-  const handleCheckout = async (tier: 'basic' | 'premium') => {
-    setLoadingTier(tier);
+  const handleCheckout = async () => {
+    setLoadingCheckout(true);
     try {
       const response = await fetch('/api/checkout', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ tier }),
+        body: JSON.stringify({ tier: 'basic' }),
       });
       
       const session = await response.json();
@@ -34,35 +31,7 @@ export default function LandingPage() {
     } catch (error) {
       console.error('Checkout error:', error);
     } finally {
-      setLoadingTier(null);
-    }
-  };
-
-  const handleWaitlistSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!waitlistEmail) return;
-
-    setWaitlistLoading(true);
-    try {
-      const res = await fetch('/api/practitioner/apply', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: waitlistEmail,
-          fullName: 'Waitlist Applicant',
-          motivation: 'Joined waitlist via homepage callout',
-        }),
-      });
-      const data = await res.json();
-      if (data.success) {
-        setWaitlistSuccess(true);
-      } else {
-        alert(data.error || 'Failed to submit waitlist.');
-      }
-    } catch (err: any) {
-      alert(err.message || 'Submission error');
-    } finally {
-      setWaitlistLoading(false);
+      setLoadingCheckout(false);
     }
   };
 
@@ -86,9 +55,8 @@ export default function LandingPage() {
               <Sparkles className="w-3.5 h-3.5" /> Free 60s Quiz
             </Link>
             <a href="#curriculum" className="hover:text-sage-950 transition-colors">The 21 Days</a>
-            <a href="#pricing" className="hover:text-sage-950 transition-colors">Pricing</a>
+            <a href="#pricing" className="hover:text-sage-950 transition-colors">Pricing ($39)</a>
             <a href="#faq" className="hover:text-sage-950 transition-colors">FAQ</a>
-            <Link href="/practitioner" className="hover:text-sage-950 transition-colors">Practitioner</Link>
           </div>
 
           <div className="flex items-center gap-3">
@@ -96,7 +64,7 @@ export default function LandingPage() {
               Sign In
             </Link>
             <a href="#pricing" className="px-5 py-2.5 bg-sage-900 text-cream-50 rounded-full font-bold uppercase tracking-wider text-xs hover:bg-sage-800 transition-all shadow-md hover:scale-105 active:scale-95">
-              Start Reset
+              Start Reset ($39)
             </a>
           </div>
         </div>
@@ -511,108 +479,88 @@ export default function LandingPage() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto items-stretch relative z-10">
-          
-          <div className="bg-white text-sage-900 rounded-[2.5rem] p-10 shadow-xl flex flex-col justify-between hover:shadow-2xl transition-all hover:-translate-y-1">
-            <div>
-              <div className="inline-block bg-sage-100 text-sage-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-4 border border-sage-200">
-                Best for self-starters
-              </div>
-              <h3 className="text-3xl font-serif mb-2">The Solo Reset</h3>
-              <p className="text-sage-500 text-sm mb-8">For the independent traveler ready to commit to their own pacing.</p>
-              <div className="flex items-baseline gap-2 mb-10 pb-10 border-b border-sage-100">
-                <span className="text-6xl font-sans font-medium">$39</span>
-              </div>
-              
-              <ul className="space-y-5 mb-10">
-                <li className="flex items-start text-sage-700 font-medium"><HeartPulse className="w-5 h-5 text-rose-400 mr-4 shrink-0" /> Full access to the 21-Day App Journey</li>
-                <li className="flex items-start text-sage-700 font-medium"><HeartPulse className="w-5 h-5 text-rose-400 mr-4 shrink-0" /> Daily guided somatic practices</li>
-                <li className="flex items-start text-sage-700 font-medium"><HeartPulse className="w-5 h-5 text-rose-400 mr-4 shrink-0" /> End-of-journey Attachment Radar Report</li>
-                <li className="flex items-start text-sage-700 font-medium"><HeartPulse className="w-5 h-5 text-rose-400 mr-4 shrink-0" /> Official Certificate of Completion</li>
-              </ul>
+        {/* SINGLE FOCUSED $39 OFFER */}
+        <div className="max-w-2xl mx-auto relative z-10">
+          <div className="bg-white text-sage-900 rounded-[3rem] p-8 sm:p-12 md:p-14 shadow-2xl border-2 border-rose-200/60 relative overflow-hidden space-y-8">
+            <div className="absolute top-0 right-0 bg-rose-500 text-white text-xs font-bold uppercase tracking-widest px-8 py-2.5 rounded-bl-3xl shadow-md">
+              Complete Online Access
             </div>
-            <button 
-              onClick={() => handleCheckout('basic')}
-              disabled={loadingTier !== null}
-              className="mt-6 w-full py-5 bg-sage-900 text-cream-50 rounded-2xl font-bold uppercase tracking-widest hover:bg-sage-800 transition-colors disabled:opacity-50"
-            >
-              {loadingTier === 'basic' ? 'Opening...' : 'Start Your Journey'}
-            </button>
-          </div>
 
-          <div className="bg-sage-800 text-cream-50 rounded-[2.5rem] p-10 shadow-2xl border border-sage-600 flex flex-col justify-between hover:shadow-3xl transition-all hover:-translate-y-1 relative overflow-hidden">
-            <div className="absolute top-0 right-0 bg-rose-400 text-white text-xs font-bold uppercase tracking-widest px-6 py-2 rounded-bl-3xl shadow-md">
-              Cohort
+            <div className="space-y-4">
+              <span className="inline-block bg-sage-100 text-sage-800 text-xs font-bold px-3.5 py-1.5 rounded-full uppercase tracking-widest border border-sage-200">
+                The 21-Day Digital Sanctuary
+              </span>
+              <h3 className="text-3xl sm:text-4xl md:text-5xl font-serif text-sage-900 leading-tight">
+                The 21-Day Nervous System Reset
+              </h3>
+              <p className="text-sage-600 text-base md:text-lg leading-relaxed">
+                Step off the chronic survival treadmill. Get instant lifetime access to the 21-day guided curriculum, daily somatic practices, and personal recalibration tracker.
+              </p>
             </div>
-            <div>
-              <div className="inline-block bg-rose-500/20 text-rose-200 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-4 border border-rose-500/30">
-                Best for deeper healing
+
+            {/* Price Lock */}
+            <div className="flex flex-col sm:flex-row sm:items-baseline gap-3 pb-8 border-b border-sage-200">
+              <span className="text-6xl sm:text-7xl font-sans font-bold text-sage-900 tracking-tight">$39</span>
+              <div className="text-sage-600 text-sm font-medium">
+                <span className="text-sage-900 font-bold uppercase tracking-wider block sm:inline">One-time payment</span>
+                <span className="hidden sm:inline"> • </span>
+                <span>Lifetime access • No subscriptions</span>
               </div>
-              <h3 className="text-3xl font-serif mb-2 text-rose-100">Guided Embodiment</h3>
-              <p className="text-sage-400 text-sm mb-8">The app journey plus live co-regulation and group support.</p>
-              <div className="flex items-baseline gap-2 mb-10 pb-10 border-b border-sage-700">
-                 <span className="text-6xl font-sans font-medium">$97</span>
-              </div>
-              
-              <ul className="space-y-5 mb-10">
-                <li className="flex items-start text-sage-200 font-medium"><Check className="w-5 h-5 text-rose-300 mr-4 shrink-0" /> Everything in The Solo Reset</li>
-                <li className="flex items-start text-sage-200 font-medium"><HeartHandshake className="w-5 h-5 text-rose-300 mr-4 shrink-0" /> 4 Weekly Live Group Support Calls</li>
-                <li className="flex items-start text-sage-200 font-medium"><HeartHandshake className="w-5 h-5 text-rose-300 mr-4 shrink-0" /> Priority guidance from Maria</li>
+            </div>
+
+            {/* Everything Included */}
+            <div className="space-y-4">
+              <p className="text-xs uppercase font-bold tracking-widest text-sage-500">
+                Everything Included in Your Reset:
+              </p>
+              <ul className="space-y-4 text-sm sm:text-base text-sage-800 font-medium">
+                <li className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+                  <span><strong>Full 21-Day Guided App Journey</strong> with instant mobile, tablet, and desktop sync</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+                  <span><strong>Daily 3-5 Minute Somatic Practices</strong> micro-dosed for stressed, busy nervous systems</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+                  <span><strong>Interactive Discovery Ring & SOS Calming Flow</strong> for real-time de-escalation whenever triggered</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+                  <span><strong>Daily Equine Co-Regulation Insights</strong> translated from wild horse herd survival biology</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+                  <span><strong>Day 21 Attachment Radar Report</strong> to visually track your somatic expansion and neural shifts</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+                  <span><strong>Official Somatic Reset Certificate</strong> generated upon completion</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+                  <span><strong>7-Day Compassionate Guarantee</strong> — 100% full refund if it is not the right time for your biology</span>
+                </li>
               </ul>
             </div>
-            
-            <div className="mt-6">
-              <div className="bg-rose-900/40 border border-rose-300/30 text-rose-100 text-sm p-4 rounded-xl mb-4 text-center font-medium">
-                <span className="animate-pulse inline-block w-2 h-2 rounded-full bg-rose-400 mr-2"></span>
-                Next Cohort Starting Soon.<br/>Limited live support spots available.
-              </div>
-              <button 
-                onClick={() => handleCheckout('premium')}
-                disabled={loadingTier !== null}
-                className="w-full py-5 bg-rose-200 text-sage-900 rounded-2xl font-bold uppercase tracking-widest hover:bg-rose-300 transition-colors disabled:opacity-50 shadow-xl"
+
+            {/* Action Button */}
+            <div className="space-y-3 pt-2">
+              <button
+                onClick={handleCheckout}
+                disabled={loadingCheckout}
+                className="w-full py-6 bg-sage-900 text-cream-50 rounded-2xl font-bold uppercase tracking-widest text-sm hover:bg-sage-800 transition-all shadow-xl hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50"
               >
-                {loadingTier === 'premium' ? 'Opening...' : 'Join the Next Cohort'}
+                {loadingCheckout ? 'Opening Checkout...' : 'Start Your 21-Day Reset for $39 →'}
               </button>
-            </div>
-          </div>
-        </div>
 
-        {/* Feature Comparison Table */}
-        <div className="max-w-4xl mx-auto mt-20 relative z-10 hidden md:block">
-          <h3 className="text-3xl font-serif text-center mb-10 text-cream-100">Compare the Journeys</h3>
-          <div className="bg-sage-800/80 rounded-3xl border border-sage-700 overflow-hidden backdrop-blur-sm">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="bg-sage-900/50">
-                  <th className="p-6 font-serif text-xl text-sage-200 w-1/2">Features</th>
-                  <th className="p-6 text-center font-bold tracking-widest uppercase text-sm text-sage-300 w-1/4 border-l border-sage-700/50">The Solo Reset</th>
-                  <th className="p-6 text-center font-bold tracking-widest uppercase text-sm text-rose-300 w-1/4 border-l border-sage-700/50">Guided Embodiment</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-sage-700/50">
-                {[
-                  { feature: "21-Day App Access", basic: true, premium: true },
-                  { feature: "Daily Somatic Audio Practices", basic: true, premium: true },
-                  { feature: "Interactive Discovery Ring & SOS Flow", basic: true, premium: true },
-                  { feature: "Self-Trust Ledger & Tracking", basic: true, premium: true },
-                  { feature: "Attachment Radar Report", basic: true, premium: true },
-                  { feature: "Certificate of Completion", basic: true, premium: true },
-                  { feature: "4 Weekly Live Group Calls", basic: false, premium: true },
-                  { feature: "Live Co-regulation Practices", basic: false, premium: true },
-                  { feature: "Priority Guidance from Maria", basic: false, premium: true },
-                ].map((row, i) => (
-                  <tr key={i} className="hover:bg-sage-700/20 transition-colors">
-                    <td className="p-5 pl-6 text-sage-100 font-medium">{row.feature}</td>
-                    <td className="p-5 text-center border-l border-sage-700/50">
-                      {row.basic ? <Check className="w-5 h-5 text-sage-400 mx-auto" /> : <span className="text-sage-600">-</span>}
-                    </td>
-                    <td className="p-5 text-center border-l border-sage-700/50 bg-rose-900/10">
-                      {row.premium ? <Check className="w-6 h-6 text-rose-400 mx-auto" /> : <span className="text-sage-600">-</span>}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+              <div className="flex flex-wrap items-center justify-center gap-4 text-xs text-sage-500 pt-1">
+                <span className="flex items-center gap-1.5"><ShieldCheck className="w-4 h-4 text-emerald-600" /> Secure 256-Bit Stripe Checkout</span>
+                <span>•</span>
+                <span>Instant Account Access</span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -637,20 +585,20 @@ export default function LandingPage() {
                 a: "Just 3 to 5 minutes a day. It is intentionally micro-dosed for overwhelmed nervous systems that don't have hours to meditate or journal. Regular, small biological safety signals build permanent neural pathways."
               },
               {
-                q: "Is this a monthly subscription?",
-                a: "No. Both The Solo Reset ($39) and Guided Embodiment ($97) are one-time payments that include lifetime access to the 21-day curriculum, interactive discovery ring, attachment report, and graduation certificate."
+                q: "Are there any recurring subscriptions or hidden fees?",
+                a: "None. The $39 is a single one-time payment that gives you lifetime access to the entire 21-day curriculum, daily somatic practices, interactive discovery ring, attachment report, and graduation certificate."
               },
               {
                 q: "Do I need to download an app from the App Store?",
                 a: "No downloads required. Mane Discovery is a high-performance web app that runs directly in your browser on iPhone, Android, tablet, or desktop with instant auto-sync across all your devices."
               },
               {
-                q: "How does the 7-Day Guarantee work?",
-                a: "Your biological safety comes first. If you start the journey and feel it is simply not the right time for your nervous system, email info@manediscovery.com within 7 days for a prompt, full refund. No questions asked."
+                q: "What happens right after I pay $39?",
+                a: "Your access is instantly provisioned in our system. You will receive an immediate welcome email from Maria Roach with your direct dashboard link, so you can begin Day 1 immediately without waiting."
               },
               {
-                q: "What is the difference between Solo and Guided Cohort?",
-                a: "The Solo Reset ($39) is entirely self-paced via the guided web app. The Guided Cohort ($97) includes the complete app plus 4 weekly live group co-regulation calls and priority guidance with Maria Roach."
+                q: "How does the 7-Day Guarantee work?",
+                a: "Your biological safety comes first. If you start the journey and feel it is simply not the right time for your nervous system, email info@manediscovery.com within 7 days for a prompt, full refund. No questions asked."
               },
             ].map((faq, i) => (
               <div key={i} className="bg-sage-800/80 p-8 rounded-3xl border border-sage-700/80 space-y-3 hover:border-rose-400/30 transition-colors">
@@ -670,53 +618,6 @@ export default function LandingPage() {
           <p className="text-sage-300 text-sm leading-relaxed">
             If you start the journey and your nervous system determines it's simply not the right time, email me at <a href="mailto:info@manediscovery.com" className="text-rose-300 hover:text-rose-200 underline underline-offset-2 transition-colors">info@manediscovery.com</a> within 7 days for a full refund. No questions, no pressure. Your biological safety always comes first.
           </p>
-        </div>
-      </section>
-
-      {/* 9. EFL PRACTITIONER CALLOUT */}
-      <section className="bg-sage-100 py-20 px-6 border-t border-sage-200 text-center relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/hero-horse-landscape.png')] opacity-5 bg-cover bg-center"></div>
-        <div className="max-w-3xl mx-auto space-y-8 relative z-10 bg-white/80 backdrop-blur-md p-10 rounded-[3rem] shadow-xl border border-white">
-          <div>
-            <h3 className="text-3xl font-serif text-sage-900 drop-shadow-sm mb-2">Become a Somatic EFL Practitioner</h3>
-            <p className="text-sage-700 text-lg">
-              Learn the Mane Discovery method and help guide others through their own somatic healing journey.
-            </p>
-          </div>
-          
-          <div className="bg-rose-50 border border-rose-100 rounded-2xl p-6">
-             <p className="text-sage-900 font-bold text-lg mb-4">Join the Practitioner Pathway Interest List</p>
-             {!waitlistSuccess ? (
-               <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto" onSubmit={handleWaitlistSubmit}>
-                 <input 
-                   type="email" 
-                   value={waitlistEmail}
-                   onChange={(e) => setWaitlistEmail(e.target.value)}
-                   placeholder="Enter your email address" 
-                   className="flex-1 px-5 py-3 rounded-xl border border-sage-300 focus:outline-none focus:ring-2 focus:ring-rose-300 focus:border-transparent text-sage-900 bg-white"
-                   required
-                 />
-                 <button 
-                   type="submit" 
-                   disabled={waitlistLoading}
-                   className="px-6 py-3 bg-sage-900 text-white font-bold tracking-widest uppercase text-sm rounded-xl hover:bg-sage-800 transition-colors shadow-md disabled:opacity-50"
-                 >
-                   {waitlistLoading ? 'Adding...' : 'Join Waitlist'}
-                 </button>
-               </form>
-             ) : (
-               <div className="bg-white p-4 rounded-xl text-sage-900 font-medium max-w-md mx-auto border border-rose-200">
-                 ✨ You have been added to the priority waitlist! Maria's team will reach out with cohort details.
-               </div>
-             )}
-             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-4 text-xs text-sage-600">
-               <span>Spots for the next cohort will be extremely limited.</span>
-               <span className="hidden sm:inline">•</span>
-               <Link href="/practitioner" className="font-bold text-sage-900 underline underline-offset-2 hover:text-rose-600 transition-colors">
-                 View Full Certification Syllabus & Application &rarr;
-               </Link>
-             </div>
-          </div>
         </div>
       </section>
 
