@@ -106,6 +106,32 @@ export default function PractitionerPage() {
           </div>
         </div>
 
+        {/* Mentor / Facilitator Spotlight */}
+        <div className="bg-white rounded-[2.5rem] p-8 md:p-10 border border-sage-200 shadow-sm flex flex-col md:flex-row items-center gap-8">
+          <div className="relative w-44 h-44 md:w-56 md:h-56 rounded-2xl overflow-hidden shrink-0 shadow-lg border-2 border-sage-200">
+            <Image
+              src="/maria-guide.jpg"
+              alt="Maria Roach - Master Somatic EFL Facilitator"
+              fill
+              className="object-cover object-top"
+            />
+          </div>
+          <div className="space-y-4 text-center md:text-left">
+            <span className="inline-block bg-sage-100 text-sage-800 text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full">
+              Lead Mentor & Founder
+            </span>
+            <h3 className="text-2xl md:text-3xl font-serif text-sage-900">
+              Mentored directly by Maria Roach
+            </h3>
+            <p className="text-sm md:text-base text-sage-700 leading-relaxed">
+              "Equine-facilitated somatic work is not about forcing techniques or performing horsemanship. It is about learning to read the autonomic nervous system in real time—both in yourself, in your clients, and in the herd. In this academy, I work with each apprentice intimately to help you build an ethical, deeply grounded, and thriving facilitation practice."
+            </p>
+            <p className="text-xs font-bold text-sage-500 uppercase tracking-widest">
+              Maria Roach — Founder & Master Somatic Facilitator
+            </p>
+          </div>
+        </div>
+
         {/* Application Form */}
         <div className="bg-white rounded-[3rem] p-10 md:p-14 shadow-xl border border-sage-200 space-y-8 relative overflow-hidden">
           {!isSubmitted ? (
