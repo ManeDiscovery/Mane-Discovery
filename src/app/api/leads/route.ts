@@ -1,11 +1,12 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { triggerZapierWebhook } from '@/lib/zapier';
+import { sendQuizReportEmail } from '@/lib/email';
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { name, email, archetype, tensionScore, easeScore, dominantState, answers } = body;
+    const { name, email, archetype, tensionScore, easeScore, dominantState, answers, quote, herdWisdom } = body;
 
     if (!email || !email.includes('@')) {
       return NextResponse.json({ error: 'A valid email is required' }, { status: 400 });
@@ -33,7 +34,16 @@ export async function POST(req: Request) {
       console.warn('Could not save lead to quiz_leads table (may need table migration):', error.message);
     }
 
-    // 2. Trigger Zapier automation for immediate automated welcome / nurture sequence
+    // 2. Send instant branded Resend Diagnostic Email
+    await sendQuizReportEmail({
+      email: cleanEmail,
+      name: name || 'Friend',
+      archetype: archetype || 'The Undifferentiated Traveler',
+      quote,
+      herdWisdom,
+    });
+
+    // 3. Trigger Zapier automation (optional backup CRM)
     const zapierUrl = process.env.ZAPIER_WEBHOOK_LEADS || process.env.ZAPIER_WEBHOOK_CHECKOUT;
     if (zapierUrl) {
       await triggerZapierWebhook(zapierUrl, {

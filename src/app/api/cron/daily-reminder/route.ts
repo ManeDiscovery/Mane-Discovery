@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { dailyLessons } from '@/data/lessons';
 import { triggerZapierWebhook } from '@/lib/zapier';
+import { sendDailyReminderEmail } from '@/lib/email';
 
 export async function GET(req: Request) {
   // Check authorization token for secure cron execution (optional: Bearer secret)
@@ -34,7 +35,17 @@ export async function GET(req: Request) {
       const dayNumber = user.current_day || 1;
       const lesson = dailyLessons[dayNumber] || dailyLessons[1];
 
-      // Dispatch automated daily practice ping to Zapier or email worker
+      // 1. Dispatch Instant Resend Email
+      await sendDailyReminderEmail({
+        email: user.email,
+        day: dayNumber,
+        title: lesson.title,
+        practiceTitle: lesson.practice.title,
+        practiceDuration: lesson.practice.durationMinutes,
+        herdInsight: lesson.herdInsight,
+      });
+
+      // 2. Dispatch automated daily practice ping to Zapier or webhook worker
       const zapierUrl = process.env.ZAPIER_WEBHOOK_DAILY_REMINDER || process.env.ZAPIER_WEBHOOK_CHECKOUT;
       if (zapierUrl) {
         await triggerZapierWebhook(zapierUrl, {

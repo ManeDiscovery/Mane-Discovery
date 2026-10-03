@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { triggerZapierWebhook } from '@/lib/zapier';
+import { sendWelcomeEmail } from '@/lib/email';
 
 export async function POST(req: Request) {
   const stripeSecretKey = process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder';
@@ -94,7 +95,14 @@ export async function POST(req: Request) {
           .update({ converted_to_paid: true })
           .eq('email', customerEmail);
 
-        // 4. Trigger automated Zapier onboarding webhook
+        // 4. Send Instant Resend Welcome Email
+        await sendWelcomeEmail({
+          email: customerEmail,
+          name: customerName,
+          tier,
+        });
+
+        // 5. Trigger automated Zapier onboarding webhook (optional CRM/Google Sheets)
         const zapierUrl = process.env.ZAPIER_WEBHOOK_CHECKOUT;
         if (zapierUrl) {
           await triggerZapierWebhook(zapierUrl, {

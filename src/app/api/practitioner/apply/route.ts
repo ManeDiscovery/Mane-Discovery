@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { triggerZapierWebhook } from '@/lib/zapier';
+import { sendPractitionerApplicationEmails } from '@/lib/email';
 
 export async function POST(req: Request) {
   try {
@@ -33,7 +34,16 @@ export async function POST(req: Request) {
       console.warn('Could not save to practitioner_applications table:', error.message);
     }
 
-    // 2. Trigger automated Zapier notification
+    // 2. Send Resend Confirmation to Applicant + Notification to Maria
+    await sendPractitionerApplicationEmails({
+      email: cleanEmail,
+      fullName: cleanName,
+      phone: phone ? phone.trim() : undefined,
+      experienceLevel: experienceLevel || undefined,
+      motivation: motivation ? motivation.trim() : undefined,
+    });
+
+    // 3. Trigger automated Zapier notification (optional CRM backup)
     const zapierUrl = process.env.ZAPIER_WEBHOOK_PRACTITIONER || process.env.ZAPIER_WEBHOOK_CHECKOUT;
     if (zapierUrl) {
       await triggerZapierWebhook(zapierUrl, {
