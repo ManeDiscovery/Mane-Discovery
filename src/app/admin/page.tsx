@@ -53,6 +53,7 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(false);
   const [actionLog, setActionLog] = useState<string[]>([]);
   const [runningAction, setRunningAction] = useState<string | null>(null);
+  const [testEmail, setTestEmail] = useState('');
 
   // Simple passkey check for executive dashboard
   const handleLogin = (e: React.FormEvent) => {
@@ -95,7 +96,7 @@ export default function AdminDashboard() {
     setRunningAction('checkout');
     logAction(`Simulating Stripe Checkout webhook for ${tier} tier...`);
     try {
-      const dummyEmail = `test_traveler_${Date.now().toString().slice(-4)}@example.com`;
+      const recipientEmail = testEmail.trim() || `test_traveler_${Date.now().toString().slice(-4)}@example.com`;
       const dummySessionId = `cs_test_sim_${Date.now()}`;
       const amountTotal = tier === 'basic' ? 3900 : 9700;
 
@@ -107,7 +108,7 @@ export default function AdminDashboard() {
           data: {
             object: {
               id: dummySessionId,
-              customer_details: { email: dummyEmail, name: 'Simulated Traveler' },
+              customer_details: { email: recipientEmail, name: 'Simulated Traveler' },
               amount_total: amountTotal,
               currency: 'usd',
               metadata: { tier },
@@ -118,7 +119,7 @@ export default function AdminDashboard() {
 
       const data = await res.json();
       if (data.received) {
-        logAction(`✅ Webhook processed! Provisioned ${tier} access for ${dummyEmail} ($${amountTotal / 100}).`);
+        logAction(`✅ Webhook processed! Provisioned ${tier} access & sent Welcome Email to ${recipientEmail} ($${amountTotal / 100}).`);
         fetchMetrics();
       } else {
         logAction(`❌ Webhook error: ${JSON.stringify(data)}`);
@@ -294,6 +295,20 @@ export default function AdminDashboard() {
             <p className="text-xs text-sage-300 mt-1">
               Verify zero-touch workflows, simulate live checkouts, and dispatch daily reminders without real cards.
             </p>
+          </div>
+
+          {/* Test Recipient Email Input */}
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 bg-sage-800/80 p-3.5 rounded-2xl border border-sage-700">
+            <label className="text-xs font-bold uppercase tracking-wider text-sage-300 shrink-0">
+              Send Test Email To:
+            </label>
+            <input
+              type="email"
+              value={testEmail}
+              onChange={(e) => setTestEmail(e.target.value)}
+              placeholder="Enter your email to receive live test emails (optional)"
+              className="flex-1 bg-sage-950 px-4 py-2 rounded-xl border border-sage-700 text-cream-100 text-xs focus:outline-none focus:ring-1 focus:ring-rose-400 placeholder:text-sage-500"
+            />
           </div>
 
           <div className="grid sm:grid-cols-3 gap-4">
