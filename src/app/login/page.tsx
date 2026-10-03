@@ -21,6 +21,15 @@ export default function LoginPage() {
       if (urlParams.get('payment_success') === 'true') {
         setSuccessMessage('✨ Payment successful! Welcome to the Journey. Please sign up to create your account and access your dashboard.');
         setIsSignUp(true);
+
+        // Track Meta Pixel Purchase event
+        if ((window as any).fbq) {
+          (window as any).fbq('track', 'Purchase', {
+            value: 39.00,
+            currency: 'USD',
+            content_name: 'The 21-Day Nervous System Reset',
+          });
+        }
       }
     }
   }, []);

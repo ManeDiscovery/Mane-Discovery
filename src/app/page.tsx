@@ -11,6 +11,16 @@ export default function LandingPage() {
 
   const handleCheckout = async () => {
     setLoadingCheckout(true);
+
+    // Track Meta Pixel InitiateCheckout
+    if (typeof window !== 'undefined' && (window as any).fbq) {
+      (window as any).fbq('track', 'InitiateCheckout', {
+        value: 39.00,
+        currency: 'USD',
+        content_name: 'The 21-Day Nervous System Reset',
+      });
+    }
+
     try {
       const response = await fetch('/api/checkout', {
         method: 'POST',

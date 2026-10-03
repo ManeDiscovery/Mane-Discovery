@@ -311,6 +311,14 @@ export default function QuizPage() {
     e.preventDefault();
     if (!email) return;
 
+    // Track Meta Pixel Lead event
+    if (typeof window !== 'undefined' && (window as any).fbq) {
+      (window as any).fbq('track', 'Lead', {
+        content_name: result.archetype,
+        status: 'completed',
+      });
+    }
+
     setIsSubmitting(true);
     try {
       await fetch('/api/leads', {
@@ -335,6 +343,16 @@ export default function QuizPage() {
 
   const handleDirectCheckout = async (tier: 'basic' | 'premium') => {
     setCheckoutLoading(true);
+
+    // Track Meta Pixel InitiateCheckout event
+    if (typeof window !== 'undefined' && (window as any).fbq) {
+      (window as any).fbq('track', 'InitiateCheckout', {
+        value: 39.00,
+        currency: 'USD',
+        content_name: 'The 21-Day Nervous System Reset',
+      });
+    }
+
     try {
       const res = await fetch('/api/checkout', {
         method: 'POST',
