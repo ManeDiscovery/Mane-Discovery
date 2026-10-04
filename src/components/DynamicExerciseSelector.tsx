@@ -15,11 +15,11 @@ const exercises: Record<string, { a: { title: string, desc: string }, b: { title
   'stillness': {
     a: { title: 'The Soft Gaze', desc: 'Observe your surroundings and find three things that bring you a sense of peace.' },
     b: { title: 'Gratitude Expansion', desc: 'Place your hands on your heart and breathe into the feeling of a recent moment of connection.' },
-    c: { title: 'The Grazing Herd', desc: 'Picture a herd of horses grazing peacefully. Notice how their calm state is contagious. Breathe into that sense of shared safety and stillness.', image: '/stillness_horse.png' }
+    c: { title: 'The Grazing Herd', desc: 'Picture a herd of horses grazing peacefully. Notice their unhurried rhythm. Breathe into that sense of shared safety and stillness.', image: '/stillness_horse.png' }
   },
   'play': {
     a: { title: 'Joyful Shake', desc: 'Gently shake your hands and feet to celebrate the energy moving through you.' },
-    b: { title: 'Mirroring Life', desc: 'Move your body like a horse in a field, finding fluid, expressive movement.' },
+    b: { title: 'Fluid Motion', desc: 'Allow your body to move freely and gently, discovering expressive, natural movement.' },
     c: { title: 'The Spirited Canter', desc: 'Visualize a horse galloping freely. Feel that same lively, creative energy sparking in your own body, ready to be expressed.', image: '/play_horse.png' }
   },
   'hopeless': {

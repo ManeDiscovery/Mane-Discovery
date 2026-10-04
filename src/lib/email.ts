@@ -154,7 +154,7 @@ export async function sendQuizReportEmail({
       Hello ${name || 'there'},
     </p>
     <p>
-      Thank you for taking the 60-Second Somatic Diagnostic. Based on your autonomic answers, your primary nervous system profile is:
+      Thank you for taking the 60-Second Nervous System Check-In. Based on your answers, your primary nervous system profile is:
     </p>
 
     <!-- Archetype Card -->

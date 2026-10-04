@@ -62,7 +62,7 @@ export default function LandingPage() {
 
           <div className="hidden md:flex items-center gap-8 text-xs font-bold uppercase tracking-widest text-sage-700">
             <Link href="/quiz" className="hover:text-rose-600 transition-colors flex items-center gap-1.5 text-rose-600 font-extrabold">
-              <Sparkles className="w-3.5 h-3.5" /> Free 60s Quiz
+              <Sparkles className="w-3.5 h-3.5" /> Free 60s Check-In
             </Link>
             <a href="#curriculum" className="hover:text-sage-950 transition-colors">The 21 Days</a>
             <a href="#pricing" className="hover:text-sage-950 transition-colors">Pricing ($39)</a>
@@ -101,36 +101,38 @@ export default function LandingPage() {
             The 21-Day Nervous<br /><span className="text-rose-300">System</span> <span className="text-white">Reset</span>
           </h1>
           <h2 className="text-lg sm:text-xl md:text-2xl text-sage-900 font-serif max-w-3xl leading-relaxed mx-auto drop-shadow-sm mt-6 mb-2 bg-white/70 backdrop-blur-md px-6 sm:px-8 py-4 rounded-3xl border border-white/50 shadow-sm w-full">
-            A 21-day guided app with daily lessons, 3-minute somatic practices, self-trust tracking, and a personalized graduation report.
+            A 21-day guided journey with 3-minute daily somatic practices, gentle self-reflection, and compassionate tools to help your body rediscover its natural rhythm.
           </h2>
-          <p className="text-lg md:text-2xl text-cream-50 max-w-2xl leading-relaxed mx-auto font-medium drop-shadow-md pb-8 pt-4 w-full px-2">
-            This is the Year of the Fire Horse. Fire doesn't wait. It moves, intensifies, and brings everything to the surface. Give yourself 21 days to slow down, reconnect, and shift permanently out of survival mode.
+          <p className="text-base sm:text-lg md:text-xl text-sage-900/90 max-w-2xl leading-relaxed mx-auto font-medium drop-shadow-sm pb-8 pt-2 w-full px-2 bg-white/40 backdrop-blur-xs rounded-2xl">
+            Give your body 21 days to pause, notice what you are holding, and practice moving through stress alongside fellow nervous systems.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-2">
             <a href="#pricing" className="inline-flex items-center px-10 py-5 bg-sage-900 text-cream-50 rounded-full font-bold uppercase tracking-widest hover:bg-sage-800 transition-all hover:scale-105 active:scale-95 shadow-xl">
               Start Your Journey <ArrowRight className="w-5 h-5 ml-3" />
             </a>
             <Link href="/quiz" className="inline-flex items-center px-8 py-5 bg-white/80 backdrop-blur-md text-sage-900 border border-white rounded-full font-bold uppercase tracking-widest hover:bg-white transition-all hover:scale-105 active:scale-95 shadow-lg text-sm">
-              Take Free 60s Quiz <Sparkles className="w-4 h-4 ml-2 text-rose-500" />
+              Take Free 60s Check-In <Sparkles className="w-4 h-4 ml-2 text-rose-500" />
             </Link>
           </div>
         </div>
       </header>
 
-      {/* 2. THE PAIN & POLARIZATION */}
+      {/* 2. THE HUMAN TRUTH & SOMATIC INQUIRY */}
       <section className="bg-cream-50 pb-24 pt-20 px-6">
         <div className="max-w-4xl mx-auto space-y-16">
           <div className="text-center space-y-8">
-            <h2 className="text-3xl md:text-5xl font-serif text-sage-900 leading-tight">The Horse Inspired Somatic Reset you've been searching for.</h2>
+            <h2 className="text-3xl md:text-5xl font-serif text-sage-900 leading-tight">
+              We've talked it through, read the books, and tried to think our way into feeling settled.
+            </h2>
             <p className="text-xl text-sage-700 max-w-3xl mx-auto leading-relaxed">
-              You’ve done the talk therapy, read the books, and tried other healing modalities. But your body is still stuck in survival mode. The tension lingers. You feel exhausted, yet you're always “on,” unable to fully land even when nothing is wrong.
+              Yet for so many of us, our bodies still hold the tension. We feel tired, yet constantly braced—unable to fully soften even when nothing is wrong. This 21-day reset offers a grounded, horse-inspired approach: learning to listen to what the body is experiencing, rather than trying to force it to be different.
             </p>
           </div>
           
           <div className="bg-rose-50 p-10 rounded-[3rem] text-center border border-rose-100 shadow-sm relative overflow-hidden">
-            <h3 className="text-2xl font-serif text-sage-900 mb-4 relative z-10">This journey isn’t for everyone.</h3>
+            <h3 className="text-2xl font-serif text-sage-900 mb-4 relative z-10">An invitation to stop fighting your body.</h3>
             <p className="text-lg text-sage-800 leading-relaxed max-w-2xl mx-auto relative z-10">
-              But for those who are ready to stop fighting their bodies—and finally work <em>with</em> their biology—this is the approach that truly shifts something.
+              When we learn to notice our biological signals with curiosity instead of judgment, we create room for our nervous systems to find their own way back to equilibrium.
             </p>
           </div>
         </div>
@@ -144,16 +146,16 @@ export default function LandingPage() {
         <div className="max-w-4xl mx-auto relative z-10 space-y-16">
           <div className="text-center space-y-8">
             <h2 className="text-4xl md:text-5xl font-serif text-cream-100 leading-tight">
-              How does a 1,000-pound animal hold the secret to healing human chronic stress?
+              What can a 1,000-pound prey animal teach us about moving through stress?
             </h2>
           </div>
 
           <div className="bg-sage-800/50 p-10 md:p-14 rounded-[3rem] border border-sage-700 backdrop-blur-sm text-sage-100 text-lg leading-relaxed space-y-6">
             <p>
-              Horses are prey animals. They experience fear, stress, and anxiety just like we do. But unlike us, they don't hold onto it. They naturally <strong className="text-rose-300">co-regulate</strong> and use embodiment techniques to process danger.
+              Horses are prey animals. They experience fear and alarm just as we do. But unlike humans, they do not carry the narrative in their minds after the moment has passed.
             </p>
             <p>
-              When a horse experiences a stress spike, they physically move the energy through their body. You’ll see them literally quiver, yawn, roll, and return to grazing—completely resetting their nervous system in minutes.
+              When a horse experiences a stress spike, they physically move through it. You can observe them quiver, yawn, roll, and return to grazing—releasing physical activation through the body without overthinking.
             </p>
 
             <div className="flex flex-col md:flex-row items-center justify-center gap-4 py-8 border-y border-sage-700/50 my-8">
@@ -162,7 +164,7 @@ export default function LandingPage() {
                   <Wind className="w-8 h-8 text-rose-300" />
                 </div>
                 <p className="text-sm font-bold tracking-widest uppercase text-sage-300 mb-2">The Horse</p>
-                <p className="text-cream-100">Processes stress purely through the physical body</p>
+                <p className="text-cream-100">Moves through stress through the physical body</p>
               </div>
               <ArrowRight className="w-8 h-8 text-sage-600 hidden md:block" />
               <ArrowRight className="w-8 h-8 text-sage-600 rotate-90 md:hidden" />
@@ -171,7 +173,7 @@ export default function LandingPage() {
                   <HeartPulse className="w-8 h-8 text-rose-300" />
                 </div>
                 <p className="text-sm font-bold tracking-widest uppercase text-sage-300 mb-2">The Human</p>
-                <p className="text-cream-100">Can relearn body-based release to clear trauma</p>
+                <p className="text-cream-100">Can practice noticing and working with what the body is holding</p>
               </div>
               <ArrowRight className="w-8 h-8 text-sage-600 hidden md:block" />
               <ArrowRight className="w-8 h-8 text-sage-600 rotate-90 md:hidden" />
@@ -179,49 +181,37 @@ export default function LandingPage() {
                 <div className="w-16 h-16 bg-rose-900/50 rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-rose-800">
                   <Activity className="w-8 h-8 text-rose-300" />
                 </div>
-                <p className="text-sm font-bold tracking-widest uppercase text-rose-300 mb-2">The Method</p>
-                <p className="text-cream-100">Guides your practice step-by-step for 21 days</p>
+                <p className="text-sm font-bold tracking-widest uppercase text-rose-300 mb-2">The Practice</p>
+                <p className="text-cream-100">Simple 3–5 minute somatic steps each day for 21 days</p>
               </div>
             </div>
 
-            <h3 className="text-2xl font-serif text-cream-50 pt-4">As humans, we’ve unlearned how to do this.</h3>
+            <h3 className="text-2xl font-serif text-cream-50 pt-4">As humans, many of us have unlearned how to complete these cycles.</h3>
             <p>
-              Right now, life asks more of your nervous system than it was ever designed to hold. That’s your nervous system running an old survival pattern in a life that has already moved on.
+              In our fast-paced lives, our bodies often hold onto tension long after the stressor has passed. Somatic inquiry gives us a gentle way to notice, pause, and safely allow the body to settle.
             </p>
           </div>
         </div>
       </section>
 
-      {/* 4. THE YEAR OF THE FIRE HORSE & BENEFITS */}
+      {/* 4. WHAT YOU WILL EXPLORE & DAILY PRACTICE */}
       <section className="bg-cream-50 py-32 px-6">
         <div className="max-w-5xl mx-auto space-y-24">
           
-          <div className="text-center space-y-6 max-w-3xl mx-auto">
-            <h2 className="text-4xl font-serif text-rose-800">And this year… you’ll feel that more than ever.</h2>
-            <p className="text-xl text-sage-800 italic font-medium leading-relaxed">
-              After all, this is the year of the <strong>Fire Horse</strong>.
-            </p>
-            <div className="bg-white p-8 rounded-3xl border border-rose-200 mt-8 shadow-sm">
-              <p className="text-lg text-sage-700 leading-relaxed font-serif">
-                Fire doesn’t wait. It moves. It intensifies. It brings everything to the surface. That’s what the 21-day horse-inspired reset is for now.
-              </p>
-            </div>
-          </div>
-
           <div className="space-y-12">
             <div className="text-center">
-              <h2 className="text-3xl font-serif text-sage-900 mb-6">What you will learn</h2>
+              <h2 className="text-3xl sm:text-4xl font-serif text-sage-900 mb-6">What you will explore in these 21 days</h2>
               <p className="text-lg text-sage-700 max-w-2xl mx-auto leading-relaxed">
-                This reset is designed to expand your capacity—not by forcing change, but by creating new experiences in your body. Through simple, repeatable steps, you'll learn to:
+                This reset is designed to expand capacity—not by forcing change, but by creating gentle, repeatable somatic moments in your everyday routine. Through simple steps, we learn to:
               </p>
             </div>
 
             <div className="grid sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
               {[
                 { icon: ShieldCheck, title: "Pause and step out of autopilot." },
-                { icon: Activity, title: "Track what your body is doing in real-time." },
-                { icon: Wind, title: "Regulate and support your system." },
-                { icon: Footprints, title: "Repattern and choose a new, steady response." },
+                { icon: Activity, title: "Notice what your body is holding in real time." },
+                { icon: Wind, title: "Support your nervous system with gentle somatic practices." },
+                { icon: Footprints, title: "Repattern and choose a steady, grounded response." },
               ].map((item, i) => (
                 <div key={i} className="bg-white p-8 rounded-3xl border border-sage-200 shadow-sm flex items-center gap-6 hover:shadow-md transition-all">
                   <div className="p-4 bg-rose-50 rounded-2xl shrink-0">
@@ -233,16 +223,55 @@ export default function LandingPage() {
             </div>
           </div>
 
+          {/* WHAT A DAY LOOKS LIKE */}
+          <div className="bg-white p-8 sm:p-12 rounded-[2.5rem] border border-sage-200 max-w-3xl mx-auto shadow-sm space-y-6 text-left">
+            <div className="space-y-1 text-center sm:text-left">
+              <span className="text-xs uppercase font-bold tracking-widest text-rose-500">A Look Inside</span>
+              <h3 className="text-2xl sm:text-3xl font-serif text-sage-900">What a day looks like</h3>
+              <p className="text-sage-600 text-sm">Bite-sized moments designed for busy lives that need gentle support, not another heavy task.</p>
+            </div>
+
+            <div className="space-y-4 pt-2">
+              <div className="flex items-start gap-4 p-5 rounded-2xl bg-cream-50 border border-sage-100">
+                <span className="text-xs font-bold uppercase tracking-wider text-rose-700 bg-rose-100 px-3 py-1 rounded-full shrink-0">Day 1</span>
+                <div>
+                  <p className="font-bold text-sage-900 text-base">A 3-minute arrival practice</p>
+                  <p className="text-sage-600 text-sm leading-relaxed mt-0.5">Noticing where your body meets the chair or floor, observing your breath without trying to change it, and arriving in the present moment.</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4 p-5 rounded-2xl bg-cream-50 border border-sage-100">
+                <span className="text-xs font-bold uppercase tracking-wider text-rose-700 bg-rose-100 px-3 py-1 rounded-full shrink-0">Day 7</span>
+                <div>
+                  <p className="font-bold text-sage-900 text-base">Observing activation and ease</p>
+                  <p className="text-sage-600 text-sm leading-relaxed mt-0.5">A short guided reflection to notice subtle cues of tension and where your body naturally feels even 5% more supported.</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4 p-5 rounded-2xl bg-cream-50 border border-sage-100">
+                <span className="text-xs font-bold uppercase tracking-wider text-rose-700 bg-rose-100 px-3 py-1 rounded-full shrink-0">Day 14</span>
+                <div>
+                  <p className="font-bold text-sage-900 text-base">Practicing physical boundaries</p>
+                  <p className="text-sage-600 text-sm leading-relaxed mt-0.5">A gentle physical movement inspired by how herd animals naturally sense and maintain their personal space without aggression.</p>
+                </div>
+              </div>
+            </div>
+
+            <p className="text-xs text-sage-500 pt-3 border-t border-sage-100 text-center sm:text-left">
+              Every day includes a 3–5 minute guided somatic audio, an equine-inspired perspective on stress, and a quiet check-in.
+            </p>
+          </div>
+
           <div className="max-w-3xl mx-auto text-center space-y-6 bg-sage-100 p-12 rounded-[3rem] border border-sage-200 shadow-inner">
             <h3 className="text-3xl font-serif text-sage-900 leading-tight">
-              Learn to move forward without abandoning yourself.
+              Moving forward without abandoning your body.
             </h3>
             <p className="text-xl text-sage-800 font-medium tracking-wide">
-              Be steady. Be responsive. Be connected.
+              Steady. Responsive. Connected.
             </p>
             <div className="pt-8 mt-8 border-t border-sage-300">
               <p className="text-lg text-sage-900 italic font-serif">
-                Pause and check in with your body. <br/><strong className="text-rose-800 text-xl not-italic block mt-4 drop-shadow-sm">Ask yourself... are you ready for this?</strong>
+                Take a quiet breath and check in with your body. <br/><strong className="text-rose-800 text-xl not-italic block mt-4 drop-shadow-sm">An invitation to begin when you feel ready.</strong>
               </p>
             </div>
           </div>
@@ -354,7 +383,7 @@ export default function LandingPage() {
           
           <div className="inline-flex items-center gap-2 bg-rose-500/20 text-rose-200 border border-rose-400/30 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest">
             <Sparkles className="w-3.5 h-3.5 text-rose-300" />
-            Free 60-Second Biological Diagnostic
+            Free 60-Second Nervous System Check-In
           </div>
 
           <h2 className="text-3xl md:text-5xl font-serif text-cream-100 max-w-2xl leading-tight">
@@ -362,7 +391,7 @@ export default function LandingPage() {
           </h2>
           
           <p className="text-base md:text-xl text-sage-300 max-w-2xl leading-relaxed">
-            Are you currently running in <strong>Sympathetic Overdrive</strong> (the sentinel on watch), <strong>Dorsal Freeze</strong> (the guarded haven), or oscillating between both? Take our clinically grounded 6-question assessment.
+            Notice where your body tends to go under pressure—whether into <strong>Overdrive</strong> (the sentinel on watch), <strong>Guarded Freeze</strong> (the quiet shelter), or oscillating between both. Take our gentle 6-question check-in.
           </p>
 
           <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4 w-full pt-4">
@@ -387,19 +416,21 @@ export default function LandingPage() {
               href="/quiz"
               className="inline-flex items-center px-10 py-5 bg-rose-200 text-sage-900 rounded-full font-bold uppercase tracking-widest hover:bg-rose-300 transition-all hover:scale-105 active:scale-95 shadow-xl text-sm"
             >
-              Start Your Free 60-Second Diagnostic <ArrowRight className="w-4 h-4 ml-2" />
+              Start Your Free 60-Second Check-In <ArrowRight className="w-4 h-4 ml-2" />
             </Link>
-            <p className="text-xs text-sage-400 mt-3">Instant results • No credit card required • 100% private</p>
+            <p className="text-xs text-sage-400 mt-3 max-w-lg mx-auto">
+              Take the 60-second check-in to identify your primary response pattern. You'll receive an instant reflection on your body's stress language and an email with gentle somatic exercises tailored to where you are.
+            </p>
           </div>
         </div>
       </section>
 
-      {/* 7. EXPERIENCES FROM THE HERD / TESTIMONIALS */}
+      {/* 7. EXPERIENCES WITH MARIA'S METHOD */}
       <section className="bg-cream-100 py-32 px-6">
         <div className="max-w-6xl mx-auto space-y-16">
           <div className="text-center space-y-4 mb-20">
-            <h2 className="text-4xl md:text-5xl font-serif text-sage-900">Experiences from the Herd</h2>
-            <p className="text-sage-700 text-lg max-w-2xl mx-auto">What it's like to experience the Mane Discovery somatic method with Maria.</p>
+            <h2 className="text-4xl md:text-5xl font-serif text-sage-900">Experiences with Maria's Method</h2>
+            <p className="text-sage-700 text-lg max-w-2xl mx-auto">Clients reflect on experiencing Maria's somatic method and equine-guided work in person—the foundational principles behind this 21-day digital reset.</p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             {/* Review 1 */}
@@ -468,10 +499,10 @@ export default function LandingPage() {
                 And I also know that real change doesn't come from thinking harder. <strong className="text-sage-900 font-bold">It comes from learning how to work with your body.</strong>
               </p>
               <p>
-                Through somatic work and equine-facilitated learning, I've helped people reconnect to themselves in ways that feel real, grounded, and incredibly sustainable.
+                Through somatic inquiry and equine-facilitated learning, I've supported people in reconnecting with their bodies in ways that feel grounded, steady, and sustainable.
               </p>
               <div className="p-6 bg-rose-50 rounded-2xl border border-rose-100">
-                <p className="font-serif text-xl pr-4 text-sage-900 italic">"This 21-day journey is a starting point. You don't need to have it all figured out. You just need a place to begin."</p>
+                <p className="font-serif text-xl pr-4 text-sage-900 italic">"This 21-day journey is a gentle starting point. We don't need to have it all figured out. We just need a quiet place to notice and begin."</p>
               </div>
             </div>
           </div>
@@ -534,15 +565,15 @@ export default function LandingPage() {
                 </li>
                 <li className="flex items-start gap-3">
                   <Check className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
-                  <span><strong>Interactive Discovery Ring & SOS Calming Flow</strong> for real-time de-escalation whenever triggered</span>
+                  <span><strong>Interactive Discovery Ring & SOS Regulation Flow</strong> for grounding and support in moments of activation</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <Check className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
-                  <span><strong>Daily Equine Co-Regulation Insights</strong> translated from wild horse herd survival biology</span>
+                  <span><strong>Daily Equine-Inspired Insights</strong> exploring how horses move through stress as fellow nervous systems</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <Check className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
-                  <span><strong>Day 21 Attachment Radar Report</strong> to visually track your somatic expansion and neural shifts</span>
+                  <span><strong>Day 21 Attachment Radar Report</strong> to visually track your somatic expansion and changes over time</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <Check className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
@@ -570,6 +601,11 @@ export default function LandingPage() {
                 <span>•</span>
                 <span>Instant Account Access</span>
               </div>
+
+              {/* Short Disclaimer Near Pricing */}
+              <div className="text-[11px] text-sage-500 text-center pt-3 leading-relaxed border-t border-sage-100">
+                This program is educational and experiential. It is not psychotherapy or medical treatment, and it is not a substitute for professional care.
+              </div>
             </div>
           </div>
         </div>
@@ -588,11 +624,11 @@ export default function LandingPage() {
             {[
               {
                 q: "Do I need to be around actual horses?",
-                a: "No! All practices are designed specifically for your home, bedroom, or office. Mane Discovery translates the evolutionary biology and co-regulation principles of wild horse herds into simple 3-minute physical exercises you can do anywhere."
+                a: "No! All practices are designed specifically for your home, bedroom, or office. Mane Discovery translates observational wisdom from horse herds into simple 3-minute body-based practices you can do anywhere."
               },
               {
                 q: "How much time does it take each day?",
-                a: "Just 3 to 5 minutes a day. It is intentionally micro-dosed for overwhelmed nervous systems that don't have hours to meditate or journal. Regular, small biological safety signals build permanent neural pathways."
+                a: "Just 3 to 5 minutes a day. It is intentionally micro-dosed for busy or tired nervous systems that don't have hours to meditate or journal. Regular, small somatic pauses help your body learn new patterns over time."
               },
               {
                 q: "Are there any recurring subscriptions or hidden fees?",

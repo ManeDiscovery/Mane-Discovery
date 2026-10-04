@@ -18,13 +18,13 @@ const lora = Lora({
 
 export const metadata: Metadata = {
   title: "Mane Discovery | 21-Day Somatic Nervous System Reset",
-  description: "Stop fighting your body. Learn the 'Secret of the Horse' and join Maria's equestrian-inspired 21-Day somatics journey to expand capacity, regulate, and safely exit survival mode.",
-  keywords: ["nervous system reset", "somatic healing", "equine therapy", "polyvagal theory", "Mane Discovery", "trauma healing", "regulate nervous system", "burnout recovery"],
+  description: "Learn from the wisdom of horses. Join Maria's horse-inspired 21-day somatic journey to expand capacity, notice your body's signals, and practice moving through stress.",
+  keywords: ["nervous system reset", "somatic practices", "equine-inspired learning", "polyvagal theory", "Mane Discovery", "body-based awareness", "regulate nervous system", "burnout recovery"],
   authors: [{ name: "Maria", url: "https://mane-discovery.vercel.app" }],
   creator: "Mane Discovery",
   openGraph: {
     title: "Mane Discovery | The 21-Day Nervous System Reset",
-    description: "A horse-inspired 21-day somatic journey to slow down, reconnect, and shift permanently out of survival mode.",
+    description: "A horse-inspired 21-day somatic journey to slow down, reconnect, and help your body learn new patterns over time.",
     url: "https://mane-discovery.vercel.app",
     siteName: "Mane Discovery",
     images: [{
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Mane Discovery",
-    description: "A horse-inspired 21-day somatic journey to slow down, reconnect, and shift permanently out of survival mode.",
+    description: "A horse-inspired 21-day somatic journey to slow down, reconnect, and help your body learn new patterns over time.",
     images: ["https://mane-discovery.vercel.app/hero-horse-landscape.png"],
   },
   robots: {

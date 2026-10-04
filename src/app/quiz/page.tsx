@@ -176,7 +176,7 @@ const quizQuestions: Question[] = [
   {
     id: 6,
     title: "The Mind vs. Body Paradox",
-    subtitle: "Which statement best mirrors your past experiences with therapy, reading, or mental wellness?",
+    subtitle: "Which statement best reflects your past experiences with reading, mindfulness, or wellness?",
     options: [
       {
         label: "Intellectually Clear, Biologically Stuck",
@@ -277,7 +277,7 @@ export default function QuizPage() {
         easeScore: totalEase,
         quote: "When emotional demand exceeded your threshold, your biology wisely deployed the ancient shield of freeze and detachment.",
         somaticAnalysis: "Your system preserves vital energy by pulling sensations behind a fortress wall. You aren't 'lazy' or 'unmotivated'—your dorsal vagus has temporarily dialled down your metabolic engine to protect you from pain.",
-        herdWisdom: "A horse conserving stamina during harsh blizzard conditions lowers its head and reduces outer movement to survive. Healing here comes through micro-movements and safe relational touch.",
+        herdWisdom: "A horse conserving stamina during harsh conditions lowers its head and reduces outer movement to survive. Recalibration here begins through micro-movements and gentle relational connection.",
         recommendedDay: "Day 2: Mapping the Landscape & Somatic Observation"
       };
     } else if (oscillatingCount === maxScore) {
@@ -286,9 +286,9 @@ export default function QuizPage() {
         state: "Chronic Burnout Cycle",
         tensionScore: totalTension,
         easeScore: totalEase,
-        quote: "You live in a biological swing between 150mph adrenaline bursts and debilitating crash shutdowns.",
-        somaticAnalysis: "Your nervous system has lost its intermediate gears. It only knows full-throttle fight or zero-fuel shutdown. Expanding your 'window of tolerance' through somatic equine co-regulation stabilizes this pendulum permanently.",
-        herdWisdom: "Young horses learn their pacing from the steady, rhythmic heartbeat of older mares. By co-regulating with equine rhythms, the nervous system discovers how to move without burning out.",
+        quote: "You live in a biological swing between full-throttle adrenaline bursts and debilitating crash shutdowns.",
+        somaticAnalysis: "Your nervous system has temporarily lost its intermediate gears. Expanding your window of tolerance through grounded somatic practice supports this pendulum in finding a wider, more forgiving middle ground over time.",
+        herdWisdom: "Young horses find their pacing alongside the steady, rhythmic presence of older mares. By exploring rhythmic somatic pacing inspired by the herd, the nervous system learns how to move without burning out.",
         recommendedDay: "Day 4: Meeting Resistance & Rhythmic Centering"
       };
     } else {
@@ -298,8 +298,8 @@ export default function QuizPage() {
         tensionScore: totalTension,
         easeScore: totalEase,
         quote: "You have natural somatic awareness and are primed to step into deep embodiment and nervous system leadership.",
-        somaticAnalysis: "Your biological baseline is primed for grounded regulation. The 21-day reset will allow you to deepen this into unshakeable self-trust and learn how to hold space for others.",
-        herdWisdom: "The lead mare doesn't control the herd through force; she leads through the unshakeable calm and clarity of her own autonomic nervous system.",
+        somaticAnalysis: "Your biological baseline is primed for grounded regulation. The 21-day reset will allow you to deepen this into steady self-trust and learn how to hold space for others.",
+        herdWisdom: "The lead mare doesn't control the herd through force; she leads through the grounded presence and clarity of her own autonomic nervous system.",
         recommendedDay: "Day 7: The Polyvagal Ladder & Relational Attunement"
       };
     }
@@ -384,7 +384,7 @@ export default function QuizPage() {
           </Link>
           <div className="flex items-center space-x-2 text-xs font-bold uppercase tracking-widest text-sage-500 bg-sage-100 px-3 py-1 rounded-full">
             <HeartPulse className="w-3.5 h-3.5 text-rose-400" />
-            <span>Somatic Diagnostic</span>
+            <span>Nervous System Check-In</span>
           </div>
         </div>
 
@@ -527,7 +527,7 @@ export default function QuizPage() {
                   Save Your Somatic Blueprint
                 </h2>
                 <p className="text-sage-600 text-sm leading-relaxed">
-                  Enter your email to receive your full PDF diagnostic breakdown and custom somatic practices tailored specifically for <strong>{result.archetype}</strong>.
+                  Enter your email to receive your full reflection breakdown and gentle somatic practices tailored specifically for <strong>{result.archetype}</strong>.
                 </p>
               </div>
 
