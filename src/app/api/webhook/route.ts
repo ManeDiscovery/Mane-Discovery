@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { triggerZapierWebhook } from '@/lib/zapier';
-import { sendWelcomeEmail } from '@/lib/email';
+import { sendWelcomeEmail, sendAdminSaleNotificationEmail } from '@/lib/email';
 
 export async function POST(req: Request) {
   const stripeSecretKey = process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder';
@@ -102,6 +102,20 @@ export async function POST(req: Request) {
         console.log(`[Stripe Webhook] Welcome email sent successfully to ${customerEmail}`);
       } catch (emailErr) {
         console.error('[Stripe Webhook] Welcome email error:', emailErr);
+      }
+
+      // 5. Send Instant Sale Alert to Maria
+      try {
+        await sendAdminSaleNotificationEmail({
+          customerName,
+          customerEmail,
+          amount: (amountTotal / 100).toFixed(2),
+          tier,
+          stripeSessionId: session.id,
+        });
+        console.log(`[Stripe Webhook] Admin sale notification sent to Maria for ${customerEmail}`);
+      } catch (adminAlertErr) {
+        console.error('[Stripe Webhook] Admin alert error:', adminAlertErr);
       }
 
       // 5. Trigger automated Zapier onboarding webhook (optional CRM/Google Sheets)

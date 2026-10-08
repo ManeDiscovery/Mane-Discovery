@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
-import { sendWelcomeEmail } from '@/lib/email';
+import { sendWelcomeEmail, sendAdminSaleNotificationEmail } from '@/lib/email';
 
 export async function POST(req: Request) {
   try {
@@ -74,6 +74,19 @@ export async function POST(req: Request) {
           });
         } catch (e) {
           console.warn('[VerifyPurchase] Welcome email trigger error:', e);
+        }
+
+        // Fire admin sale alert to Maria
+        try {
+          await sendAdminSaleNotificationEmail({
+            customerName: name || matchedSession.customer_details?.name || 'Valued Member',
+            customerEmail: cleanEmail,
+            amount: (amount / 100).toFixed(2),
+            tier,
+            stripeSessionId: matchedSession.id,
+          });
+        } catch (e) {
+          console.warn('[VerifyPurchase] Admin alert error:', e);
         }
 
         return NextResponse.json({

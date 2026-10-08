@@ -355,7 +355,7 @@ export async function sendPractitionerApplicationEmails({
     });
 
     // Send alert to admin / Maria
-    const adminEmail = process.env.ADMIN_ALERT_EMAIL || 'info@manediscovery.com';
+    const adminEmail = process.env.ADMIN_ALERT_EMAIL || 'mariaroach144@gmail.com';
     await resend.emails.send({
       from: DEFAULT_FROM,
       to: [adminEmail],
@@ -369,3 +369,88 @@ export async function sendPractitionerApplicationEmails({
     return false;
   }
 }
+
+// 5. INSTANT SALE NOTIFICATION FOR MARIA (Fired on successful checkout)
+export async function sendAdminSaleNotificationEmail({
+  customerName,
+  customerEmail,
+  amount,
+  tier,
+  stripeSessionId,
+}: {
+  customerName: string;
+  customerEmail: string;
+  amount: string;
+  tier: 'basic' | 'premium';
+  stripeSessionId?: string;
+}) {
+  if (!resend) {
+    console.warn('[Resend] RESEND_API_KEY is missing. Skipping admin alert.');
+    return false;
+  }
+
+  const adminEmail = process.env.ADMIN_ALERT_EMAIL || 'mariaroach144@gmail.com';
+  const tierTitle = tier === 'premium' ? 'Guided Embodiment Cohort ($97)' : 'The Solo Reset ($39)';
+
+  const html = emailWrapper(`
+    <div style="text-align: center; margin-bottom: 20px;">
+      <span style="background-color: #DCFCE7; color: #166534; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; padding: 6px 16px; border-radius: 999px;">
+        🎉 New Sale Confirmed
+      </span>
+    </div>
+
+    <h2 style="font-family: Georgia, serif; font-size: 26px; color: #2E3B32; margin: 8px 0 20px 0; text-align: center;">
+      You just made a sale, Maria!
+    </h2>
+
+    <p style="text-align: center; font-size: 15px; color: #4B5563; margin-bottom: 28px;">
+      A new member just joined Mane Discovery. Their access has been provisioned and their welcome email has been sent.
+    </p>
+
+    <table style="width: 100%; border-collapse: collapse; font-size: 14px; margin: 24px 0; background-color: #FAF8F5; border-radius: 16px; overflow: hidden; border: 1px solid #E5DFD7;">
+      <tr style="border-bottom: 1px solid #E5DFD7;">
+        <td style="padding: 14px 20px; font-weight: 700; color: #6B7280; width: 140px;">Customer</td>
+        <td style="padding: 14px 20px; color: #2E3B32; font-weight: 600;">${customerName}</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #E5DFD7;">
+        <td style="padding: 14px 20px; font-weight: 700; color: #6B7280;">Email</td>
+        <td style="padding: 14px 20px; color: #2E3B32;"><a href="mailto:${customerEmail}" style="color: #2E3B32; text-decoration: underline;">${customerEmail}</a></td>
+      </tr>
+      <tr style="border-bottom: 1px solid #E5DFD7;">
+        <td style="padding: 14px 20px; font-weight: 700; color: #6B7280;">Tier / Offer</td>
+        <td style="padding: 14px 20px; color: #2E3B32;">${tierTitle}</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #E5DFD7;">
+        <td style="padding: 14px 20px; font-weight: 700; color: #6B7280;">Amount Paid</td>
+        <td style="padding: 14px 20px; color: #166534; font-weight: 700; font-size: 16px;">$${amount}</td>
+      </tr>
+      ${stripeSessionId ? `
+      <tr>
+        <td style="padding: 14px 20px; font-weight: 700; color: #6B7280;">Stripe Session</td>
+        <td style="padding: 14px 20px; color: #6B7280; font-family: monospace; font-size: 11px;">${stripeSessionId}</td>
+      </tr>
+      ` : ''}
+    </table>
+
+    <div style="text-align: center; margin: 32px 0 16px 0;">
+      <a href="https://dashboard.stripe.com/payments" style="background-color: #2E3B32; color: #FAF8F5; padding: 14px 32px; border-radius: 999px; text-decoration: none; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 12px; display: inline-block;">
+        Open Stripe Dashboard &rarr;
+      </a>
+    </div>
+  `, `🎉 New Sale: $${amount} from ${customerName}`);
+
+  try {
+    const res = await resend.emails.send({
+      from: DEFAULT_FROM,
+      to: [adminEmail],
+      subject: `🎉 New Sale! ${customerName} purchased ${tierTitle} ($${amount})`,
+      html,
+    });
+    console.log('[Resend] Admin sale notification sent to Maria:', res);
+    return true;
+  } catch (error) {
+    console.error('[Resend] Failed to send admin sale notification:', error);
+    return false;
+  }
+}
+
