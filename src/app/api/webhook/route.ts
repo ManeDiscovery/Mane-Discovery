@@ -18,10 +18,17 @@ export async function POST(req: Request) {
   let event: Stripe.Event;
 
   try {
-    if (sig && endpointSecret && !endpointSecret.includes('placeholder')) {
+    const isRealSecret = endpointSecret && 
+      !endpointSecret.includes('placeholder') && 
+      !endpointSecret.includes('...') && 
+      endpointSecret.startsWith('whsec_') && 
+      endpointSecret.length > 20;
+
+    if (sig && isRealSecret) {
       event = stripe.webhooks.constructEvent(payload, sig, endpointSecret);
     } else {
-      // In development or simulation mode without a raw webhook secret signature
+      // Fallback if webhook secret is still a placeholder or incomplete
+      console.warn('[Stripe Webhook] STRIPE_WEBHOOK_SECRET is not a full valid key. Parsing payload directly.');
       const parsed = JSON.parse(payload);
       event = parsed as Stripe.Event;
     }
