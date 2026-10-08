@@ -36,8 +36,8 @@ export async function POST(req: Request) {
         },
       ],
       mode: price.type === 'recurring' ? 'subscription' : 'payment',
-      // Send the user to the login/signup page after successful payment
-      success_url: `${baseUrl}/login?payment_success=true`,
+      // Send the user to the login/signup page after successful payment with unique session ID for pixel deduplication
+      success_url: `${baseUrl}/login?payment_success=true&session_id={CHECKOUT_SESSION_ID}`,
       // Return them to the landing page if they cancel
       cancel_url: `${baseUrl}/#pricing`,
     });

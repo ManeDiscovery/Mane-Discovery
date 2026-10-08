@@ -91,7 +91,7 @@ export async function sendWelcomeEmail({
   }
 
   const tierTitle = tier === 'premium' ? 'Guided Embodiment Cohort ($97)' : 'The Solo Reset ($39)';
-  const loginUrl = `${SITE_URL}/login?payment_success=true`;
+  const loginUrl = `${SITE_URL}/login?welcome=true`;
 
   const html = emailWrapper(`
     <p style="font-size: 17px; color: #2E3B32; font-weight: 600; margin-top: 0;">

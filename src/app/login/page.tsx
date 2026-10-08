@@ -18,18 +18,45 @@ export default function LoginPage() {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('payment_success') === 'true') {
+      const isPaymentSuccess = urlParams.get('payment_success') === 'true';
+      const sessionId = urlParams.get('session_id');
+      const isWelcome = urlParams.get('welcome') === 'true';
+
+      if (isPaymentSuccess) {
         setSuccessMessage('✨ Payment successful! Welcome to the Journey. Please sign up to create your account and access your dashboard.');
         setIsSignUp(true);
 
-        // Track Meta Pixel Purchase event
-        if ((window as any).fbq) {
-          (window as any).fbq('track', 'Purchase', {
-            value: 39.00,
-            currency: 'USD',
-            content_name: 'The 21-Day Nervous System Reset',
-          });
+        // Deduplicate Meta Pixel Purchase event: only fire once per unique Stripe session ID
+        if (sessionId) {
+          const dedupeKey = `meta_purchase_tracked_${sessionId}`;
+          const alreadyTracked = localStorage.getItem(dedupeKey);
+
+          if (!alreadyTracked && (window as any).fbq) {
+            (window as any).fbq('track', 'Purchase', {
+              value: 39.00,
+              currency: 'USD',
+              content_name: 'The 21-Day Nervous System Reset',
+              order_id: sessionId,
+            }, {
+              eventID: sessionId,
+            });
+
+            try {
+              localStorage.setItem(dedupeKey, 'true');
+            } catch (err) {
+              // ignore storage quotas or private browsing restrictions
+            }
+          }
         }
+
+        // Clean up URL parameters so browser reloads do not re-trigger purchase logic
+        try {
+          window.history.replaceState({}, document.title, window.location.pathname);
+        } catch (err) {
+          // ignore
+        }
+      } else if (isWelcome) {
+        setSuccessMessage('✨ Welcome back! Log in or create your password to enter your dashboard.');
       }
     }
   }, []);

@@ -116,7 +116,7 @@ export async function POST(req: Request) {
             amount_total: amountTotal,
             currency,
             session_id: session.id,
-            dashboard_url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://mane-discovery.vercel.app'}/login?payment_success=true`,
+            dashboard_url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://mane-discovery.vercel.app'}/login?welcome=true`,
             timestamp: new Date().toISOString(),
           });
         } catch (zapErr) {
