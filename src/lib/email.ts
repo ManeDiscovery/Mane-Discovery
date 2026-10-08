@@ -5,7 +5,21 @@ export const resend = resendApiKey ? new Resend(resendApiKey) : null;
 
 // Default sender address. Once you verify your domain in Resend, switch to e.g. "Maria Roach <maria@manediscovery.com>"
 const DEFAULT_FROM = process.env.RESEND_FROM_EMAIL || 'Mane Discovery <onboarding@resend.dev>';
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://mane-discovery.vercel.app';
+
+function getSiteUrl(): string {
+  const envUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  if (envUrl && !envUrl.includes('localhost') && !envUrl.includes('127.0.0.1')) {
+    return envUrl.replace(/\/$/, '');
+  }
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+  }
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`;
+  }
+  return 'https://mane-discovery.vercel.app';
+}
+const SITE_URL = getSiteUrl();
 
 // Base styling wrapper for luxurious, on-brand emails
 function emailWrapper(content: string, previewText: string = ''): string {
@@ -99,7 +113,7 @@ export async function sendWelcomeEmail({
 
     <div style="background-color: #FFF1F2; border: 1px solid #FFE4E6; border-radius: 16px; padding: 20px; margin: 28px 0;">
       <p style="margin: 0; font-size: 13px; color: #881337; line-height: 1.6;">
-        <strong>How to begin:</strong> Start with <strong>Day 1: Finding Your Inner Rhythm</strong>. Check in with the interactive ring, read the clinical herd insight, and take 3 minutes for the Soft Gaze exercise.
+        <strong>How to begin:</strong> Start with <strong>Day 1: Finding Your Inner Rhythm</strong>. Check in with the interactive ring, read the equine herd insight, and take 3 minutes for the Soft Gaze exercise.
       </p>
     </div>
 

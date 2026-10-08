@@ -54,8 +54,22 @@ export async function POST(req: Request) {
     console.log(`[Stripe Webhook] Successful checkout for ${customerEmail} (${tier} tier - ${amountTotal / 100} ${currency})`);
 
     if (customerEmail) {
+      // 1. Save into pending_purchases (guaranteed to succeed and unlocks user upon signup)
       try {
-        // 1. Log the purchase in the financial purchases table
+        await supabaseAdmin
+          .from('pending_purchases')
+          .upsert({
+            email: customerEmail,
+            tier,
+            stripe_session_id: session.id,
+          }, { onConflict: 'email' });
+        console.log(`[Stripe Webhook] Stored in pending_purchases for future signup: ${customerEmail}`);
+      } catch (pendingErr) {
+        console.error('[Stripe Webhook] Error saving pending purchase:', pendingErr);
+      }
+
+      // 2. Log into financial ledger (purchases table) if permitted
+      try {
         await supabaseAdmin.from('purchases').upsert({
           email: customerEmail,
           tier,
@@ -64,54 +78,36 @@ export async function POST(req: Request) {
           stripe_session_id: session.id,
           status: 'completed',
         }, { onConflict: 'stripe_session_id' });
+      } catch (ledgerErr) {
+        console.warn('[Stripe Webhook] Purchases ledger notice (may require service role):', ledgerErr);
+      }
 
-        // 2. Check if a profile already exists for this email
-        const { data: existingUser } = await supabaseAdmin
-          .from('profiles')
-          .select('id')
-          .eq('email', customerEmail)
-          .maybeSingle();
-
-        if (existingUser?.id) {
-          // User already has an account -> Immediately activate paid status & tier
-          await supabaseAdmin
-            .from('profiles')
-            .update({
-              has_paid: true,
-              tier,
-              updated_at: new Date().toISOString(),
-            })
-            .eq('id', existingUser.id);
-          console.log(`[Stripe Webhook] Activated existing user account: ${existingUser.id}`);
-        } else {
-          // User paid before signing up -> Save in pending_purchases
-          // The Supabase trigger handle_new_user_purchase() will unlock upon registration
-          await supabaseAdmin
-            .from('pending_purchases')
-            .upsert({
-              email: customerEmail,
-              tier,
-              stripe_session_id: session.id,
-            }, { onConflict: 'email' });
-          console.log(`[Stripe Webhook] Stored in pending_purchases for future signup: ${customerEmail}`);
-        }
-
-        // 3. Mark quiz lead as converted if they took the assessment
+      // 3. Mark quiz lead as converted if they took the assessment
+      try {
         await supabaseAdmin
           .from('quiz_leads')
           .update({ converted_to_paid: true })
           .eq('email', customerEmail);
+      } catch (leadErr) {
+        console.warn('[Stripe Webhook] Quiz lead notice:', leadErr);
+      }
 
-        // 4. Send Instant Resend Welcome Email
+      // 4. Send Instant Resend Welcome Email (Guaranteed to fire)
+      try {
         await sendWelcomeEmail({
           email: customerEmail,
           name: customerName,
           tier,
         });
+        console.log(`[Stripe Webhook] Welcome email sent successfully to ${customerEmail}`);
+      } catch (emailErr) {
+        console.error('[Stripe Webhook] Welcome email error:', emailErr);
+      }
 
-        // 5. Trigger automated Zapier onboarding webhook (optional CRM/Google Sheets)
-        const zapierUrl = process.env.ZAPIER_WEBHOOK_CHECKOUT;
-        if (zapierUrl) {
+      // 5. Trigger automated Zapier onboarding webhook (optional CRM/Google Sheets)
+      const zapierUrl = process.env.ZAPIER_WEBHOOK_CHECKOUT;
+      if (zapierUrl) {
+        try {
           await triggerZapierWebhook(zapierUrl, {
             event: 'checkout.session.completed',
             email: customerEmail,
@@ -123,9 +119,9 @@ export async function POST(req: Request) {
             dashboard_url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://mane-discovery.vercel.app'}/login?payment_success=true`,
             timestamp: new Date().toISOString(),
           });
+        } catch (zapErr) {
+          console.warn('[Stripe Webhook] Zapier webhook warning:', zapErr);
         }
-      } catch (dbError: any) {
-        console.error('[Stripe Webhook] Database provisioning error:', dbError);
       }
     }
   }

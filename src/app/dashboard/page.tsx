@@ -101,7 +101,7 @@ export default function Dashboard() {
             </div>
             <div>
               <p className="font-bold text-sage-900 mb-1">2. The Lesson</p>
-              <p>Read the day's clinical insight and reflect using the secure, private journal built into the dashboard.</p>
+              <p>Read the day's equine insight and reflect using the secure, private journal built into the dashboard.</p>
             </div>
             <div>
               <p className="font-bold text-sage-900 mb-1">3. Somatic Practice</p>

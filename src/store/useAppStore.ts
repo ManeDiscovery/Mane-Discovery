@@ -67,14 +67,99 @@ export const useAppStore = create<AppState>()(
 
       fetchUserProfile: async (userId: string) => {
         try {
-          // Fetch profile for unlocked days & current day (gracefully handling missing rows)
-          const { data: profile } = await supabase
+          // 1. Fetch profile for unlocked days & current day
+          let { data: profile } = await supabase
             .from('profiles')
             .select('current_day, unlocked_days, has_paid, tier')
             .eq('id', userId)
             .maybeSingle();
 
-          // Fetch somatic entries
+          // 2. If no profile exists yet, create one
+          if (!profile) {
+            const initialProfile = {
+              id: userId,
+              current_day: 1,
+              unlocked_days: [1],
+              has_paid: false,
+              tier: 'basic' as const,
+              updated_at: new Date().toISOString(),
+            };
+            try {
+              await supabase.from('profiles').insert(initialProfile);
+              profile = initialProfile;
+            } catch (insErr) {
+              console.warn('[useAppStore] Initial profile creation warning:', insErr);
+              profile = initialProfile;
+            }
+          }
+
+          // 3. If account is not yet marked as paid, check pending_purchases or Stripe
+          const { data: { session } } = await supabase.auth.getSession();
+          const userEmail = session?.user?.email?.toLowerCase().trim();
+
+          if (userEmail && profile && !profile.has_paid) {
+            try {
+              // Check pending_purchases
+              const { data: pending } = await supabase
+                .from('pending_purchases')
+                .select('tier')
+                .ilike('email', userEmail)
+                .maybeSingle();
+
+              if (pending) {
+                const verifiedTier = (pending.tier as 'basic' | 'premium') || 'basic';
+                await supabase
+                  .from('profiles')
+                  .update({
+                    has_paid: true,
+                    tier: verifiedTier,
+                    updated_at: new Date().toISOString(),
+                  })
+                  .eq('id', userId);
+
+                try {
+                  await supabase
+                    .from('pending_purchases')
+                    .delete()
+                    .ilike('email', userEmail);
+                } catch (delErr) {
+                  console.warn('[useAppStore] Error cleaning pending purchase:', delErr);
+                }
+
+                profile.has_paid = true;
+                profile.tier = verifiedTier;
+              } else {
+                // Check server-side verify-purchase (Stripe direct lookup fallback)
+                const res = await fetch('/api/user/verify-purchase', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ email: userEmail, userId }),
+                });
+
+                if (res.ok) {
+                  const data = await res.json();
+                  if (data.verified) {
+                    const verifiedTier = (data.tier as 'basic' | 'premium') || 'basic';
+                    await supabase
+                      .from('profiles')
+                      .update({
+                        has_paid: true,
+                        tier: verifiedTier,
+                        updated_at: new Date().toISOString(),
+                      })
+                      .eq('id', userId);
+
+                    profile.has_paid = true;
+                    profile.tier = verifiedTier;
+                  }
+                }
+              }
+            } catch (verifyErr) {
+              console.warn('[useAppStore] Purchase verification fallback warning:', verifyErr);
+            }
+          }
+
+          // 4. Fetch somatic entries
           const { data: entries } = await supabase
             .from('somatic_entries')
             .select('*')
