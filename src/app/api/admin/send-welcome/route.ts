@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
-import { sendWelcomeEmail } from '@/lib/email';
+import { sendWelcomeEmail, sendAdminSaleNotificationEmail } from '@/lib/email';
 
 export async function POST(req: Request) {
   try {
-    const { email, name, tier = 'basic' } = await req.json();
+    const { email, name, tier = 'basic', type, amount = '39.00' } = await req.json();
 
     if (!email) {
       return NextResponse.json({ error: 'Email is required' }, { status: 400 });
@@ -12,6 +12,20 @@ export async function POST(req: Request) {
     const cleanEmail = email.toLowerCase().trim();
     const cleanName = name || 'Friend';
     const cleanTier: 'basic' | 'premium' = tier === 'premium' ? 'premium' : 'basic';
+
+    if (type === 'sale_alert') {
+      const sent = await sendAdminSaleNotificationEmail({
+        customerName: cleanName,
+        customerEmail: cleanEmail,
+        amount,
+        tier: cleanTier,
+        stripeSessionId: 'sample_stripe_session_id',
+      });
+      return NextResponse.json({
+        success: sent,
+        message: 'Admin sale alert sent successfully to Maria',
+      });
+    }
 
     const sent = await sendWelcomeEmail({
       email: cleanEmail,
