@@ -5,6 +5,7 @@ import { triggerZapierWebhook } from '@/lib/zapier';
 import { sendWelcomeEmail, sendAdminSaleNotificationEmail } from '@/lib/email';
 
 export async function POST(req: Request) {
+  // Live Stripe signature verification active with STRIPE_WEBHOOK_SECRET
   const stripeSecretKey = process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder';
   const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET || 'whsec_placeholder';
 
