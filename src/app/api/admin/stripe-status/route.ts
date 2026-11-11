@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { sendWelcomeEmail } from '@/lib/email';
+import { retrieveSessionLineItemPriceIds, getProgramTierFromPriceIds } from '@/lib/stripeProgram';
 
 export async function GET(req: Request) {
   const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
@@ -53,6 +54,13 @@ export async function GET(req: Request) {
     const reconciled: string[] = [];
     for (const session of completedSessions) {
       try {
+        const priceIds = await retrieveSessionLineItemPriceIds(stripe, session.id);
+        const tier = getProgramTierFromPriceIds(priceIds);
+        if (!tier) {
+          // Skip in-person bookings or non-program sales
+          continue;
+        }
+
         const { data: existing } = await supabaseAdmin
           .from('pending_purchases')
           .select('email')
@@ -62,7 +70,7 @@ export async function GET(req: Request) {
         if (!existing) {
           await supabaseAdmin.from('pending_purchases').upsert({
             email: session.email,
-            tier: parseFloat(session.amount) >= 80 ? 'premium' : 'basic',
+            tier,
             stripe_session_id: session.id,
           }, { onConflict: 'email' });
           reconciled.push(session.email);

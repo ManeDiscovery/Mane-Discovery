@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { sendWelcomeEmail, sendAdminSaleNotificationEmail } from '@/lib/email';
+import { retrieveSessionLineItemPriceIds, getProgramTierFromPriceIds } from '@/lib/stripeProgram';
 
 export async function POST(req: Request) {
   try {
@@ -43,16 +44,22 @@ export async function POST(req: Request) {
         limit: 30,
       });
 
-      const matchedSession = sessions.data.find((s) => {
+      const paidSessionsForEmail = sessions.data.filter((s) => {
         const sEmail = (s.customer_details?.email || s.customer_email || '').toLowerCase().trim();
         const isPaid = s.payment_status === 'paid' || s.status === 'complete';
         return sEmail === cleanEmail && isPaid;
       });
 
-      if (matchedSession) {
+      for (const matchedSession of paidSessionsForEmail) {
+        const priceIds = await retrieveSessionLineItemPriceIds(stripe, matchedSession.id);
+        const tier = getProgramTierFromPriceIds(priceIds);
+
+        // If not an approved program purchase, do not grant program access
+        if (!tier) {
+          continue;
+        }
+
         const amount = matchedSession.amount_total || 0;
-        const tier: 'basic' | 'premium' = 
-          (amount >= 8000 || matchedSession.metadata?.tier === 'premium') ? 'premium' : 'basic';
 
         // Auto-save into pending_purchases so database is synced
         try {

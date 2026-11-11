@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
+import { PROGRAM_PRICE_BASIC, PROGRAM_PRICE_PREMIUM } from '@/lib/stripeProgram';
 
 export async function POST(req: Request) {
   try {
@@ -8,8 +9,8 @@ export async function POST(req: Request) {
     });
 
     const PRICES = {
-      basic: process.env.STRIPE_PRICE_BASIC || 'price_basic_placeholder',
-      premium: process.env.STRIPE_PRICE_PREMIUM || 'price_premium_placeholder',
+      basic: process.env.STRIPE_PRICE_BASIC || PROGRAM_PRICE_BASIC,
+      premium: process.env.STRIPE_PRICE_PREMIUM || PROGRAM_PRICE_PREMIUM,
     };
 
     const { tier } = await req.json();
